@@ -33,11 +33,30 @@ Installation
 
     npm install swagger-server
 
-That's all there is to it!  See your `node_modules/swagger-server/samples` directory for sample Swagger files and two complete sample APIs to get you started.  Or just run this:
+That's all there is to it!
 
-    npm run-script debug
+#### Running the samples
+Swagger-Server comes with two sample apps: the ubiquitous "Swagger Petstore" is a simple example, and the "User Manager" demonstrates more advanced concepts.  To run the petstore sample, just `cd` into the `node_modules/swagger-server` folder and run the following command:
 
-That will run the ubiquitous "Swagger Petstore" app in debug mode, so you can see everything it's doing in the console window.
+    cd node_modules/swagger-server
+    npm run-script petstore
+
+Or, on Windows:
+
+    cd node_modules\swagger-server
+    npm run-script petstore-windows
+    
+Similarly, to run the "User Manager" sample insead, run:
+
+    cd node_modules/swagger-server
+    npm run-script users
+    
+Or, on Windows: 
+
+    cd node_modules\swagger-server
+    npm run-script users-windows
+
+__Note:__ All of the above commands run the sample apps in DEBUG mode, which produces _a lot_ of output in the console window.  
 
 
 Walkthrough

@@ -1,6 +1,6 @@
 {
   "name": "swagger-server",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Get your RESTful API up-and-running FAST! Fully-functional mocks without writing any code. And your real implementation isn't much harder.",
   "keywords": [
     "rest",
@@ -27,7 +27,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./samples/petstore/server.js",
-    "debug": "DEBUG=swagger-server:* node ./samples/petstore/server.js"
+    "petstore": "DEBUG=swagger-server:* node ./samples/petstore/server.js",
+    "petstore-windows": "set DEBUG=swagger-server:* && node ./samples/petstore/server.js",
+    "users": "DEBUG=swagger-server:* node ./samples/user-manager/server.js",
+    "users-windows": "set DEBUG=swagger-server:* && node ./samples/user-manager/server.js"
   },
   "repository": {
     "type": "git",
@@ -41,7 +44,7 @@
     "express-xml-bodyparser": "0.0.4",
     "js-yaml": "^3.2.2",
     "lodash": "^2.4.1",
-    "swagger-schema-official": "^2.0.0-b6411e9",
+    "swagger-schema-official": "*",
     "tv4": "^1.1.0",
     "type-is": "^1.5.2",
     "xml2js": "^0.4.4"
