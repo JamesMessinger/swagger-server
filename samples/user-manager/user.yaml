@@ -1,0 +1,47 @@
+# This is not a complete Swagger spec.  It's just a JSON Schema (in YAML format)
+# that's referenced by the "users.yaml" spec using "$ref: http://localhost:3000/users.json"
+#
+# Note that Swagger-Server will automatically convert the YAML to JSON when serving
+# the file.  If you prefer to author the file in JSON instead of YAML, then that's ok too.
+
+description: a registered user
+required: [username, password, name]
+properties:
+  username:
+    type: string
+    minLength: 4
+    maxLength: 20
+    pattern: "^\\w+$"   # only allows alphanumeric characters
+    description: username must be unique
+  password:
+    type: string
+    minLength: 4
+    description: a super-secure, four-character password :)
+  name:
+    type: object
+    description: the user's real name
+    required: [firstName]
+    properties:
+      firstName:
+        type: string
+        minLength: 1
+      lastName:
+        type: string
+  email:
+    type: string
+  telephone:
+    type: integer
+    minimum: 1000000000
+  lastLoginDate:
+    type: string
+    format: date-time
+    description: when the user last logged in (set by the server)
+    readOnly: true
+example:
+  username: jdoe
+  name:
+    firstName: John
+    lastName: Doe
+  email: john.doe@abc.com
+  telephone: 5551234567
+  lastLoginDate: 2015-05-11T14-00-32Z

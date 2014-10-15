@@ -1,0 +1,183 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: CORS Example API
+  description: >
+    This file demonstrates how to define custom CORS behavior in 
+    Swagger-Server. For more details on CORS and these headers, check out
+    [this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS)
+
+host: localhost:3000
+consumes:
+  - application/json
+produces:
+  - application/json
+ 
+paths:
+  /users/login:
+    # With both of the following operations commented out, Swagger-Server will
+    # automatically handle CORS as described below. Uncommenting the first
+    # operation will have no change in behavior, since it is equivalent to the
+    # default Swagger-Server functionality. Uncommenting the second operation
+    # will change things dramatically.
+
+    # options:
+    #   $ref: default-CORS-response
+    
+    # options:
+    #   $ref: custom-CORS-response
+      
+    post:
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: login
+      responses:
+        "201":
+          description: login succeeded
+          headers:
+            Set-Cookie:
+              type: string
+              default: "auth-cookie=someRandomValueHere"
+              description: Authentication cookie is returned
+    
+    get:
+      responses:
+        default:
+          description: returns the users who have ever logged-in
+          schema:
+            type: array
+            items:
+              $ref: login
+
+
+  /users/logout:
+    # With both of the following operations commented out, Swagger-Server will
+    # automatically handle CORS as described below. Uncommenting the first
+    # operation will have no change in behavior, since it is equivalent to the
+    # default Swagger-Server functionality. Uncommenting the second operation
+    # will change things dramatically.
+
+    # options:
+    #   $ref: default-CORS-response
+    
+    # options:
+    #   $ref: custom-CORS-response
+      
+    post:
+      parameters:
+        - name: Cookie
+          in: header
+          type: string
+          description: Authentication token is required
+      responses:
+        200:
+          description: logout succeeded
+          headers:
+            Set-Cookie:
+              type: string
+              default: "auth-cookie=deleted;expires=Thu, 01 Jan 1970 00:00:00 GMT"
+              description: Deletes the authentication cookie (by making it expire in the past)
+
+
+definitions:
+  login:
+    required: [username, password]
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+  
+  default-CORS-response:
+    description: >
+      The "OPTIONS" HTTP method is used for the CORS preflight request.
+      Basically, the client browser is asking the server for permission
+      to send the real HTTP request.
+    responses:
+      default:
+        description: >
+          Swagger-Server automatically handles the following CORS headers
+          without any special configuration on your part (you don't even
+          need to specify an OPTIONS operation in your Swagger spec).
+        headers:
+          Access-Control-Allow-Origin:
+            type: string
+            description: >
+              By default, Swagger-Server will echo back the `Origin`
+              request header (e.g. `http://yoursite.com`)
+          Access-Control-Allow-Credentials:
+            type: boolean
+            description: >
+              By default, Swagger-Server will return `true`.
+              This enables cookies.
+          Access-Control-Allow-Headers:
+            type: array
+            collectionFormat: csv
+            description: >
+              By default, Swagger-Server will echo back the
+              `Access-Control-Request-Headers` request header
+              (e.g. `Content-Type, X-Powered-By`)
+          Access-Control-Allow-Methods:
+            type: array
+            collectionFormat: csv
+            description: >
+              By default, Swagger-Server will return the list of operations
+              that are defined in your Swagger spec for the path
+              (e.g. `GET, POST, PUT, DELETE`)
+          Access-Control-Max-Age:
+            type: integer
+            description: >
+              By default, Swagger-Server will return `0` (zero). This
+              disables CORS caching by the client browser, which simplifies
+              development and debugging.  But feel free to change this to a
+              higher number when you go to production.
+
+  custom-CORS-response:
+    responses:
+      default:
+        description: >
+          If you specify an OPTIONS operation in your Swagger spec, then
+          Swagger-Server will honor it. You can override any of
+          Swagger-Server's default values for CORS headers, as shown below.
+          Or you can disable Swagger-Server's automatic CORS functionality
+          entirely with `server.settings.enableCORS = false;`.
+        headers:
+          Access-Control-Allow-Origin:
+            type: string
+            default: "*"
+            description: >
+              Setting this header to `*` allows all origins.
+              This is handy for public REST APIs that don't require
+              authentication. But, according to the HTTP spec, browsers
+              *WILL NOT* send cookies if this header is `*`, regardless
+              of what you set `Access-Control-Allow-Credentials` to.
+          Access-Control-Allow-Credentials:
+            type: boolean
+            default: false
+            description: >
+              Setting this header to `false` means that your API does not
+              use authentication cookies.
+          Access-Control-Allow-Headers:
+            type: array
+            collectionFormat: csv
+            default: Content-Type, X-Powered-By
+            description: >
+              This shows how you can explicitly specify which HTTP headers
+              your API allows.
+          Access-Control-Allow-Methods:
+            type: array
+            collectionFormat: csv
+            default: GET, HEAD
+            description: >
+              This shows how you can explicitly specify which HTTP methods
+              your API allows.
+          Access-Control-Max-Age:
+            type: integer
+            default: 86400 # one day
+            description: >
+              This allows client browsers to cache the CORS response for
+              one day (86400 seconds).
+
+

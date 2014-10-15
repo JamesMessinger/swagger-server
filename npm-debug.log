@@ -1,0 +1,34 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'run-script', 'debug' ]
+2 info using npm@2.1.3
+3 info using node@v0.10.30
+4 verbose node symlink /usr/local/bin/node
+5 verbose run-script [ 'predebug', 'debug', 'postdebug' ]
+6 info predebug swagger-server@0.0.1
+7 info debug swagger-server@0.0.1
+8 verbose unsafe-perm in lifecycle true
+9 info swagger-server@0.0.1 Failed to exec debug script
+10 verbose stack Error: swagger-server@0.0.1 debug: `DEBUG=swagger-server:* node ./samples/petstore/server.js`
+10 verbose stack Exit status 8
+10 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:212:16)
+10 verbose stack     at ChildProcess.emit (events.js:98:17)
+10 verbose stack     at maybeClose (child_process.js:756:16)
+10 verbose stack     at Process.ChildProcess._handle.onexit (child_process.js:823:5)
+11 verbose pkgid swagger-server@0.0.1
+12 verbose cwd /Users/James/Code/my-code/swagger-server
+13 error Darwin 13.4.0
+14 error argv "node" "/usr/local/bin/npm" "run-script" "debug"
+15 error node v0.10.30
+16 error npm  v2.1.3
+17 error code ELIFECYCLE
+18 error swagger-server@0.0.1 debug: `DEBUG=swagger-server:* node ./samples/petstore/server.js`
+18 error Exit status 8
+19 error Failed at the swagger-server@0.0.1 debug script.
+19 error This is most likely a problem with the swagger-server package,
+19 error not with npm itself.
+19 error Tell the author that this fails on your system:
+19 error     DEBUG=swagger-server:* node ./samples/petstore/server.js
+19 error You can get their info via:
+19 error     npm owner ls swagger-server
+19 error There is likely additional logging output above.
+20 verbose exit [ 1, true ]

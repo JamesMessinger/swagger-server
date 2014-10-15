@@ -1,0 +1,45 @@
+[
+  {
+    "username": "admin",
+    "password": "admin",
+    "name": {
+      "firstName": "Admin"
+    }
+  },
+  {
+    "username": "jdoe",
+    "password": "jdoe",
+    "name": {
+      "firstName": "John",
+      "lastName": "Doe"
+    },
+    "email": "john.doe@company.com",
+    "telephone": 5551234567
+  },
+  {
+    "username": "bsmith",
+    "password": "bsmith",
+    "name": {
+      "firstName": "Bob",
+      "lastName": "Smith"
+    },
+    "email": "bob.smith@company.com"
+  },
+  {
+    "username": "sjones",
+    "password": "sjones",
+    "name": {
+      "firstName": "Sarah",
+      "lastName": "Jones"
+    },
+    "telephone": 5559876543
+  },
+  {
+    "username": "aadams",
+    "password": "aadams",
+    "name": {
+      "firstName": "Amanda",
+      "lastName": "Adams"
+    }
+  }
+]
