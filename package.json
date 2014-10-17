@@ -1,6 +1,6 @@
 {
   "name": "swagger-server",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Get your RESTful API up-and-running FAST! Fully-functional mocks without writing any code. And your real implementation isn't much harder.",
   "keywords": [
     "rest",
