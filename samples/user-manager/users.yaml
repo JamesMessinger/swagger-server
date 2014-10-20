@@ -14,7 +14,7 @@ produces:
 
 definitions:
   # A simple username/password combo for logging in
-  login: &login
+  login:
     required: [username, password]
     properties:
       username:
@@ -25,8 +25,9 @@ definitions:
         minLength: 1
 
   # The user schema is defined in the "user.yaml" file.
-  # Swagger-Server will automatically convert the YAML file to JSON format responding to this URL
-  user: &user
+  # Swagger-Server will automatically convert the user.yaml
+  # file to JSON format
+  user:
     $ref: http://localhost:3000/user.json
 
 
@@ -51,7 +52,8 @@ parameters:
     name: body
     in: body
     required: true
-    schema: *user
+    schema:
+      $ref: user
     description: The user data for create/update operations
 
 
@@ -65,7 +67,8 @@ paths:
           description: Returns the list of users
           schema:
             type: array
-            items: *user
+            items:
+              $ref: user
         401:
           description: Hey! You're not the "admin" user!
 
@@ -76,12 +79,14 @@ paths:
         - name: body
           in: body
           required: true
-          schema: *user
+          schema:
+            $ref: user
           description: The user account to create
       responses:
         201:
           description: New user was created successfully
-          schema: *user
+          schema:
+            $ref: user
           headers:
             Location:
               type: string
@@ -101,7 +106,8 @@ paths:
       responses:
         200:
           description: Returns the user's data
-          schema: *user
+          schema:
+            $ref: user
         401:
           description: You tried to retrieve someone else's account, and you're not the "admin" user.
         404:
@@ -118,7 +124,8 @@ paths:
       responses:
         200:
           description: User data was saved successfully
-          schema: *user
+          schema:
+            $ref: user
         400:
           description: Bad JSON formatting in the request
         401:
@@ -153,11 +160,13 @@ paths:
           in: body
           required: true
           description: The login credentials
-          schema: *login
+          schema:
+            $ref: login
       responses:
         200:
           description: Login was successful
-          schema: *user
+          schema:
+            $ref: user
           headers:
             Set-Cookie:
               type: string
