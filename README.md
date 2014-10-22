@@ -39,22 +39,22 @@ That's all there is to it!
 Swagger-Server comes with two sample apps: the ubiquitous "Swagger Petstore" is a simple example, and the "User Manager" demonstrates more advanced concepts.  To run the petstore sample, just `cd` into the `node_modules/swagger-server` folder and run the following command:
 
     cd node_modules/swagger-server
-    npm run-script petstore
+    npm run petstore
 
 Or, on Windows:
 
     cd node_modules\swagger-server
-    npm run-script petstore-windows
+    npm run petstore-windows
     
 Similarly, to run the "User Manager" sample insead, run:
 
     cd node_modules/swagger-server
-    npm run-script users
+    npm run users
     
 Or, on Windows: 
 
     cd node_modules\swagger-server
-    npm run-script users-windows
+    npm run users-windows
 
 __Note:__ All of the above commands run the sample apps in DEBUG mode, which produces _a lot_ of output in the console window.  
 
