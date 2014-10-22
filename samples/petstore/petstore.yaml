@@ -122,6 +122,18 @@
           - application/xml
           - text/xml
           - text/html
+        parameters:
+          - name: name
+            in: path
+            description: name of pet to update
+            required: true
+            type: string
+          - name: body
+            in: body
+            description: The updated pet info
+            required: true
+            schema:
+              $ref: '#/definitions/pet'
         responses:
           200:
             description: pet response
