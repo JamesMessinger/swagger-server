@@ -70,7 +70,7 @@ I welcome any contributions, enhancements, and bug-fixes.  [File an issue](https
 
 Here are some things currently on the to-do list:
 
-* __Unit tests__ - Need lots of 'em! Planning to use Mocha and Chai
+* __Unit tests__ - _In progress_
 
 * __Response validation__ - Currently, the mocks always adhere to the response schema defined in the Swagger spec, but if mocks are disabled (or bypassed via custom middleware), then all bets are off.  It would be cool to add logic that intercepts `res.send()` and validates the response against the schema.
 

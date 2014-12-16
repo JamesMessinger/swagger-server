@@ -4,12 +4,24 @@
  */
 module.exports = function(server) {
 
+  // Authenticate all requests
+  server.all(authenticateUser);
+
+  // Handle login requests
+  server.post('/users/login', login);
+
+  // NOTE: No need to implement logout functionality, since the default Swagger-Server mock behavior is sufficient.
+  // There's already a "Set-Cookie" header defined in the Swagger file for the "POST /users/logout" operation.
+  // Swagger-Server will automatically apply that cookie using the default value in the Swagger file.
+  // Because the default value includes a cookie expiration date that's in the past, the cookie is automatically deleted.
+
+
   /**
    * Authenticates the user via the session cookie on the request.
    * If authentication succeeds, then the user's info is stored at `req.user`
    * so it can be used by subsequent middleware.
    */
-  server.all(function authenticateUser(req, res, next) {
+  function authenticateUser(req, res, next) {
     // Get the session ID from the session cookie
     var sessionId = req.cookies['demo-session-id'];
     req.user = {};
@@ -26,13 +38,13 @@ module.exports = function(server) {
     }
 
     next();
-  });
+  }
 
 
   /**
    * Handles log-in requests.  If login succeeds, then a session cookie is created.
    */
-  server.post('/users/login', function login(req, res, next) {
+  function login(req, res, next) {
     var username = req.swagger.params.body.username;
     var password = req.swagger.params.body.password;
 
@@ -55,12 +67,5 @@ module.exports = function(server) {
       // Return the user
       res.json(user);
     }
-  });
-
-
-  // NOTE: No need to implement logout functionality, since all that entails is deleting the session cookie.
-  // There's already a "Set-Cookie" header defined in the Swagger file for the "POST /users/logout" operation.
-  // Swagger-Server will automatically apply that cookie using the default value in the Swagger file.
-  // Because the default value includes a cookie expiration date that's in the past, the cookie is automatically deleted.
-
+  }
 };

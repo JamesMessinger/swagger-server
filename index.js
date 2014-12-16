@@ -1,5 +1,9 @@
+'use strict';
 
 var SwaggerServer = require('./lib/server');
+
+
+module.exports = createServer;
 
 
 /**
@@ -8,6 +12,3 @@ var SwaggerServer = require('./lib/server');
 function createServer(swaggerFile, settings) {
   return new SwaggerServer(swaggerFile, settings);
 }
-
-
-module.exports = createServer;

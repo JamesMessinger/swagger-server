@@ -4,6 +4,25 @@
  */
 module.exports = function(server) {
 
+  // Only admins are allowed to get the full list of users
+  server.get('/users', adminOnly);
+
+  // Only admins can create new users
+  server.post('/users', adminOnly);
+
+  // Users can only retrieve their own account
+  server.get('/users/{username}', yourselfOnly);
+
+  // Users can only edit their own account
+  server.post('/users/{username}', yourselfOnly);
+
+  // Users can only delete their own account
+  server.delete('/users/{username}', yourselfOnly);
+
+  // Users can only log themselves out
+  server.post('/users/{username}/logout', yourselfOnly);
+
+
   /**
    * Refuses access to everyone except the "admin" user
    */
@@ -35,24 +54,4 @@ module.exports = function(server) {
       res.status(401).send('You can only do this for your own account.');
     }
   }
-
-
-  // Only admins are allowed to get the full list of users
-  server.get('/users', adminOnly);
-
-  // Only admins can create new users
-  server.post('/users', adminOnly);
-
-  // Users can only retrieve their own account
-  server.get('/users/{username}', yourselfOnly);
-
-  // Users can only edit their own account
-  server.post('/users/{username}', yourselfOnly);
-
-  // Users can only delete their own account
-  server.delete('/users/{username}', yourselfOnly);
-
-  // Users can only log themselves out
-  server.post('/users/{username}/logout', yourselfOnly);
-
 };
