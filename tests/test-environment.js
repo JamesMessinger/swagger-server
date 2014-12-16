@@ -7,8 +7,12 @@ var nock = require('nock');
 
 var env;
 
+// Create globals for Chai and Sinon
 global.expect = require('chai').expect;
 global.sinon = require('sinon');
+
+// Suppress warning messages because they clutter up the unit test output
+console.warn = function() {};
 
 module.exports = env = {
   /**
