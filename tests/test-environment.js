@@ -5,10 +5,12 @@ var fs = require('fs');
 var _ = require('lodash');
 var nock = require('nock');
 
+var env;
+
 global.expect = require('chai').expect;
 global.sinon = require('sinon');
 
-global.env = {
+module.exports = env = {
   /**
    * The "createServer" function that's exported by Swagger-Server
    * @type {createServer}

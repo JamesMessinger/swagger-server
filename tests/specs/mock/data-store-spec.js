@@ -1,3 +1,5 @@
+var env = require('../../test-environment');
+
 describe('mock data store', function() {
   'use strict';
 

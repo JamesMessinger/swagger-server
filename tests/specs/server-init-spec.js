@@ -1,3 +1,5 @@
+var env = require('../test-environment');
+
 describe('SwaggerServer initialization', function() {
   'use strict';
 
