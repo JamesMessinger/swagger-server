@@ -16,12 +16,6 @@ console.warn = function() {};
 
 module.exports = env = {
   /**
-   * The "createServer" function that's exported by Swagger-Server
-   * @type {createServer}
-   */
-  createServer: require('../'),
-
-  /**
    * A mock HTTP server
    */
   nock: nock('http://nock'),
@@ -63,7 +57,7 @@ module.exports = env = {
       if (err) return callback(err);
 
       // Add a blank line to the file
-      fs.writeFile(filePath, data.toString() + '\n', function(err) {
+      fs.writeFile(filePath, data.toString() + append, function(err) {
         if (err) return callback(err);
 
         // Restore the file's original contents

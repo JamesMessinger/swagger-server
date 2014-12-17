@@ -3,6 +3,7 @@ info:
   version: 1.0.0
   title: external refs
   description: This file includes $refs to external files
+host: localhost:3000
 paths:
   /pets:
     post:
