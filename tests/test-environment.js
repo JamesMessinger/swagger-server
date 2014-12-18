@@ -26,6 +26,7 @@ module.exports = env = {
   files: {
     blank: path.join(__dirname, 'files', 'blank.yaml'),
     minimal: path.join(__dirname, 'files', 'minimal.yaml'),
+    minimalHttps: path.join(__dirname, 'files', 'minimal-https.yaml'),
     externalRefs: path.join(__dirname, 'files', 'externalRefs.yaml')
   },
 

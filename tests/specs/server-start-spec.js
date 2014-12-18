@@ -14,12 +14,47 @@ describe('SwaggerServer.start', function() {
   it('should return the SwaggerServer instance',
     function() {
       var server = new swagger.Server('foo');
-      var returnVal = server.start(sinon.spy());
+      var returnVal = server.start();
       expect(returnVal).to.equal(server);
     }
   );
 
-  // TODO: Check the SwaggerServer.metadata state
+  it('can be called without any arguments',
+    function(done) {
+      var server = new swagger.Server(env.files.minimal);
+      server.start();
+      server.on('start', function() {
+        server.stop(done);
+      });
+    }
+  );
+
+  it('can be called with just a port number',
+    function(done) {
+      var server = new swagger.Server(env.files.minimal);
+      server.start(3456);
+      server.on('start', function() {
+        expect(server.metadata.url.port).to.equal('3456');
+        server.stop(done);
+      });
+    }
+  );
+
+//  it('can be called with just an options object',
+//    function(done) {
+//      var server = new swagger.Server(env.files.minimalHttps);
+//      server.start({
+//        key: '',
+//        cert: ''
+//      });
+//      server.on('start', function() {
+//        expect(server.metadata.url.protocol).to.equal('https:');
+//        server.stop(done);
+//      });
+//    }
+//  );
+
+  // TODO: Check the SwaggerServer.metadata state after starting
   // TODO: Start called twice
 
   it('should pass the http.Server instance to the callback',
