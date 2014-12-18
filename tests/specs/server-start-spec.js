@@ -14,7 +14,7 @@ describe('SwaggerServer.start', function() {
   it('should return the SwaggerServer instance',
     function() {
       var server = new swagger.Server('foo');
-      var returnVal = server.start();
+      var returnVal = server.start(sinon.spy());
       expect(returnVal).to.equal(server);
     }
   );
