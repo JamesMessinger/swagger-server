@@ -1,6 +1,6 @@
 {
   "name": "swagger-server",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Get your RESTful API up-and-running FAST! Fully-functional mocks without writing any code. And your real implementation isn't much harder.",
   "keywords": [
     "rest",
@@ -41,6 +41,7 @@
     "express": "^4.9.0",
     "express-xml-bodyparser": "^0.0.4",
     "lodash": "^2.4.1",
+    "multer": "^0.1.6",
     "tv4": "^1.1.0",
     "type-is": "^1.5.2",
     "xml2js": "^0.4.4",
