@@ -1,0 +1,16 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: host info
+  description: Example of the Swagger spec with host info set (host, basePath, schemes)
+host: company.com:3000
+basePath: /api/v1
+schemes:
+  - https
+paths:
+  /users:
+    get:
+      responses:
+        "200":
+          description:  hello world
+

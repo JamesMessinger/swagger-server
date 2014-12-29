@@ -1,6 +1,8 @@
 'use strict';
 
 /**
- * @type {SwaggerServer}
+ * @type {function}
+ * @returns {SwaggerServer}
+ * @constructs SwaggerServer
  */
 module.exports.Server = require('./lib/server');

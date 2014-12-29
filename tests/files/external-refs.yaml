@@ -3,7 +3,6 @@ info:
   version: 1.0.0
   title: external refs
   description: This file includes $refs to external files
-host: localhost:3000
 paths:
   /pets:
     post:
@@ -18,7 +17,7 @@ paths:
         200:
           description: references the "pet.yaml" file
           schema:
-            $ref: pet.yaml
+            $ref: ./pet.yaml
         default:
           description: references the "error.yaml" file
           schema:
