@@ -27,7 +27,8 @@ module.exports = env = {
     blank: path.join(__dirname, 'files', 'blank.yaml'),
     minimal: path.join(__dirname, 'files', 'minimal.yaml'),
     minimalHttps: path.join(__dirname, 'files', 'minimal-https.yaml'),
-    externalRefs: path.join(__dirname, 'files', 'externalRefs.yaml')
+    externalRefs: path.join(__dirname, 'files', 'external-refs.yaml'),
+    pet: path.join(__dirname, 'files', 'pet.yaml')
   },
 
 
@@ -62,7 +63,7 @@ module.exports = env = {
         if (err) return callback(err);
 
         // Restore the file's original contents
-        fs.writeFile(env.files.minimal, data.toString());
+        fs.writeFile(filePath, data.toString());
 
         callback();
       });
