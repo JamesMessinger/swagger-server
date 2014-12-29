@@ -31,7 +31,8 @@ module.exports = env = {
         minimalWithHost: path.join(__dirname, 'files', 'minimal-with-host.yaml'),
         externalRefs: path.join(__dirname, 'files', 'external-refs.yaml'),
         pet: path.join(__dirname, 'files', 'pet.yaml'),
-        ENOENT: path.join(__dirname, 'files', 'filedoesnotexist.yaml'),
+        error: path.join(__dirname, 'files', 'error.yaml'),
+        ENOENT: path.join(__dirname, 'files', 'doesNotExist.yaml'),
 
         /**
          * Parsed Swagger specs.
@@ -63,30 +64,13 @@ module.exports = env = {
 
 
     /**
-     * Temporarily appends text to the given file, which will trigger Swagger-Server's file watcher.
-     * The file is returned to its previous contents immediately.
-     * If no text is provided, then a blank line is appended.
+     * Modifies the modified date of the given file, which will trigger Swagger-Server's file watcher.
      */
-    modifyFile: function(filePath, append, callback) {
-        // Shift args if needed
-        if (_.isFunction(append)) {
-            callback = append;
-            append = '\n';
-        }
-
-        fs.readFile(filePath, {encoding: 'utf8'}, function(err, data) {
-            if (err) return callback(err);
-
-            // Add a blank line to the file
-            fs.writeFile(filePath, data.toString() + append, function(err) {
-                if (err) return callback(err);
-
-                // Restore the file's original contents
-                fs.writeFile(filePath, data.toString());
-
-                callback();
-            });
-        });
+    touchFile: function(filePath) {
+        // Wait a few milliseconds so there's a timestamp change when called sequentially
+        setTimeout(function() {
+            fs.utimesSync(filePath, new Date(), new Date());
+        }, 10);
     },
 
 

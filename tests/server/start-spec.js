@@ -157,21 +157,6 @@ describe('SwaggerServer.start', function() {
         }
     );
 
-    it('should stop SwaggerServer if the http.Server is closed',
-        function(done) {
-            var server = new swagger.Server(env.files.minimal);
-            var stop = sinon.spy(server, 'stop');
-
-            server.start(function(err, httpServer) {
-                httpServer.close(function() {
-                    sinon.assert.calledOnce(stop);
-                    stop.restore();
-                    done();
-                });
-            });
-        }
-    );
-
     it('should update SwaggerServer.state',
         function(done) {
             var server = new swagger.Server(env.files.minimal);

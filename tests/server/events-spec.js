@@ -151,10 +151,8 @@ describe('SwaggerServer events', function() {
             var callback = sinon.spy(function(err) {
                 if (err) done(err);
 
-                // Edit the file to trigger a "specChange" event
-                env.modifyFile(env.files.minimal, function(err) {
-                    if (err) done(err);
-                });
+                // Trigger a "specChange" event
+                env.touchFile(env.files.minimal);
 
                 // This should be triggered when the file is edited
                 server.once('specLoaded', function() {
@@ -197,10 +195,8 @@ describe('SwaggerServer events', function() {
             var callback = sinon.spy(function(err) {
                 if (err) done(err);
 
-                // Edit the file to trigger another "specChange" event
-                env.modifyFile(env.files.pet, function(err) {
-                    if (err) done(err);
-                });
+                // Trigger a "specChange" event
+                env.touchFile(env.files.pet);
 
                 // This should be triggered when the file is edited
                 server.once('specLoaded', function() {
