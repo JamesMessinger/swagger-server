@@ -2,8 +2,11 @@
 
 var path = require('path');
 var fs = require('fs');
+var url = require('url');
 var _ = require('lodash');
 var nock = require('nock');
+var express = require('express');
+var supertest = require('supertest');
 
 var env;
 
@@ -11,55 +14,31 @@ var env;
 global.expect = require('chai').expect;
 global.sinon = require('sinon');
 
-// Suppress warning messages because they clutter up the unit test output
-console.warn = function() {
-};
-
 module.exports = env = {
     /**
-     * A mock HTTP server
+     * Creates and configures an Express app.
      */
-    nock: nock('http://nock'),
-
-    /**
-     * Paths to sample Swagger spec files.
-     */
-    files: {
-        blank: path.join(__dirname, 'files', 'blank.yaml'),
-        minimal: path.join(__dirname, 'files', 'minimal.yaml'),
-        minimalHttps: path.join(__dirname, 'files', 'minimal-https.yaml'),
-        minimalWithHost: path.join(__dirname, 'files', 'minimal-with-host.yaml'),
-        externalRefs: path.join(__dirname, 'files', 'external-refs.yaml'),
-        pet: path.join(__dirname, 'files', 'pet.yaml'),
-        error: path.join(__dirname, 'files', 'error.yaml'),
-        ENOENT: path.join(__dirname, 'files', 'doesNotExist.yaml'),
-
-        /**
-         * Parsed Swagger specs.
-         */
-        parsed: {
-            minimal: require(path.join(__dirname, 'files', 'minimal.json')),
-            externalRefs: require(path.join(__dirname, 'files', 'external-refs.json'))
-        }
+    express: function(middleware) {
+        var app = express();
+        app.set('env', 'test'); // Turns on enhanced debug/error info
+        if (middleware) app.use(middleware);
+        return app;
     },
 
 
     /**
-     * URLs to the sample Swagger spec files.
+     * Creates and configures a Nock mock web server.
      */
-    urls: {
-        blank: 'http://nock/blank.yaml',
-        minimal: 'http://nock/minimal.yaml',
-        externalRefs: 'http://nock/externalRefs.yaml',
-        error404: 'http://nock/404.yaml'
+    nock: function() {
+        return nock('http://nock');
     },
 
 
     /**
-     * Dummy SSL key to test HTTPS functionality.
+     * Creates and configures a Supertest instance.
      */
-    sslKey: {
-        pfx: fs.readFileSync(path.join(__dirname, 'files', 'ssl.pfx'))
+    supertest: function(middleware) {
+        return supertest(middleware);
     },
 
 
@@ -83,6 +62,102 @@ module.exports = env = {
         return function() {
             fn.apply(null, params);
         };
+    },
+
+
+    /**
+     * Paths to sample Swagger spec files.
+     */
+    files: {
+        blank: path.join(__dirname, 'files', 'blank.yaml'),
+        minimal: path.join(__dirname, 'files', 'minimal.yaml'),
+        minimalHttps: path.join(__dirname, 'files', 'minimal-https.yaml'),
+        minimalWithHost: path.join(__dirname, 'files', 'minimal-with-host.yaml'),
+        externalRefs: path.join(__dirname, 'files', 'external-refs.yaml'),
+        pet: path.join(__dirname, 'files', 'pet.yaml'),
+        error: path.join(__dirname, 'files', 'error.yaml'),
+        ENOENT: path.join(__dirname, 'files', 'doesNotExist.yaml'),
+
+        /**
+         * Parsed Swagger specs.
+         */
+        parsed: {
+            minimal: require('./files/minimal.json'),
+            externalRefs: require('./files/external-refs.json')
+        },
+
+        /**
+         * Local-file metadata
+         */
+        metadata: {
+            minimal: {
+                baseDir: path.join(__dirname, 'files') + '/',
+                files: [path.join(__dirname, 'files', 'minimal.yaml')],
+                urls: [],
+                $refs: {}
+            },
+            externalRefs: {
+                baseDir: path.join(__dirname, 'files') + '/',
+                files: [
+                    path.join(__dirname, 'files', 'external-refs.yaml'),
+                    path.join(__dirname, 'files', 'error.yaml'),
+                    path.join(__dirname, 'files', 'pet.yaml')
+                ],
+                urls: [],
+                $refs: (function() {
+                    var $refs = {};
+                    $refs['pet.yaml'] = require('./files/pet.json');
+                    $refs['./pet.yaml'] = require('./files/pet.json');
+                    $refs[path.join(__dirname, 'files', 'pet.yaml')] = require('./files/pet.json');
+                    $refs['error.yaml'] = require('./files/error.json');
+                    $refs[path.join(__dirname, 'files', 'error.yaml')] = require('./files/error.json');
+                    return $refs;
+                })()
+            }
+        }
+    },
+
+
+    /**
+     * URLs to the sample Swagger spec files.
+     */
+    urls: {
+        blank: 'http://nock/blank.yaml',
+        minimal: 'http://nock/minimal.yaml',
+        externalRefs: 'http://nock/external-refs.yaml',
+        pet: 'http://nock/pet.yaml',
+        error: 'http://nock/error.yaml',
+        error404: 'http://nock/404.yaml',
+
+        /**
+         * URL metadata
+         */
+        metadata: {
+            minimal: {
+                baseDir: 'http://nock/',
+                files: [],
+                urls: [url.parse('http://nock/minimal.yaml')],
+                $refs: {}
+            },
+            externalRefs: {
+                baseDir: 'http://nock/',
+                files: [],
+                "urls": [
+                    url.parse('http://nock/external-refs.yaml'),
+                    url.parse('http://nock/error.yaml'),
+                    url.parse('http://nock/pet.yaml')
+                ],
+                $refs: (function() {
+                    var $refs = {};
+                    $refs['pet.yaml'] = require('./files/pet.json');
+                    $refs['./pet.yaml'] = require('./files/pet.json');
+                    $refs['http://nock/pet.yaml'] = require('./files/pet.json');
+                    $refs['error.yaml'] = require('./files/error.json');
+                    $refs['http://nock/error.yaml'] = require('./files/error.json');
+                    return $refs;
+                })()
+            }
+        }
     }
 };
 

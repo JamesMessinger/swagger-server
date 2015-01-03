@@ -1,0 +1,25 @@
+{
+  "properties": {
+    "code": {
+      "type": "integer"
+    },
+    "message": {
+      "type": "string"
+    },
+    "pet": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "cat",
+            "dog",
+            "bird"
+          ],
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "cat",
+        "dog",
+        "bird"
+      ],
+      "type": "string"
+    }
+  }
+}
