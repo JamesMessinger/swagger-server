@@ -7,14 +7,60 @@ var _ = require('lodash');
 var nock = require('nock');
 var express = require('express');
 var supertest = require('supertest');
+var swaggerServer = require('../');
+var util = require('../lib/util');
 
-var env;
+var env, currentTest;
 
 // Create globals for Chai and Sinon
 global.expect = require('chai').expect;
 global.sinon = require('sinon');
 
 module.exports = env = {
+    /**
+     * Initializes state before each test
+     */
+    beforeEach: function() {
+        currentTest = this.currentTest;
+        currentTest.__swaggerServers = [];
+    },
+
+
+    /**
+     * Cleans up after each test
+     */
+    afterEach: function(done) {
+        var iServer = currentTest.__swaggerServers.length;
+        stopNextServer();
+
+        function stopNextServer(err) {
+            if (err) {
+                return done(util.newError(err, 'In test "%s"', currentTest.title));
+            }
+            if (--iServer < 0) {
+                currentTest = null;
+                return done();
+            }
+
+            var server = currentTest.__swaggerServers[iServer];
+            server.stop(stopNextServer);
+        }
+    },
+
+
+    /**
+     * Creates a SwaggerServer instance.
+     * @param   {string} filePath
+     * @returns {SwaggerServer}
+     */
+    swaggerServer: function(filePath) {
+        var server = swaggerServer(filePath);
+        server.__testName = currentTest.title;
+        currentTest.__swaggerServers.push(server);
+        return server;
+    },
+
+
     /**
      * Creates and configures an Express app.
      */
@@ -43,13 +89,42 @@ module.exports = env = {
 
 
     /**
-     * Modifies the modified date of the given file, which will trigger Swagger-Server's file watcher.
+     * Disables Swagger-Server's warnings, to prevent them from cluttering the console during failure tests.
      */
-    touchFile: function(filePath) {
+    disableWarnings: function() {
+        process.env.WARN = 'off';
+    },
+
+
+    /**
+     * Enables Swagger-Server's warnings
+     */
+    enableWarnings: function() {
+        process.env.WARN = 'on';
+    },
+
+
+    /**
+     * Modifies the modified date of the given file, which will trigger Swagger-Server's file watcher.
+     * @param {...string} filePaths
+     */
+    touchFile: function(filePaths) {
+        var args = _.rest(arguments, 0);
+
         // Wait a few milliseconds so there's a timestamp change when called sequentially
         setTimeout(function() {
-            fs.utimesSync(filePath, new Date(), new Date());
+            args.forEach(function(file) {
+                fs.utimesSync(file, new Date(), new Date());
+            });
         }, 10);
+    },
+
+
+    /**
+     * Creates a copy of the given file at the given path.
+     */
+    copyFile: function(src, dest) {
+        fs.writeFileSync(dest, fs.readFileSync(src));
     },
 
 
@@ -76,6 +151,7 @@ module.exports = env = {
         externalRefs: path.join(__dirname, 'files', 'external-refs.yaml'),
         pet: path.join(__dirname, 'files', 'pet.yaml'),
         error: path.join(__dirname, 'files', 'error.yaml'),
+        temp: path.join(__dirname, 'files', '.temp.yml'),
         ENOENT: path.join(__dirname, 'files', 'doesNotExist.yaml'),
 
         /**

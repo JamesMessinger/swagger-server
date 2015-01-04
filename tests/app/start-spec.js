@@ -1,32 +1,154 @@
-var swagger = require('../../');
-var env = require('../test-environment');
-
-describe('SwaggerServer.middleware', function() {
-    'use strict';
-
-//    it('forwards requests to registered middleware',
-//        function(done) {
-//            var server = new swagger.Server(env.files.minimal);
+//describe('SwaggerServer.start', function() {
+//    'use strict';
 //
-//            server.use(function(req, res, next) {
-//                expect(req.path).to.equal('/foo/bar');
-//                res.sendStatus(204);
-//            });
+//    var env = require('../test-environment');
+//    beforeEach(env.beforeEach);
+//    afterEach(env.afterEach);
 //
-//            // Run the server using Express rather than SwaggerServer.start()
-//            env.supertest(server.middleware)
-//                .get('/foo')
-//                .expect(204, done);
+//    it('should be aliased as "SwaggerServer.listen"',
+//        function() {
+//            var server = env.swaggerServer('foo');
+//            expect(server.start).to.equal(server.listen);
 //        }
 //    );
-
-// TODO: Start via Express, and send two requests simultaneously. The Swagger file should only get parsed once, but both requests should still be handled
-
-// TODO: Register some mock middleware and make sure it doesn't get called when sending another HTTP request after calling stop()
-
+//
+//    it('should return the SwaggerServer instance',
+//        function() {
+//            var server = env.swaggerServer('foo');
+//            var returnVal = server.start(sinon.spy());
+//            expect(returnVal).to.equal(server);
+//        }
+//    );
+//
+//    it('can be called without any arguments',
+//        function(done) {
+//            var server = env.swaggerServer(env.files.minimal);
+//            server.start();
+//            server.on('start', function() {
+//                server.stop(done);
+//            });
+//        }
+//    );
+//
+//    it('can be called with just a port number',
+//        function(done) {
+//            var server = env.swaggerServer(env.files.minimal);
+//            server.start(3456);
+//            server.on('start', function() {
+//                expect(server.state.url.port).to.equal('3456');
+//                expect(server.state.url.protocol).to.equal('http:');
+//                server.stop(done);
+//            });
+//        }
+//    );
+//
+//    it('can be called with just SSL options',
+//        function(done) {
+//            var server = env.swaggerServer(env.files.minimalHttps);
+//            server.start(env.sslKey);
+//            server.on('start', function() {
+//                expect(server.state.url.protocol).to.equal('https:');
+//                server.stop(done);
+//            });
+//        }
+//    );
+//
+//    it('can be called with just a port number and SSL options',
+//        function(done) {
+//            var server = env.swaggerServer(env.files.minimalHttps);
+//            server.start(4567, env.sslKey);
+//            server.on('start', function() {
+//                expect(server.state.url.port).to.equal('4567');
+//                expect(server.state.url.protocol).to.equal('https:');
+//                server.stop(done);
+//            });
+//        }
+//    );
+//
+//    it('can be called with just a port number and a callback',
+//        function(done) {
+//            var server = env.swaggerServer(env.files.minimal);
+//            server.start(5678, function() {
+//                expect(server.state.url.port).to.equal('5678');
+//                expect(server.state.url.protocol).to.equal('http:');
+//                server.stop(done);
+//            });
+//        }
+//    );
+//
+//    it('can be called with a port number, SSL options, and a callback',
+//        function(done) {
+//            var started = false;
+//            var server = env.swaggerServer(env.files.minimalHttps);
+//            server.start(6789, env.sslKey, callback);
+//
+//            server.on('start', function() {
+//                expect(server.state.url.port).to.equal('6789');
+//                expect(server.state.url.protocol).to.equal('https:');
+//                started = true;
+//            });
+//
+//            function callback(err, httpServer) {
+//                expect(started).to.be.true();
+//                expect(httpServer).to.be.an.instanceOf(require('https').Server);
+//                server.stop(done);
+//            }
+//        }
+//    );
+//
+//    it('uses HTTP instead of HTTPS if no SSL options are given',
+//        function(done) {
+//            var server = env.swaggerServer(env.files.minimalHttps);
+//            server.start(function() {
+//                expect(server.state.url.protocol).to.equal('http:');
+//                server.stop(done);
+//            });
+//        }
+//    );
+//
+//    it('uses the port number in the Swagger spec instead of the default port',
+//        function(done) {
+//            var server = env.swaggerServer(env.files.minimalWithHost);
+//            server.start(1111, function(err, httpServer) {
+//                expect(httpServer.address().port).to.equal(3000);
+//                expect(server.state.url.port).to.equal('3000');
+//                server.stop(done);
+//            });
+//        }
+//    );
+//
+//    it('can start two servers simultaneously, on different ports',
+//        function(done) {
+//            var server1 = env.swaggerServer(env.files.minimal);
+//            var server2 = env.swaggerServer(env.files.externalRefs);
+//
+//            server1.start(1111, function(err, httpServer) {
+//                expect(err).to.be.null();
+//                expect(httpServer.address().port).to.equal(1111);
+//                expect(server1.state.url.port).to.equal('1111');
+//                stopBoth();
+//            });
+//
+//            server2.start(2222, function(err, httpServer) {
+//                expect(err).to.be.null();
+//                expect(httpServer.address().port).to.equal(2222);
+//                expect(server2.state.url.port).to.equal('2222');
+//                stopBoth();
+//            });
+//
+//            function stopBoth() {
+//                if (server1.state.started && server2.state.started) {
+//                    server1.stop(function() {
+//                        server2.stop(done);
+//                    });
+//                }
+//            }
+//        }
+//    );
+//
 //    it('should pass the http.Server instance to the callback',
 //        function(done) {
-//            var server = new swagger.Server(env.files.minimal);
+//            var server = env.swaggerServer(env.files.minimal);
 //            server.start(function(err, httpServer) {
 //                expect(err).to.be.null();
 //                expect(httpServer).to.be.an.instanceOf(require('http').Server);
@@ -38,7 +160,7 @@ describe('SwaggerServer.middleware', function() {
 //
 //    it('should update SwaggerServer.state',
 //        function(done) {
-//            var server = new swagger.Server(env.files.minimal);
+//            var server = env.swaggerServer(env.files.minimal);
 //            server.start(1111, function(err, httpServer) {
 //                // The prototype.state should not be modified
 //                expect(swagger.Server.prototype.state).to.deep.equal({
@@ -67,9 +189,9 @@ describe('SwaggerServer.middleware', function() {
 //
 //    it('should update SwaggerServer.state when using a URL',
 //        function(done) {
-//            env.nock.get('/minimal.yaml').replyWithFile(200, env.files.minimal);
+//            env.nock().get('/minimal.yaml').replyWithFile(200, env.files.minimal);
 //
-//            var server = new swagger.Server(env.urls.minimal);
+//            var server = env.swaggerServer(env.urls.minimal);
 //            server.start(1111, function(err, httpServer) {
 //                // The prototype.state should not be modified
 //                expect(swagger.Server.prototype.state).to.deep.equal({
@@ -101,7 +223,7 @@ describe('SwaggerServer.middleware', function() {
 //    describe('Failure tests', function() {
 //        it('should abort if a parsing error occurs',
 //            function(done) {
-//                var server = new swagger.Server(env.files.ENOENT);
+//                var server = env.swaggerServer(env.files.ENOENT);
 //                server.start(function(err, httpServer) {
 //                    expect(err).to.be.an.instanceOf(Error);
 //                    expect(err.message).to.match(/Swagger-Server cannot start due to the following error/);
@@ -114,7 +236,7 @@ describe('SwaggerServer.middleware', function() {
 //        it('should not restart if called multiple times',
 //            function(done) {
 //                var counter = 0;
-//                var server = new swagger.Server(env.files.minimal);
+//                var server = env.swaggerServer(env.files.minimal);
 //
 //                server.start(function(err) {
 //                    expect(err).to.be.null();
@@ -140,7 +262,7 @@ describe('SwaggerServer.middleware', function() {
 //
 //        it('should not restart if it has been stopped',
 //            function(done) {
-//                var server = new swagger.Server(env.files.minimal);
+//                var server = env.swaggerServer(env.files.minimal);
 //                server.start(function(err) {
 //                    expect(err).to.be.null();
 //
@@ -157,7 +279,7 @@ describe('SwaggerServer.middleware', function() {
 //
 //        it('should not start if it is stopped while starting',
 //            function(done) {
-//                var server = new swagger.Server(env.files.minimal);
+//                var server = env.swaggerServer(env.files.minimal);
 //
 //                // Start the server (which is asynchronous),
 //                // but then cancel the start operation by calling `stop`
@@ -175,8 +297,8 @@ describe('SwaggerServer.middleware', function() {
 //
 //        it('throws an error when two servers attempt to start simultaneously on the same port',
 //            function(done) {
-//                var server1 = new swagger.Server(env.files.minimal);
-//                var server2 = new swagger.Server(env.files.externalRefs);
+//                var server1 = env.swaggerServer(env.files.minimal);
+//                var server2 = env.swaggerServer(env.files.externalRefs);
 //
 //                server1.start(1111, function(err, httpServer) {
 //                    expect(err).to.be.null();
@@ -193,5 +315,5 @@ describe('SwaggerServer.middleware', function() {
 //            }
 //        );
 //    });
-
-});
+//
+//});
