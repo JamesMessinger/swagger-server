@@ -73,18 +73,18 @@ server.start();
 Running the samples
 --------------------------
 Swagger-Server comes with two sample apps.
-### Pet Store
+#### Pet Store
 The [Petstore sample app](https://github.com/BigstickCarpet/swagger-server/tree/master/samples/petstore) is a simple example, but it shows how powerful Swagger-Server's stubs are.  It consists of almost zero code, yet you can create, edit, delete, and search for pets.
 
-##### Walkthrough
+###### Walkthrough
 ````javascript
 // TODO
 ````
 
-### User Manager
+#### User Manager
 The [User Manager sample app](https://github.com/BigstickCarpet/swagger-server/tree/master/samples/user-manager) is a more complex example that includes some more complex middleware to manage user sessions and security.
 
-##### Walkthrough
+###### Walkthrough
 ````javascript
 // TODO
 ````
