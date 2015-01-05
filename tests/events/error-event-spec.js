@@ -12,7 +12,7 @@ describe('"error" event', function() {
             var onError = sinon.spy();
             var server = env.swaggerServer(env.files.externalRefs);
             server.on('error', onError);
-            
+
             server.start(function() {
                 sinon.assert.notCalled(onError);
                 done();
@@ -28,7 +28,7 @@ describe('"error" event', function() {
 
             server.start(function() {
                 sinon.assert.notCalled(onError);
-                
+
                 // Touch the main Swagger file, to trigger a "change" event
                 env.touchFile(env.files.externalRefs);
 
@@ -121,76 +121,6 @@ describe('"error" event', function() {
                 expect(onError.firstCall.args[0]).to.be.an.instanceOf(Error);
                 expect(onError.firstCall.args[0].message).to.match(/Error watching file/);
                 done();
-            });
-        }
-    );
-
-    it('should fire when an http.Server error occurs',
-        function(done) {
-            var onError = sinon.spy();
-            var server = env.swaggerServer(env.files.minimal);
-            server.on('error', onError);
-
-            var httpServer = server.start(function() {
-                sinon.assert.notCalled(onError);
-
-                // Simulate an HTTP Server "error" event
-                httpServer.emit('error', new Error('fake error'));
-
-                sinon.assert.calledOnce(onError);
-                expect(onError.firstCall.args[0]).to.be.an.instanceOf(Error);
-                expect(onError.firstCall.args[0].message).to.match(/HTTP server encountered an error/);
-                done();
-            });
-        }
-    );
-
-    it('should not fire if the HTTP Server is closed outside of Swagger-Server',
-        function(done) {
-            var onError = sinon.spy();
-            var server = env.swaggerServer(env.files.minimal);
-            server.on('error', onError);
-
-            var httpServer = server.start(function() {
-                sinon.assert.notCalled(onError);
-
-                // Close the HTTP Server
-                httpServer.close(function() {
-                    // Now stop Swagger-Server, which would normally call httpServer.close() internally.
-                    // But it should detect that the HTTP Server is already closed and skip calling "close()"
-                    server.stop();
-
-                    // The error happens asynchronously, so wait a bit
-                    setTimeout(function() {
-                        sinon.assert.notCalled(onError);
-                        done();
-                    }, 10);
-                });
-            });
-        }
-    );
-
-    it('should not fire if the HTTP Server is closed outside of Swagger-Server',
-        function(done) {
-            var onError = sinon.spy();
-            var server = env.swaggerServer(env.files.minimal);
-            server.on('error', onError);
-
-            var httpServer = server.start(function() {
-                sinon.assert.notCalled(onError);
-
-                // Close the HTTP Server
-                httpServer.close(function() {
-                    // Now stop Swagger-Server, which would normally call httpServer.close() internally.
-                    // But it should detect that the HTTP Server is already closed and skip calling "close()"
-                    server.stop();
-
-                    // The error happens asynchronously, so wait a bit
-                    setTimeout(function() {
-                        sinon.assert.notCalled(onError);
-                        done();
-                    }, 10);
-                });
             });
         }
     );

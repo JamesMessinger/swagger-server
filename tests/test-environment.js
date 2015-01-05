@@ -10,7 +10,7 @@ var supertest = require('supertest');
 var swaggerServer = require('../');
 var util = require('../lib/util');
 
-var env, currentTest;
+var env;
 
 // Create globals for Chai and Sinon
 global.expect = require('chai').expect;
@@ -21,30 +21,27 @@ module.exports = env = {
      * Initializes state before each test
      */
     beforeEach: function() {
-        currentTest = this.currentTest;
-        currentTest.__swaggerServers = [];
+        global.currentTest = this.currentTest;
+        currentTest.swaggerServers = [];
+        currentTest.httpServers = [];
     },
 
 
     /**
      * Cleans up after each test
      */
-    afterEach: function(done) {
-        var iServer = currentTest.__swaggerServers.length;
-        stopNextServer();
-
-        function stopNextServer(err) {
-            if (err) {
-                return done(util.newError(err, 'In test "%s"', currentTest.title));
+    afterEach: function() {
+        currentTest.swaggerServers.forEach(function(swaggerServer) {
+            swaggerServer.__unwatchSwaggerFiles();
+        });
+        currentTest.httpServers.forEach(function(httpServer) {
+            if (httpServer.address()) {
+                httpServer.close();
             }
-            if (--iServer < 0) {
-                currentTest = null;
-                return done();
+            else {
+                httpServer.once('listening', httpServer.close.bind(httpServer));
             }
-
-            var server = currentTest.__swaggerServers[iServer];
-            server.stop(stopNextServer);
-        }
+        });
     },
 
 
@@ -55,8 +52,16 @@ module.exports = env = {
      */
     swaggerServer: function(filePath) {
         var server = swaggerServer(filePath);
-        server.__testName = currentTest.title;
-        currentTest.__swaggerServers.push(server);
+        server.__currentTest = currentTest;
+        currentTest.swaggerServers.push(server);
+
+        var listen = server.listen;
+        server.listen = function() {
+            var httpServer = listen.apply(server, arguments);
+            currentTest.httpServers.push(httpServer);
+            return httpServer;
+        };
+
         return server;
     },
 

@@ -8,10 +8,10 @@ describe('"change" event', function() {
     it('should not fire unless a file is changed',
         function(done) {
             var onChange = sinon.spy();
-            
+
             var server = env.swaggerServer(env.files.externalRefs);
             server.on('change', onChange);
-            
+
             server.start(function() {
                 // Wait a bit to allow the file-watchers to start watching
                 setTimeout(function() {
@@ -51,7 +51,7 @@ describe('"change" event', function() {
 
             server.start(function() {
                 sinon.assert.notCalled(onChange);
-                
+
                 // Touch the main Swagger file, to trigger a "change" event
                 env.touchFile(env.files.externalRefs);
 

@@ -66,7 +66,7 @@ server.post('/users', function(req, res, next) {
     res.status(204).send('User saved successfully');
 });
 
-server.start();
+server.listen();
 ````
 
 

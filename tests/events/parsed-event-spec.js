@@ -63,12 +63,8 @@ describe('"parsed" event', function() {
                             .end(function(err) {
                                 if (err) return done(err);
 
-                                // Stop the server.
-                                // This should NOT trigger a "parsed" event
-                                server.close(function() {
-                                    sinon.assert.calledOnce(onParsed);
-                                    done();
-                                });
+                                sinon.assert.calledOnce(onParsed);
+                                done();
                             })
                     });
             });
@@ -107,12 +103,8 @@ describe('"parsed" event', function() {
                         .end(function(err) {
                             if (err) return done(err);
 
-                            // Stop the server.
-                            // This should NOT trigger a "parsed" event
-                            server.close(function() {
-                                sinon.assert.calledOnce(onParsed);
-                                done();
-                            });
+                            sinon.assert.calledOnce(onParsed);
+                            done();
                         })
                 });
         }

@@ -21,10 +21,10 @@ describe('createServer function', function() {
     it('should work without the "new" operator',
         function(done) {
             var server = swaggerServer(env.files.minimal);
-            expect(server).to.be.a('function');
-
+            currentTest.swaggerServers.push(server);
             server.on('parsed', function() {
-                server.close(done);
+                expect(server).to.be.a('function');
+                done();
             });
         }
     );
@@ -32,10 +32,11 @@ describe('createServer function', function() {
     it('should work with the "new" operator',
         function(done) {
             var server = new swaggerServer(env.files.minimal);
-            expect(server).to.be.a('function');
-
+            currentTest.swaggerServers.push(server);
             server.on('parsed', function() {
-                server.close(done);
+                expect(server).to.be.a('function');
+
+                done();
             });
         }
     );
