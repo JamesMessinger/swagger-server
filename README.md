@@ -4,7 +4,7 @@ Swagger-Server
 
 [![Build Status](https://img.shields.io/travis/BigstickCarpet/swagger-server.svg)](https://travis-ci.org/BigstickCarpet/swagger-server)
 [![Dependencies](https://img.shields.io/david/bigstickcarpet/swagger-server.svg)](https://david-dm.org/bigstickcarpet/swagger-server)
-[![Code Climate Score](https://codeclimate.com/github/BigstickCarpet/swagger-server/badges/gpa.svg)](https://codeclimate.com/github/BigstickCarpet/swagger-server)
+[![Code Climate Score](https://img.shields.io/codeclimate/github/BigstickCarpet/swagger-server.svg)](https://codeclimate.com/github/BigstickCarpet/swagger-server)
 [![Codacy Score](http://img.shields.io/codacy/431cc27ab6ec40cca6ea51c91ad8bfd6.svg)](https://www.codacy.com/public/jamesmessinger/swagger-server)
 [![Coverage Status](https://img.shields.io/coveralls/BigstickCarpet/swagger-server.svg)](https://coveralls.io/r/BigstickCarpet/swagger-server)
 
