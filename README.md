@@ -14,7 +14,7 @@ Swagger-Server
 
 |__ATTENTION !__                  |
 |---------------------------------|
-|For the current released (stable) version of Swagger-Server, see the [0.0.X branch](https://github.com/BigstickCarpet/swagger-server/tree/0.0.X).<br> Version 1.0 is coming soon, with tons of improvements, new features, and bug fixes.
+|The current released (stable) version of Swagger-Server can be found on [the 0.0.X branch](https://github.com/BigstickCarpet/swagger-server/tree/0.0.X).<br> Version 1.0 is coming soon, with tons of improvements, new features, and bug fixes.
 
 
 Features

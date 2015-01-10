@@ -13,7 +13,6 @@
       url: http://github.com/gruntjs/grunt/blob/master/LICENSE-MIT
 
   host: company.com
-  basePath: /api
   schemes:
     - http
     - https
@@ -57,11 +56,11 @@
             schema:
               type: array
               items:
-                $ref: pet.yaml
+                $ref: pet
           default:
             description: unexpected error
             schema:
-              $ref: error.yaml
+              $ref: error
 
       post:
         description: Creates a new pet in the store.
@@ -74,7 +73,7 @@
             description: Pet to add to the store
             required: true
             schema:
-              $ref: pet.yaml
+              $ref: pet
         responses:
           200:
             description: pet response
@@ -83,13 +82,13 @@
                 type: string
                 description: Swagger-Server will automatically set this header appropriately
             schema:
-              $ref: pet.yaml
+              $ref: pet
           409:
             description: new pet conflicts with an existing pet (i.e. they have the same name)
           default:
             description: unexpected error
             schema:
-              $ref: error.yaml
+              $ref: error
 
     /pets/{name}:
       get:
@@ -110,11 +109,11 @@
           200:
             description: pet response
             schema:
-              $ref: pet.yaml
+              $ref: pet
           default:
             description: unexpected error
             schema:
-              $ref: error.yaml
+              $ref: error
 
       patch:
         description: Updates a pet by name
@@ -134,16 +133,16 @@
             description: The updated pet info
             required: true
             schema:
-              $ref: pet.yaml
+              $ref: pet
         responses:
           200:
             description: pet response
             schema:
-              $ref: pet.yaml
+              $ref: pet
           default:
             description: unexpected error
             schema:
-              $ref: error.yaml
+              $ref: error
 
       delete:
         description: deletes a single pet based on the name supplied
@@ -160,4 +159,38 @@
           default:
             description: unexpected error
             schema:
-              $ref: error.yaml
+              $ref: error
+
+  definitions:
+    pet:
+      required:
+        - name
+        - type
+      properties:
+        name:
+          type: string
+          minLength: 2
+          pattern: "^[a-zA-Z0-9- ]+$"
+        age:
+          type: integer
+        type:
+          type: string
+          enum: [cat, dog, bird]
+        tags:
+          type: array
+          items:
+            type: string
+            minLength: 1
+
+    error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        pet:
+          $ref: pet

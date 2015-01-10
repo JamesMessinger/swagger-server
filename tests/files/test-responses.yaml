@@ -1,0 +1,45 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: test responses
+  description: Makes it easy for unit tests to test various responses
+
+host: company.com:433
+basePath: /test
+
+paths:
+  /200:
+    get: &200
+      responses:
+        200:
+          description:  200 response
+    options: *200
+    head: *200
+    post: *200
+    put: *200
+    patch: *200
+    delete: *200
+
+  /204:
+    get: &204
+      responses:
+        204:
+          description:  204 response
+    options: *204
+    head: *204
+    post: *204
+    put: *204
+    patch: *204
+    delete: *204
+
+  /{anythingElse}:
+    get: &404
+      responses:
+        404:
+          description: 404 response
+    options: *404
+    head: *404
+    post: *404
+    put: *404
+    patch: *404
+    delete: *404

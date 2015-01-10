@@ -7,7 +7,7 @@ describe('App settings', function() {
 
     it('should expose the enable and disable methods',
         function() {
-            var server = env.swaggerServer(env.files.minimal);
+            var server = env.swaggerServer(env.files.petStore);
 
             // This setting doesn't exist yet, so it's disabled
             expect(server.enabled('my setting')).to.be.false();
@@ -30,7 +30,7 @@ describe('App settings', function() {
 
     it('should expose the get and set methods',
         function() {
-            var server = env.swaggerServer(env.files.minimal);
+            var server = env.swaggerServer(env.files.petStore);
 
             // This setting doesn't exist yet
             expect(server.get('my setting')).to.be.undefined();
@@ -49,7 +49,7 @@ describe('App settings', function() {
 
     it('should set custom Swagger-Server properties',
         function() {
-            var server = env.swaggerServer(env.files.minimal);
+            var server = env.swaggerServer(env.files.petStore);
 
             expect(server.enabled('watch files')).to.be.true();
             expect(server.enabled('use stubs')).to.be.true();

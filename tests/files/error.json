@@ -1,15 +1,17 @@
 {
+  "required": [
+    "code", 
+    "message"
+  ], 
   "properties": {
-    "code": {
-      "type": "integer"
-    },
-    "message": {
-      "type": "string"
-    },
     "pet": {
+      "required": [
+        "name",
+        "type"
+      ],
       "properties": {
-        "name": {
-          "type": "string"
+        "age": {
+          "type": "integer"
         },
         "type": {
           "enum": [
@@ -18,8 +20,27 @@
             "bird"
           ],
           "type": "string"
+        },
+        "name": {
+          "minLength": 2,
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9- ]+$"
+        },
+        "tags": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array"
         }
       }
+    },
+    "message": {
+      "type": "string"
+    }, 
+    "code": {
+      "type": "integer", 
+      "format": "int32"
     }
   }
 }

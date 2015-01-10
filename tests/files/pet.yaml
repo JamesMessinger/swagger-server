@@ -1,6 +1,18 @@
+required:
+  - name
+  - type
 properties:
   name:
     type: string
+    minLength: 2
+    pattern: "^[a-zA-Z0-9- ]+$"
+  age:
+    type: integer
   type:
     type: string
     enum: [cat, dog, bird]
+  tags:
+    type: array
+    items:
+      type: string
+      minLength: 1

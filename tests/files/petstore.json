@@ -1,19 +1,691 @@
 {
-  "swagger": "2.0",
   "info": {
-    "version": "1.0.0",
-    "title": "minimal",
-    "description": "Example of the bare minimum Swagger spec"
-  },
+    "termsOfService": "http://helloreverb.com/terms/", 
+    "contact": {
+      "url": "http://madskristensen.net", 
+      "name": "Wordnik API Team", 
+      "email": "foo@example.com"
+    }, 
+    "description": "A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification", 
+    "license": {
+      "url": "http://github.com/gruntjs/grunt/blob/master/LICENSE-MIT", 
+      "name": "MIT"
+    }, 
+    "title": "Swagger Petstore", 
+    "version": "1.0.0"
+  }, 
   "paths": {
-    "/users": {
-      "get": {
+    "/pets": {
+      "post": {
+        "description": "Creates a new pet in the store.", 
+        "operationId": "addPet", 
         "responses": {
           "200": {
-            "description": "hello world"
+            "headers": {
+              "Location": {
+                "type": "string", 
+                "description": "Swagger-Server will automatically set this header appropriately"
+              }
+            }, 
+            "description": "pet response", 
+            "schema": {
+              "required": [
+                "name",
+                "type"
+              ],
+              "properties": {
+                "age": {
+                  "type": "integer"
+                },
+                "type": {
+                  "enum": [
+                    "cat",
+                    "dog",
+                    "bird"
+                  ],
+                  "type": "string"
+                },
+                "name": {
+                  "minLength": 2,
+                  "type": "string",
+                  "pattern": "^[a-zA-Z0-9- ]+$"
+                },
+                "tags": {
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          }, 
+          "409": {
+            "description": "new pet conflicts with an existing pet (i.e. they have the same name)"
+          }, 
+          "default": {
+            "description": "unexpected error", 
+            "schema": {
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "pet": {
+                  "required": [
+                    "name",
+                    "type"
+                  ],
+                  "properties": {
+                    "age": {
+                      "type": "integer"
+                    },
+                    "type": {
+                      "enum": [
+                        "cat",
+                        "dog",
+                        "bird"
+                      ],
+                      "type": "string"
+                    },
+                    "name": {
+                      "minLength": 2,
+                      "type": "string",
+                      "pattern": "^[a-zA-Z0-9- ]+$"
+                    },
+                    "tags": {
+                      "items": {
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  }
+                },
+                "message": {
+                  "type": "string"
+                },
+                "code": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
           }
+        }, 
+        "parameters": [
+          {
+            "required": true, 
+            "in": "body", 
+            "description": "Pet to add to the store", 
+            "name": "body", 
+            "schema": {
+              "required": [
+                "name",
+                "type"
+              ],
+              "properties": {
+                "age": {
+                  "type": "integer"
+                },
+                "type": {
+                  "enum": [
+                    "cat",
+                    "dog",
+                    "bird"
+                  ],
+                  "type": "string"
+                },
+                "name": {
+                  "minLength": 2,
+                  "type": "string",
+                  "pattern": "^[a-zA-Z0-9- ]+$"
+                },
+                "tags": {
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          }
+        ], 
+        "produces": [
+          "application/json"
+        ]
+      }, 
+      "get": {
+        "description": "Returns all pets from the system that the user has access to", 
+        "operationId": "findPets", 
+        "responses": {
+          "200": {
+            "description": "pet response", 
+            "schema": {
+              "items": {
+                "required": [
+                  "name",
+                  "type"
+                ],
+                "properties": {
+                  "age": {
+                    "type": "integer"
+                  },
+                  "type": {
+                    "enum": [
+                      "cat",
+                      "dog",
+                      "bird"
+                    ],
+                    "type": "string"
+                  },
+                  "name": {
+                    "minLength": 2,
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9- ]+$"
+                  },
+                  "tags": {
+                    "items": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                }
+              }, 
+              "type": "array"
+            }
+          }, 
+          "default": {
+            "description": "unexpected error", 
+            "schema": {
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "pet": {
+                  "required": [
+                    "name",
+                    "type"
+                  ],
+                  "properties": {
+                    "age": {
+                      "type": "integer"
+                    },
+                    "type": {
+                      "enum": [
+                        "cat",
+                        "dog",
+                        "bird"
+                      ],
+                      "type": "string"
+                    },
+                    "name": {
+                      "minLength": 2,
+                      "type": "string",
+                      "pattern": "^[a-zA-Z0-9- ]+$"
+                    },
+                    "tags": {
+                      "items": {
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  }
+                },
+                "message": {
+                  "type": "string"
+                },
+                "code": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }, 
+        "parameters": [
+          {
+            "description": "tags to filter by", 
+            "name": "tags", 
+            "in": "query", 
+            "items": {
+              "type": "string"
+            }, 
+            "required": false, 
+            "type": "array", 
+            "collectionFormat": "csv"
+          }, 
+          {
+            "required": false, 
+            "type": "string", 
+            "description": "type of pet to filter by (dog, cat, or bird)", 
+            "in": "query", 
+            "name": "type"
+          }, 
+          {
+            "required": false, 
+            "type": "integer", 
+            "description": "age of pet to filter by", 
+            "in": "query", 
+            "name": "age"
+          }
+        ], 
+        "produces": [
+          "application/json", 
+          "application/xml", 
+          "text/xml", 
+          "text/html"
+        ]
+      }
+    }, 
+    "/pets/{name}": {
+      "get": {
+        "description": "Returns a pet by name", 
+        "operationId": "findPetByName", 
+        "responses": {
+          "200": {
+            "description": "pet response", 
+            "schema": {
+              "required": [
+                "name",
+                "type"
+              ],
+              "properties": {
+                "age": {
+                  "type": "integer"
+                },
+                "type": {
+                  "enum": [
+                    "cat",
+                    "dog",
+                    "bird"
+                  ],
+                  "type": "string"
+                },
+                "name": {
+                  "minLength": 2,
+                  "type": "string",
+                  "pattern": "^[a-zA-Z0-9- ]+$"
+                },
+                "tags": {
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          }, 
+          "default": {
+            "description": "unexpected error", 
+            "schema": {
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "pet": {
+                  "required": [
+                    "name",
+                    "type"
+                  ],
+                  "properties": {
+                    "age": {
+                      "type": "integer"
+                    },
+                    "type": {
+                      "enum": [
+                        "cat",
+                        "dog",
+                        "bird"
+                      ],
+                      "type": "string"
+                    },
+                    "name": {
+                      "minLength": 2,
+                      "type": "string",
+                      "pattern": "^[a-zA-Z0-9- ]+$"
+                    },
+                    "tags": {
+                      "items": {
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  }
+                },
+                "message": {
+                  "type": "string"
+                },
+                "code": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }, 
+        "parameters": [
+          {
+            "required": true, 
+            "type": "string", 
+            "description": "name of pet to fetch", 
+            "in": "path", 
+            "name": "name"
+          }
+        ], 
+        "produces": [
+          "application/json", 
+          "application/xml", 
+          "text/xml", 
+          "text/html"
+        ]
+      }, 
+      "patch": {
+        "produces": [
+          "application/json", 
+          "application/xml", 
+          "text/xml", 
+          "text/html"
+        ], 
+        "responses": {
+          "200": {
+            "description": "pet response", 
+            "schema": {
+              "required": [
+                "name",
+                "type"
+              ],
+              "properties": {
+                "age": {
+                  "type": "integer"
+                },
+                "type": {
+                  "enum": [
+                    "cat",
+                    "dog",
+                    "bird"
+                  ],
+                  "type": "string"
+                },
+                "name": {
+                  "minLength": 2,
+                  "type": "string",
+                  "pattern": "^[a-zA-Z0-9- ]+$"
+                },
+                "tags": {
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          }, 
+          "default": {
+            "description": "unexpected error", 
+            "schema": {
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "pet": {
+                  "required": [
+                    "name",
+                    "type"
+                  ],
+                  "properties": {
+                    "age": {
+                      "type": "integer"
+                    },
+                    "type": {
+                      "enum": [
+                        "cat",
+                        "dog",
+                        "bird"
+                      ],
+                      "type": "string"
+                    },
+                    "name": {
+                      "minLength": 2,
+                      "type": "string",
+                      "pattern": "^[a-zA-Z0-9- ]+$"
+                    },
+                    "tags": {
+                      "items": {
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  }
+                },
+                "message": {
+                  "type": "string"
+                },
+                "code": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }, 
+        "parameters": [
+          {
+            "required": true, 
+            "type": "string", 
+            "description": "name of pet to update", 
+            "in": "path", 
+            "name": "name"
+          }, 
+          {
+            "required": true, 
+            "in": "body", 
+            "description": "The updated pet info", 
+            "name": "body", 
+            "schema": {
+              "required": [
+                "name",
+                "type"
+              ],
+              "properties": {
+                "age": {
+                  "type": "integer"
+                },
+                "type": {
+                  "enum": [
+                    "cat",
+                    "dog",
+                    "bird"
+                  ],
+                  "type": "string"
+                },
+                "name": {
+                  "minLength": 2,
+                  "type": "string",
+                  "pattern": "^[a-zA-Z0-9- ]+$"
+                },
+                "tags": {
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          }
+        ], 
+        "description": "Updates a pet by name"
+      }, 
+      "delete": {
+        "operationId": "deletePet", 
+        "responses": {
+          "default": {
+            "description": "unexpected error", 
+            "schema": {
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "pet": {
+                  "required": [
+                    "name",
+                    "type"
+                  ],
+                  "properties": {
+                    "age": {
+                      "type": "integer"
+                    },
+                    "type": {
+                      "enum": [
+                        "cat",
+                        "dog",
+                        "bird"
+                      ],
+                      "type": "string"
+                    },
+                    "name": {
+                      "minLength": 2,
+                      "type": "string",
+                      "pattern": "^[a-zA-Z0-9- ]+$"
+                    },
+                    "tags": {
+                      "items": {
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  }
+                },
+                "message": {
+                  "type": "string"
+                },
+                "code": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }, 
+          "204": {
+            "description": "pet deleted"
+          }
+        }, 
+        "parameters": [
+          {
+            "required": true, 
+            "type": "string", 
+            "description": "Name of pet to delete", 
+            "in": "path", 
+            "name": "name"
+          }
+        ], 
+        "description": "deletes a single pet based on the name supplied"
+      }
+    }
+  }, 
+  "schemes": [
+    "http", 
+    "https"
+  ], 
+  "produces": [
+    "application/json"
+  ], 
+  "basePath": "/api", 
+  "host": "company.com", 
+  "definitions": {
+    "pet": {
+      "required": [
+        "name", 
+        "type"
+      ], 
+      "properties": {
+        "age": {
+          "type": "integer"
+        }, 
+        "type": {
+          "enum": [
+            "cat", 
+            "dog", 
+            "bird"
+          ], 
+          "type": "string"
+        }, 
+        "name": {
+          "minLength": 2, 
+          "type": "string", 
+          "pattern": "^[a-zA-Z0-9- ]+$"
+        }, 
+        "tags": {
+          "items": {
+            "minLength": 1, 
+            "type": "string"
+          }, 
+          "type": "array"
+        }
+      }
+    }, 
+    "error": {
+      "required": [
+        "code", 
+        "message"
+      ], 
+      "properties": {
+        "pet": {
+          "required": [
+            "name",
+            "type"
+          ],
+          "properties": {
+            "age": {
+              "type": "integer"
+            },
+            "type": {
+              "enum": [
+                "cat",
+                "dog",
+                "bird"
+              ],
+              "type": "string"
+            },
+            "name": {
+              "minLength": 2,
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9- ]+$"
+            },
+            "tags": {
+              "items": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "type": "array"
+            }
+          }
+        }, 
+        "message": {
+          "type": "string"
+        }, 
+        "code": {
+          "type": "integer", 
+          "format": "int32"
         }
       }
     }
-  }
+  }, 
+  "swagger": "2.0", 
+  "consumes": [
+    "application/json"
+  ]
 }

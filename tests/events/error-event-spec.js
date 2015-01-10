@@ -1,16 +1,15 @@
-describe('"error" event', function() {
+describe('error event', function() {
     'use strict';
 
     var env = require('../test-environment');
     beforeEach(env.beforeEach);
     afterEach(env.afterEach);
-    beforeEach(env.disableWarnings);
-    afterEach(env.enableWarnings);
+    beforeEach(env.disableWarningsForThisTest);
 
     it('should not fire on a successful start',
         function(done) {
             var onError = sinon.spy();
-            var server = env.swaggerServer(env.files.externalRefs);
+            var server = env.swaggerServer(env.files.petStoreExternalRefs);
             server.on('error', onError);
 
             server.start(function() {
@@ -23,14 +22,14 @@ describe('"error" event', function() {
     it('should not fire when files change',
         function(done) {
             var onError = sinon.spy();
-            var server = env.swaggerServer(env.files.externalRefs);
+            var server = env.swaggerServer(env.files.petStoreExternalRefs);
             server.on('error', onError);
 
             server.start(function() {
                 sinon.assert.notCalled(onError);
 
                 // Touch the main Swagger file, to trigger a "change" event
-                env.touchFile(env.files.externalRefs);
+                env.touchFile(env.files.petStoreExternalRefs);
 
                 server.once('parsed', function() {
                     // Touch a referenced Swagger file, to trigger another "change" event
@@ -93,7 +92,7 @@ describe('"error" event', function() {
 
                 // The parse failed, but the server is still running and watching the file for changes.
                 // So change it to be valid, and the parse should succeed.
-                env.copyFile(env.files.minimal, env.files.temp);
+                env.copyFile(env.files.petStore, env.files.temp);
                 env.touchFile(env.files.temp);
 
                 server.once('parsed', function() {
@@ -105,10 +104,10 @@ describe('"error" event', function() {
         }
     );
 
-    it('should fire when a file-watcher error occurs',
+    it('should NOT fire when a file-watcher error occurs',
         function(done) {
             var onError = sinon.spy();
-            var server = env.swaggerServer(env.files.minimal);
+            var server = env.swaggerServer(env.files.petStore);
             server.on('error', onError);
 
             server.start(function() {
@@ -117,9 +116,7 @@ describe('"error" event', function() {
                 // Simulate a file-watcher "error" event
                 server.__watchedSwaggerFiles[0].emit('error', new Error('fake error'));
 
-                sinon.assert.calledOnce(onError);
-                expect(onError.firstCall.args[0]).to.be.an.instanceOf(Error);
-                expect(onError.firstCall.args[0].message).to.match(/Error watching file/);
+                sinon.assert.notCalled(onError);
                 done();
             });
         }

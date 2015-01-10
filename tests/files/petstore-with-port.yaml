@@ -12,7 +12,7 @@
       name: MIT
       url: http://github.com/gruntjs/grunt/blob/master/LICENSE-MIT
 
-  host: localhost:3000
+  host: company.com:3000
   basePath: /api
   schemes:
     - http

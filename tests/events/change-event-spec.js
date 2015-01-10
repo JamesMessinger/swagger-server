@@ -1,4 +1,4 @@
-describe('"change" event', function() {
+describe('change event', function() {
     'use strict';
 
     var env = require('../test-environment');
@@ -9,7 +9,7 @@ describe('"change" event', function() {
         function(done) {
             var onChange = sinon.spy();
 
-            var server = env.swaggerServer(env.files.externalRefs);
+            var server = env.swaggerServer(env.files.petStoreExternalRefs);
             server.on('change', onChange);
 
             server.start(function() {
@@ -26,14 +26,14 @@ describe('"change" event', function() {
     it('should fire when the main Swagger file is changed',
         function(done) {
             var onChange = sinon.spy();
-            var server = env.swaggerServer(env.files.minimal);
+            var server = env.swaggerServer(env.files.petStore);
             server.on('change', onChange);
 
             server.start(function() {
                 sinon.assert.notCalled(onChange);
 
                 // Touch the main Swagger file, to trigger a "change" event
-                env.touchFile(env.files.minimal);
+                env.touchFile(env.files.petStore);
 
                 server.once('parsed', function() {
                     sinon.assert.calledOnce(onChange);
@@ -46,14 +46,14 @@ describe('"change" event', function() {
     it('should fire when any Swagger file is changed',
         function(done) {
             var onChange = sinon.spy();
-            var server = env.swaggerServer(env.files.externalRefs);
+            var server = env.swaggerServer(env.files.petStoreExternalRefs);
             server.on('change', onChange);
 
             server.start(function() {
                 sinon.assert.notCalled(onChange);
 
                 // Touch the main Swagger file, to trigger a "change" event
-                env.touchFile(env.files.externalRefs);
+                env.touchFile(env.files.petStoreExternalRefs);
 
                 server.once('parsed', function() {
                     sinon.assert.calledOnce(onChange);
@@ -73,19 +73,19 @@ describe('"change" event', function() {
     it('should only fire multiple times when multiple file changes occur rapidly',
         function(done) {
             var onChange = sinon.spy();
-            var server = env.swaggerServer(env.files.externalRefs);
+            var server = env.swaggerServer(env.files.petStoreExternalRefs);
             server.on('change', onChange);
 
             server.start(function() {
                 // Wait for the file-watchers to start watching the files
                 setTimeout(function() {
                     // Touch all of the files
-                    env.touchFile(env.files.externalRefs, env.files.pet, env.files.error);
+                    env.touchFile(env.files.petStoreExternalRefs, env.files.pet, env.files.error);
 
                     // Wait a sec for all the file-watchers to trigger
                     setTimeout(function() {
                         sinon.assert.calledThrice(onChange);
-                        expect(onChange.firstCall.args[0]).to.equal(env.files.externalRefs);
+                        expect(onChange.firstCall.args[0]).to.equal(env.files.petStoreExternalRefs);
                         expect(onChange.secondCall.args[0]).to.equal(env.files.pet);
                         expect(onChange.thirdCall.args[0]).to.equal(env.files.error);
 
@@ -99,7 +99,7 @@ describe('"change" event', function() {
     it('should not fire if "watch files" is disabled',
         function(done) {
             var onChange = sinon.spy();
-            var server = env.swaggerServer(env.files.externalRefs);
+            var server = env.swaggerServer(env.files.petStoreExternalRefs);
             server.on('change', onChange);
             server.disable('watch files');
 
@@ -107,7 +107,7 @@ describe('"change" event', function() {
                 // Wait for the file-watchers to start watching the files
                 setTimeout(function() {
                     // Touch all of the files
-                    env.touchFile(env.files.externalRefs, env.files.pet, env.files.error);
+                    env.touchFile(env.files.petStoreExternalRefs, env.files.pet, env.files.error);
 
                     // Wait a sec for all the file-watchers to trigger
                     setTimeout(function() {

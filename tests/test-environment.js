@@ -1,22 +1,21 @@
 'use strict';
 
-var path = require('path');
-var fs = require('fs');
-var url = require('url');
-var _ = require('lodash');
-var nock = require('nock');
-var express = require('express');
-var supertest = require('supertest');
-var swaggerServer = require('../');
-var util = require('../lib/util');
+var path          = require('path'),
+    fs            = require('fs'),
+    url           = require('url'),
+    _             = require('lodash'),
+    nock          = require('nock'),
+    express       = require('express'),
+    supertest     = require('supertest'),
+    swaggerServer = require('../'),
+    util          = require('../lib/helpers/util');
 
-var env;
 
 // Create globals for Chai and Sinon
 global.expect = require('chai').expect;
 global.sinon = require('sinon');
 
-module.exports = env = {
+var env = module.exports = {
     /**
      * Initializes state before each test
      */
@@ -31,8 +30,13 @@ module.exports = env = {
      * Cleans up after each test
      */
     afterEach: function() {
+        // Re-enable warnings, in case they were disabled for this test
+        process.env.WARN = 'on';
+
         currentTest.swaggerServers.forEach(function(swaggerServer) {
-            swaggerServer.__unwatchSwaggerFiles();
+            swaggerServer.__whenParsed(function() {
+                swaggerServer.__unwatchSwaggerFiles();
+            });
         });
         currentTest.httpServers.forEach(function(httpServer) {
             if (httpServer.address()) {
@@ -96,16 +100,8 @@ module.exports = env = {
     /**
      * Disables Swagger-Server's warnings, to prevent them from cluttering the console during failure tests.
      */
-    disableWarnings: function() {
+    disableWarningsForThisTest: function() {
         process.env.WARN = 'off';
-    },
-
-
-    /**
-     * Enables Swagger-Server's warnings
-     */
-    enableWarnings: function() {
-        process.env.WARN = 'on';
     },
 
 
@@ -150,10 +146,11 @@ module.exports = env = {
      */
     files: {
         blank: path.join(__dirname, 'files', 'blank.yaml'),
-        minimal: path.join(__dirname, 'files', 'minimal.yaml'),
-        minimalHttps: path.join(__dirname, 'files', 'minimal-https.yaml'),
-        minimalWithHost: path.join(__dirname, 'files', 'minimal-with-host.yaml'),
-        externalRefs: path.join(__dirname, 'files', 'external-refs.yaml'),
+        petStore: path.join(__dirname, 'files', 'petstore.yaml'),
+        petStoreWithPort: path.join(__dirname, 'files', 'petstore-with-port.yaml'),
+        petStoreNoBasePath: path.join(__dirname, 'files', 'petstore-no-basePath.yaml'),
+        petStoreExternalRefs: path.join(__dirname, 'files', 'petstore-external-refs.yaml'),
+        testResponses: path.join(__dirname, 'files', 'test-responses.yaml'),
         pet: path.join(__dirname, 'files', 'pet.yaml'),
         error: path.join(__dirname, 'files', 'error.yaml'),
         temp: path.join(__dirname, 'files', '.temp.yml'),
@@ -163,24 +160,34 @@ module.exports = env = {
          * Parsed Swagger specs.
          */
         parsed: {
-            minimal: require('./files/minimal.json'),
-            externalRefs: require('./files/external-refs.json')
+            petStore: require('./files/petstore.json'),
+            petStoreExternalRefs: _.omit(require('./files/petstore.json'), 'definitions'),
+            petStoreNoBasePath: _.omit(require('./files/petstore.json'), 'basePath'),
+            petsPath: require('./files/petstore.json').paths['/pets'],
+            petsPostOperation: require('./files/petstore.json').paths['/pets'].post,
+            petPath: require('./files/petstore.json').paths['/pets/{name}'],
+            petGetOperation: require('./files/petstore.json').paths['/pets/{name}'].get
         },
 
         /**
          * Local-file metadata
          */
         metadata: {
-            minimal: {
+            petStore: {
                 baseDir: path.join(__dirname, 'files') + '/',
-                files: [path.join(__dirname, 'files', 'minimal.yaml')],
+                files: [path.join(__dirname, 'files', 'petstore.yaml')],
                 urls: [],
-                $refs: {}
+                $refs: {
+                    'pet': require('./files/pet.json'),
+                    'error': require('./files/error.json'),
+                    '#/definitions/pet': require('./files/pet.json'),
+                    '#/definitions/error': require('./files/error.json')
+                }
             },
-            externalRefs: {
+            petStoreExternalRefs: {
                 baseDir: path.join(__dirname, 'files') + '/',
                 files: [
-                    path.join(__dirname, 'files', 'external-refs.yaml'),
+                    path.join(__dirname, 'files', 'petstore-external-refs.yaml'),
                     path.join(__dirname, 'files', 'error.yaml'),
                     path.join(__dirname, 'files', 'pet.yaml')
                 ],
@@ -188,7 +195,6 @@ module.exports = env = {
                 $refs: (function() {
                     var $refs = {};
                     $refs['pet.yaml'] = require('./files/pet.json');
-                    $refs['./pet.yaml'] = require('./files/pet.json');
                     $refs[path.join(__dirname, 'files', 'pet.yaml')] = require('./files/pet.json');
                     $refs['error.yaml'] = require('./files/error.json');
                     $refs[path.join(__dirname, 'files', 'error.yaml')] = require('./files/error.json');
@@ -204,8 +210,8 @@ module.exports = env = {
      */
     urls: {
         blank: 'http://nock/blank.yaml',
-        minimal: 'http://nock/minimal.yaml',
-        externalRefs: 'http://nock/external-refs.yaml',
+        petStore: 'http://nock/petstore.yaml',
+        petStoreExternalRefs: 'http://nock/petstore-external-refs.yaml',
         pet: 'http://nock/pet.yaml',
         error: 'http://nock/error.yaml',
         error404: 'http://nock/404.yaml',
@@ -214,24 +220,23 @@ module.exports = env = {
          * URL metadata
          */
         metadata: {
-            minimal: {
+            petStore: {
                 baseDir: 'http://nock/',
                 files: [],
-                urls: [url.parse('http://nock/minimal.yaml')],
+                urls: [url.parse('http://nock/petstore.yaml')],
                 $refs: {}
             },
-            externalRefs: {
+            petStoreExternalRefs: {
                 baseDir: 'http://nock/',
                 files: [],
                 "urls": [
-                    url.parse('http://nock/external-refs.yaml'),
+                    url.parse('http://nock/petstore-external-refs.yaml'),
                     url.parse('http://nock/error.yaml'),
                     url.parse('http://nock/pet.yaml')
                 ],
                 $refs: (function() {
                     var $refs = {};
                     $refs['pet.yaml'] = require('./files/pet.json');
-                    $refs['./pet.yaml'] = require('./files/pet.json');
                     $refs['http://nock/pet.yaml'] = require('./files/pet.json');
                     $refs['error.yaml'] = require('./files/error.json');
                     $refs['http://nock/error.yaml'] = require('./files/error.json');
