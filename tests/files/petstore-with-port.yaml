@@ -1,0 +1,197 @@
+  swagger: "2.0"
+  info:
+    version: 1.0.0
+    title: Swagger Petstore
+    description: A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification
+    termsOfService: http://helloreverb.com/terms/
+    contact:
+      name: Wordnik API Team
+      email: foo@example.com
+      url: http://madskristensen.net
+    license:
+      name: MIT
+      url: http://github.com/gruntjs/grunt/blob/master/LICENSE-MIT
+
+  host: localhost:3000
+  basePath: /api
+  schemes:
+    - http
+    - https
+  consumes:
+    - application/json
+  produces:
+    - application/json
+
+  paths:
+    /pets:
+      get:
+        description: Returns all pets from the system that the user has access to
+        operationId: findPets
+        produces:
+          - application/json
+          - application/xml
+          - text/xml
+          - text/html
+        parameters:
+          - name: tags
+            in: query
+            description: tags to filter by
+            required: false
+            type: array
+            items:
+              type: string
+            collectionFormat: csv
+          - name: type
+            in: query
+            description: type of pet to filter by (dog, cat, or bird)
+            required: false
+            type: string
+          - name: age
+            in: query
+            description: age of pet to filter by
+            required: false
+            type: integer
+        responses:
+          200:
+            description: pet response
+            schema:
+              type: array
+              items:
+                $ref: pet
+          default:
+            description: unexpected error
+            schema:
+              $ref: error
+
+      post:
+        description: Creates a new pet in the store.
+        operationId: addPet
+        produces:
+          - application/json
+        parameters:
+          - name: body
+            in: body
+            description: Pet to add to the store
+            required: true
+            schema:
+              $ref: pet
+        responses:
+          200:
+            description: pet response
+            headers:
+              Location:
+                type: string
+                description: Swagger-Server will automatically set this header appropriately
+            schema:
+              $ref: pet
+          409:
+            description: new pet conflicts with an existing pet (i.e. they have the same name)
+          default:
+            description: unexpected error
+            schema:
+              $ref: error
+
+    /pets/{name}:
+      get:
+        description: Returns a pet by name
+        operationId: findPetByName
+        produces:
+          - application/json
+          - application/xml
+          - text/xml
+          - text/html
+        parameters:
+          - name: name
+            in: path
+            description: name of pet to fetch
+            required: true
+            type: string
+        responses:
+          200:
+            description: pet response
+            schema:
+              $ref: pet
+          default:
+            description: unexpected error
+            schema:
+              $ref: error
+
+      patch:
+        description: Updates a pet by name
+        produces:
+          - application/json
+          - application/xml
+          - text/xml
+          - text/html
+        parameters:
+          - name: name
+            in: path
+            description: name of pet to update
+            required: true
+            type: string
+          - name: body
+            in: body
+            description: The updated pet info
+            required: true
+            schema:
+              $ref: pet
+        responses:
+          200:
+            description: pet response
+            schema:
+              $ref: pet
+          default:
+            description: unexpected error
+            schema:
+              $ref: error
+
+      delete:
+        description: deletes a single pet based on the name supplied
+        operationId: deletePet
+        parameters:
+          - name: name
+            in: path
+            description: Name of pet to delete
+            required: true
+            type: string
+        responses:
+          204:
+            description: pet deleted
+          default:
+            description: unexpected error
+            schema:
+              $ref: error
+
+  definitions:
+    pet:
+      required:
+        - name
+        - type
+      properties:
+        name:
+          type: string
+          minLength: 2
+          pattern: "^[a-zA-Z0-9- ]+$"
+        age:
+          type: integer
+        type:
+          type: string
+          enum: [cat, dog, bird]
+        tags:
+          type: array
+          items:
+            type: string
+            minLength: 1
+
+    error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        pet:
+          $ref: pet
