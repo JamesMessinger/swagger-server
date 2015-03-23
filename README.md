@@ -22,8 +22,8 @@ Features
 * __Build your API in real-time__ <br>
 Swagger-Server automatically watches reloads your files as you work on them.  No need to restart the server.  Test your code changes _in real time_!
 
-* __Intelligent Stubs (Mocks)__<br>
-Swagger-Server automatically provides mock implementations for every operation in your API definition, complete with data persistence.  So you can have a __fully-functional mock__ API with *zero code*.  You can even extend Swagger-Server's stubs with your own logic.
+* __Intelligent Mocks__<br>
+Swagger-Server automatically provides mock implementations for every operation in your API definition, complete with data persistence.  So you can have a __fully-functional mock__ API with *zero code*.  You can even extend Swagger-Server's mocks with your own logic.
 
 * __Powered by Express__<br>
 Implement your API with all the power and simplicity of [Express.js](http://expressjs.com).  Use any [third-party Express middleware](https://www.npmjs.com/search?q=express), or write your own.  It's as easy as `function(req, res, next)`
@@ -74,7 +74,7 @@ Running the samples
 --------------------------
 Swagger-Server comes with two sample apps.
 #### Pet Store
-The [Petstore sample app](https://github.com/BigstickCarpet/swagger-server/tree/master/samples/petstore) is a simple example, but it shows how powerful Swagger-Server's stubs are.  It consists of almost zero code, yet you can create, edit, delete, and search for pets.
+The [Petstore sample app](https://github.com/BigstickCarpet/swagger-server/tree/master/samples/petstore) is a simple example, but it shows how powerful Swagger-Server's mocks are.  It consists of almost zero code, yet you can create, edit, delete, and search for pets.
 
 ###### Walkthrough
 ````javascript

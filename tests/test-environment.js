@@ -8,12 +8,15 @@ var path          = require('path'),
     express       = require('express'),
     supertest     = require('supertest'),
     swaggerServer = require('../'),
-    util          = require('../lib/helpers/util');
+    util          = require('../lib/util');
 
 
 // Create globals for Chai and Sinon
 global.expect = require('chai').expect;
 global.sinon = require('sinon');
+
+// Allow Nock and Supertest to play nice together
+nock.enableNetConnect();
 
 var env = module.exports = {
     /**
@@ -110,7 +113,7 @@ var env = module.exports = {
      * @param {...string} filePaths
      */
     touchFile: function(filePaths) {
-        var args = _.rest(arguments, 0);
+        var args = _.drop(arguments, 0);
 
         // Wait a few milliseconds so there's a timestamp change when called sequentially
         setTimeout(function() {
@@ -134,7 +137,7 @@ var env = module.exports = {
      * This is useful for `expect(fn).to.throw` tests.
      */
     call: function(fn, params) {
-        params = _.rest(arguments);
+        params = _.drop(arguments);
         return function() {
             fn.apply(null, params);
         };

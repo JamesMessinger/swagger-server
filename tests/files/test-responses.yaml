@@ -32,6 +32,18 @@ paths:
     patch: *204
     delete: *204
 
+  /507:
+    get: &507
+      responses:
+        507:
+          description:  507 response
+    options: *507
+    head: *507
+    post: *507
+    put: *507
+    patch: *507
+    delete: *507
+
   /{anythingElse}:
     get: &404
       responses:

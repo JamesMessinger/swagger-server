@@ -70,7 +70,7 @@ describe('change event', function() {
         }
     );
 
-    it('should only fire multiple times when multiple file changes occur rapidly',
+    it('should fire multiple times when multiple file changes occur rapidly',
         function(done) {
             var onChange = sinon.spy();
             var server = env.swaggerServer(env.files.petStoreExternalRefs);

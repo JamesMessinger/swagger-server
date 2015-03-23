@@ -203,7 +203,7 @@ describe('parsed event', function() {
                 server.start();
 
                 server.on('parsed', function(api, metadata) {
-                    expect(api).to.be.null();
+                    expect(api).to.be.null;
                     expect(metadata).to.be.an('object');
                     done();
                 });
@@ -218,7 +218,7 @@ describe('parsed event', function() {
                 server.start();
 
                 server.on('parsed', function(api, metadata) {
-                    expect(api).to.be.null();
+                    expect(api).to.be.null;
                     expect(metadata).to.be.an('object');
                     done();
                 });
@@ -234,7 +234,7 @@ describe('parsed event', function() {
                 server.start();
 
                 server.once('parsed', function(api, metadata) {
-                    expect(api).to.be.null();
+                    expect(api).to.be.null;
                     expect(metadata).to.be.an('object');
 
                     // The parse failed, but the server is still running and watching the file for changes.

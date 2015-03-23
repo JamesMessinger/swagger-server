@@ -10,21 +10,21 @@ describe('App settings', function() {
             var server = env.swaggerServer(env.files.petStore);
 
             // This setting doesn't exist yet, so it's disabled
-            expect(server.enabled('my setting')).to.be.false();
-            expect(server.disabled('my setting')).to.be.true();
+            expect(server.enabled('my setting')).to.be.false;
+            expect(server.disabled('my setting')).to.be.true;
 
             // This setting is enabled by default in Express
-            expect(server.enabled('x-powered-by')).to.be.true();
-            expect(server.disabled('x-powered-by')).to.be.false();
+            expect(server.enabled('x-powered-by')).to.be.true;
+            expect(server.disabled('x-powered-by')).to.be.false;
 
             // This setting is set to "?callback=" by default in Express
-            expect(server.enabled('jsonp callback name')).to.be.true();
-            expect(server.disabled('jsonp callback name')).to.be.false();
+            expect(server.enabled('jsonp callback name')).to.be.true;
+            expect(server.disabled('jsonp callback name')).to.be.false;
 
             // Enabling this setting creates it
             server.enable('my setting');
-            expect(server.enabled('my setting')).to.be.true();
-            expect(server.disabled('my setting')).to.be.false();
+            expect(server.enabled('my setting')).to.be.true;
+            expect(server.disabled('my setting')).to.be.false;
         }
     );
 
@@ -33,10 +33,10 @@ describe('App settings', function() {
             var server = env.swaggerServer(env.files.petStore);
 
             // This setting doesn't exist yet
-            expect(server.get('my setting')).to.be.undefined();
+            expect(server.get('my setting')).to.be.undefined;
 
             // This setting is enabled by default in Express
-            expect(server.get('x-powered-by')).to.be.true();
+            expect(server.get('x-powered-by')).to.be.true;
 
             // This setting is set to "?callback=" by default in Express
             expect(server.get('jsonp callback name')).to.equal('callback');
@@ -51,9 +51,9 @@ describe('App settings', function() {
         function() {
             var server = env.swaggerServer(env.files.petStore);
 
-            expect(server.enabled('watch files')).to.be.true();
-            expect(server.enabled('use stubs')).to.be.true();
-            expect(server.enabled('CORS')).to.be.true();
+            expect(server.enabled('watch files')).to.be.true;
+            expect(server.enabled('mock')).to.be.true;
+            expect(server.enabled('CORS')).to.be.true;
         }
     );
 

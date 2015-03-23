@@ -14,7 +14,7 @@ describe('createServer function', function() {
 
     it('should throw an error if the filename is not given',
         function() {
-            expect(env.call(swaggerServer)).to.throw(Error, 'No Swagger file path was specified');
+            expect(env.call(swaggerServer)).to.throw(Error, 'Expected a Swagger file or object');
         }
     );
 

@@ -3,6 +3,7 @@ describe('App.listen', function() {
 
     var env = require('../test-environment');
     var http = require('http');
+    var _ = require('lodash');
 
     beforeEach(env.beforeEach);
     afterEach(env.afterEach);
@@ -70,6 +71,19 @@ describe('App.listen', function() {
             var server = env.swaggerServer(env.files.petStoreWithPort);
             var httpServer = server.listen(function() {
                 expect(httpServer.address().port).to.equal(3000);
+                done();
+            });
+        }
+    );
+
+    it('uses a random port number if no port number is given or in the Swagger spec',
+        function(done) {
+            var api = _.cloneDeep(env.files.parsed.petStore);
+            delete api.host;
+
+            var server = env.swaggerServer(api);
+            var httpServer = server.listen(function() {
+                expect(httpServer.address().port).to.be.a('number');
                 done();
             });
         }
@@ -154,14 +168,15 @@ describe('App.listen', function() {
                 var server1 = env.swaggerServer(env.files.petStore);
                 var server2 = env.swaggerServer(env.files.petStoreExternalRefs);
 
-                var httpServer1 = server1.listen(1111);
-                var httpServer2 = server2.listen(1111);
+                var httpServer1 = server1.listen(1111, function() {
+                    var httpServer2 = server2.listen(1111);
 
-                httpServer2.on('error', function(err) {
-                    expect(err.message).to.contain('EADDRINUSE');
-                    expect(httpServer1.address().port).to.equal(1111);
-                    expect(httpServer2.address()).to.be.null();
-                    done();
+                    httpServer2.on('error', function(err) {
+                        expect(err.message).to.contain('EADDRINUSE');
+                        expect(httpServer1.address().port).to.equal(1111);
+                        expect(httpServer2.address()).to.be.null;
+                        done();
+                    });
                 });
             }
         );
