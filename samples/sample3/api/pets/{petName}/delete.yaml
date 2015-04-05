@@ -1,0 +1,7 @@
+description: Deletes a single pet based on the name supplied
+operationId: deletePet
+responses:
+  default:
+    description: Returns the pet that was deleted
+    schema:
+      $ref: pet

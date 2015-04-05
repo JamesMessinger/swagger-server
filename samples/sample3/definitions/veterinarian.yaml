@@ -1,0 +1,9 @@
+type: object
+required:
+  - name
+properties:
+  name:
+    type: string
+    minLength: 1
+  address:
+    $ref: address

@@ -1,0 +1,17 @@
+type: object
+properties:
+  street:
+    type: string
+    minLength: 1
+  city:
+    type: string
+    minLength: 1
+  state:
+    type: string
+    minLength: 2
+    maxLength: 2
+    pattern: "^[A-Z]+$"
+  zipcode:
+    type: integer
+    mininum: 10000
+    maximum: 99999

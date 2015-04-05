@@ -1,0 +1,5 @@
+description: Deletes a pet photo
+operationId: deletePetPhoto
+responses:
+  default:
+    description: The photo was deleted successfully

@@ -1,0 +1,9 @@
+produces:
+  - text/html
+responses:
+  default:
+    description: The Swagger Pet Store homepage :)
+    schema:
+      type: file
+      default:
+        $ref: ../../../index.html

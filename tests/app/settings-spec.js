@@ -53,7 +53,6 @@ describe('App settings', function() {
 
             expect(server.enabled('watch files')).to.be.true;
             expect(server.enabled('mock')).to.be.true;
-            expect(server.enabled('CORS')).to.be.true;
         }
     );
 

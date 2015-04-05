@@ -1,0 +1,12 @@
+description: Gets a pet photo
+operationId: getPetPhoto
+produces:
+  - image/jpeg
+  - image/gif
+  - image/png
+  - image/bmp
+responses:
+  default:
+    description: Returns the pet photo
+    schema:
+      type: file
