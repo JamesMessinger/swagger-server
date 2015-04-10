@@ -26,6 +26,7 @@ beforeEach(function() {
     global.currentTest = this.currentTest;
     currentTest.servers = [];
     currentTest.servers = [];
+    currentTest.slow(1000);
 });
 
 
@@ -130,7 +131,8 @@ var env = module.exports = {
      */
     touchFile: function(filePaths) {
         var args = _.drop(arguments, 0);
-        currentTest.timeout(4000);
+        currentTest.timeout(5000);
+        currentTest.slow(5000);
 
         // NOTE: Some OS'es only track file times to the full second, hence the long timeout
         setTimeout(function() {

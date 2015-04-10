@@ -44,7 +44,7 @@ describe('set event', function() {
             }
         );
 
-        it('should not fire when the setting isn\t changed',
+        it('should not fire when the setting isn\'t changed',
             function() {
                 var onSet = sinon.spy();
                 var server = env.swaggerServer(env.files.petStore);
@@ -100,7 +100,7 @@ describe('set event', function() {
             }
         );
 
-        it('should not fire when the setting isn\t changed',
+        it('should not fire when the setting isn\'t changed',
             function() {
                 var onSet = sinon.spy();
                 var server = env.swaggerServer(env.files.petStore);
@@ -156,7 +156,7 @@ describe('set event', function() {
             }
         );
 
-        it('should not fire when the setting isn\t changed',
+        it('should not fire when the setting isn\'t changed',
             function() {
                 var onSet = sinon.spy();
                 var server = env.swaggerServer(env.files.petStore);

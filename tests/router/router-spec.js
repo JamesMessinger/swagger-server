@@ -4,7 +4,7 @@ var env     = require('../test-environment'),
     swagger = require('../../');
 var test_passed = 599, test_failed = 500;
 
-describe.only('Router', function() {
+describe('Router', function() {
     it('should support Express-style paths',
         function(done) {
             var server = env.swaggerServer(env.files.petStore);
