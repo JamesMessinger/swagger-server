@@ -45,6 +45,11 @@ paths:
     delete: *507
 
   /{anythingElse}:
+    parameters:
+      - name: anythingElse
+        in: path
+        required: true
+        type: string
     get: &404
       responses:
         404:

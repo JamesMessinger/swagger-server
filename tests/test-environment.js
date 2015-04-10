@@ -1,14 +1,15 @@
 'use strict';
 
-var path          = require('path'),
-    fs            = require('fs'),
-    url           = require('url'),
-    _             = require('lodash'),
-    nock          = require('nock'),
-    express       = require('express'),
-    supertest     = require('supertest'),
-    swaggerServer = require('../'),
-    util          = require('../lib/util');
+var path      = require('path'),
+    fs        = require('fs'),
+    url       = require('url'),
+    _         = require('lodash'),
+    nock      = require('nock'),
+    http = require('http'),
+    express   = require('express'),
+    supertest = require('supertest'),
+    swagger   = require('../'),
+    util      = require('../lib/util');
 
 
 // Create globals for Chai and Sinon
@@ -18,54 +19,69 @@ global.sinon = require('sinon');
 // Allow Nock and Supertest to play nice together
 nock.enableNetConnect();
 
-var env = module.exports = {
-    /**
-     * Initializes state before each test
-     */
-    beforeEach: function() {
-        global.currentTest = this.currentTest;
-        currentTest.swaggerServers = [];
-        currentTest.httpServers = [];
-    },
+/**
+ * Initializes state before each test
+ */
+beforeEach(function() {
+    global.currentTest = this.currentTest;
+    currentTest.servers = [];
+    currentTest.servers = [];
+});
 
 
-    /**
-     * Cleans up after each test
-     */
-    afterEach: function() {
-        // Re-enable warnings, in case they were disabled for this test
-        process.env.WARN = 'on';
+/**
+ * Cleans up after each test
+ */
+afterEach(function() {
+    // Re-enable warnings, in case they were disabled for this test
+    process.env.WARN = 'on';
 
-        currentTest.swaggerServers.forEach(function(swaggerServer) {
-            swaggerServer.__whenParsed(function() {
-                swaggerServer.__unwatchSwaggerFiles();
+    currentTest.servers.forEach(function(server) {
+        if (server instanceof swagger.Server) {
+            server.__parser.whenParsed(function() {
+                server.__watcher.unwatchSwaggerFiles();
             });
-        });
-        currentTest.httpServers.forEach(function(httpServer) {
-            if (httpServer.address()) {
-                httpServer.close();
+        }
+        else if (server instanceof http.Server) {
+            if (server.address()) {
+                server.close();
             }
             else {
-                httpServer.once('listening', httpServer.close.bind(httpServer));
+                server.once('listening', server.close.bind(server));
             }
-        });
+        }
+    });
+});
+
+
+var env = module.exports = {
+    /**
+     * Creates an Express application, via Swagger Server.
+     * @param {string} filePath
+     * @returns {e.application}
+     */
+    swaggerApp: function(filePath) {
+        return env.swaggerServer(filePath).app;
     },
 
-
     /**
-     * Creates a SwaggerServer instance.
+     * Creates a Swagger Server instance.
      * @param   {string} filePath
      * @returns {SwaggerServer}
      */
     swaggerServer: function(filePath) {
-        var server = swaggerServer(filePath);
-        server.__currentTest = currentTest;
-        currentTest.swaggerServers.push(server);
+        var server = new swagger.Server();
+        currentTest.servers.push(server);
 
-        var listen = server.listen;
-        server.listen = function() {
-            var httpServer = listen.apply(server, arguments);
-            currentTest.httpServers.push(httpServer);
+        if (filePath) {
+            server.parse(filePath);
+        }
+
+        server.app.set('env', 'test'); // Turns on enhanced debug/error info
+        var listen = server.app.listen;
+        server.app.listen = function() {
+            var httpServer = listen.apply(server.app, arguments);
+            currentTest.servers.push(httpServer);
             return httpServer;
         };
 
@@ -114,13 +130,14 @@ var env = module.exports = {
      */
     touchFile: function(filePaths) {
         var args = _.drop(arguments, 0);
+        currentTest.timeout(4000);
 
-        // Wait a few milliseconds so there's a timestamp change when called sequentially
+        // NOTE: Some OS'es only track file times to the full second, hence the long timeout
         setTimeout(function() {
             args.forEach(function(file) {
                 fs.utimesSync(file, new Date(), new Date());
             });
-        }, 10);
+        }, 1000);
     },
 
 

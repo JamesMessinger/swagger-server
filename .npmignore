@@ -2,10 +2,8 @@
 ._*
 .DS_Store
 npm-debug.log
-.idea
-node_modules
-bower_components
-coverage
-tests
+/node_modules
+/coverage
+/tests
 /gulpfile.js
 /.*

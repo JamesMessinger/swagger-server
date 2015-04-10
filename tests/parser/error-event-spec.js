@@ -1,9 +1,8 @@
-describe('error event', function() {
-    'use strict';
+'use strict';
 
-    var env = require('../test-environment');
-    beforeEach(env.beforeEach);
-    afterEach(env.afterEach);
+var env = require('../test-environment');
+
+describe('error event', function() {
     beforeEach(env.disableWarningsForThisTest);
 
     it('should not fire on a successful start',
@@ -12,7 +11,7 @@ describe('error event', function() {
             var server = env.swaggerServer(env.files.petStoreExternalRefs);
             server.on('error', onError);
 
-            server.start(function() {
+            server.app.listen(function() {
                 sinon.assert.notCalled(onError);
                 done();
             });
@@ -25,7 +24,7 @@ describe('error event', function() {
             var server = env.swaggerServer(env.files.petStoreExternalRefs);
             server.on('error', onError);
 
-            server.start(function() {
+            server.app.listen(function() {
                 sinon.assert.notCalled(onError);
 
                 // Touch the main Swagger file, to trigger a "change" event
@@ -50,7 +49,7 @@ describe('error event', function() {
             var server = env.swaggerServer(env.files.blank);
             server.on('error', onError);
 
-            server.start(function() {
+            server.app.listen(function() {
                 sinon.assert.calledOnce(onError);
                 expect(onError.firstCall.args[0]).to.be.an.instanceOf(SyntaxError);
                 expect(onError.firstCall.args[0].message).to.match(/Error parsing file/);
@@ -67,7 +66,7 @@ describe('error event', function() {
             var server = env.swaggerServer(env.urls.error404);
             server.on('error', onError);
 
-            server.start(function() {
+            server.app.listen(function() {
                 sinon.assert.calledOnce(onError);
                 expect(onError.firstCall.args[0]).to.be.an.instanceOf(Error);
                 expect(onError.firstCall.args[0].message).to.match(/Error downloading file/);
@@ -85,7 +84,7 @@ describe('error event', function() {
             var server = env.swaggerServer(env.files.temp);
             server.on('error', onError);
 
-            server.start(function() {
+            server.app.listen(function() {
                 sinon.assert.calledOnce(onError);
                 expect(onError.firstCall.args[0]).to.be.an.instanceOf(SyntaxError);
                 expect(onError.firstCall.args[0].message).to.match(/Error parsing file/);
@@ -110,11 +109,11 @@ describe('error event', function() {
             var server = env.swaggerServer(env.files.petStore);
             server.on('error', onError);
 
-            server.start(function() {
+            server.app.listen(function() {
                 sinon.assert.notCalled(onError);
 
                 // Simulate a file-watcher "error" event
-                server.__watchedSwaggerFiles[0].emit('error', new Error('fake error'));
+                server.__watcher.watchedSwaggerFiles[0].emit('error', new Error('fake error'));
 
                 sinon.assert.notCalled(onError);
                 done();

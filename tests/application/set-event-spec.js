@@ -1,10 +1,8 @@
+'use strict';
+
+var env = require('../test-environment');
+
 describe('set event', function() {
-    'use strict';
-
-    var env = require('../test-environment');
-    beforeEach(env.beforeEach);
-    afterEach(env.afterEach);
-
     describe("set method", function() {
         it('should fire when setting a new setting',
             function() {
@@ -12,7 +10,7 @@ describe('set event', function() {
                 var server = env.swaggerServer(env.files.petStore);
                 server.on('set', onSet);
 
-                server.set('Foo', 'Bar');
+                server.app.set('Foo', 'Bar');
 
                 sinon.assert.calledOnce(onSet);
                 sinon.assert.calledWithExactly(onSet, 'Foo', 'Bar', undefined);
@@ -25,8 +23,8 @@ describe('set event', function() {
                 var server = env.swaggerServer(env.files.petStore);
                 server.on('set', onSet);
 
-                server.set('Foo', 'Bar');
-                server.set('Foo', 'Baz');
+                server.app.set('Foo', 'Bar');
+                server.app.set('Foo', 'Baz');
 
                 sinon.assert.calledTwice(onSet);
                 sinon.assert.calledWithExactly(onSet, 'Foo', 'Baz', 'Bar');
@@ -39,7 +37,7 @@ describe('set event', function() {
                 var server = env.swaggerServer(env.files.petStore);
                 server.on('set', onSet);
 
-                server.set('strict routing', true);
+                server.app.set('strict routing', true);
 
                 sinon.assert.calledOnce(onSet);
                 sinon.assert.calledWithExactly(onSet, 'strict routing', true, undefined);
@@ -52,8 +50,8 @@ describe('set event', function() {
                 var server = env.swaggerServer(env.files.petStore);
                 server.on('set', onSet);
 
-                server.set('Foo', 'Bar');
-                server.set('Foo', 'Bar');
+                server.app.set('Foo', 'Bar');
+                server.app.set('Foo', 'Bar');
 
                 sinon.assert.calledOnce(onSet);
                 sinon.assert.calledWithExactly(onSet, 'Foo', 'Bar', undefined);
@@ -68,7 +66,7 @@ describe('set event', function() {
                 var server = env.swaggerServer(env.files.petStore);
                 server.on('set', onSet);
 
-                server.enable('Foo');
+                server.app.enable('Foo');
 
                 sinon.assert.calledOnce(onSet);
                 sinon.assert.calledWithExactly(onSet, 'Foo', true, undefined);
@@ -81,8 +79,8 @@ describe('set event', function() {
                 var server = env.swaggerServer(env.files.petStore);
                 server.on('set', onSet);
 
-                server.set('Foo', 'Bar');
-                server.enable('Foo');
+                server.app.set('Foo', 'Bar');
+                server.app.enable('Foo');
 
                 sinon.assert.calledTwice(onSet);
                 sinon.assert.calledWithExactly(onSet, 'Foo', true, 'Bar');
@@ -95,7 +93,7 @@ describe('set event', function() {
                 var server = env.swaggerServer(env.files.petStore);
                 server.on('set', onSet);
 
-                server.enable('strict routing');
+                server.app.enable('strict routing');
 
                 sinon.assert.calledOnce(onSet);
                 sinon.assert.calledWithExactly(onSet, 'strict routing', true, undefined);
@@ -108,8 +106,8 @@ describe('set event', function() {
                 var server = env.swaggerServer(env.files.petStore);
                 server.on('set', onSet);
 
-                server.enable('Foo');
-                server.enable('Foo');
+                server.app.enable('Foo');
+                server.app.enable('Foo');
 
                 sinon.assert.calledOnce(onSet);
                 sinon.assert.calledWithExactly(onSet, 'Foo', true, undefined);
@@ -124,7 +122,7 @@ describe('set event', function() {
                 var server = env.swaggerServer(env.files.petStore);
                 server.on('set', onSet);
 
-                server.disable('Foo');
+                server.app.disable('Foo');
 
                 sinon.assert.calledOnce(onSet);
                 sinon.assert.calledWithExactly(onSet, 'Foo', false, undefined);
@@ -137,8 +135,8 @@ describe('set event', function() {
                 var server = env.swaggerServer(env.files.petStore);
                 server.on('set', onSet);
 
-                server.set('Foo', 'Bar');
-                server.disable('Foo');
+                server.app.set('Foo', 'Bar');
+                server.app.disable('Foo');
 
                 sinon.assert.calledTwice(onSet);
                 sinon.assert.calledWithExactly(onSet, 'Foo', false, 'Bar');
@@ -151,7 +149,7 @@ describe('set event', function() {
                 var server = env.swaggerServer(env.files.petStore);
                 server.on('set', onSet);
 
-                server.disable('strict routing');
+                server.app.disable('strict routing');
 
                 sinon.assert.calledOnce(onSet);
                 sinon.assert.calledWithExactly(onSet, 'strict routing', false, undefined);
@@ -164,8 +162,8 @@ describe('set event', function() {
                 var server = env.swaggerServer(env.files.petStore);
                 server.on('set', onSet);
 
-                server.disable('Foo');
-                server.disable('Foo');
+                server.app.disable('Foo');
+                server.app.disable('Foo');
 
                 sinon.assert.calledOnce(onSet);
                 sinon.assert.calledWithExactly(onSet, 'Foo', false, undefined);
