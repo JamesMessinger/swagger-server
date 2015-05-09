@@ -9,7 +9,13 @@ var util            = require('util'),
     MemoryDataStore = swagger.MemoryDataStore;
 
 // Create a Swagger Server from the PetStore.yaml file
-var server = new Server('PetStore.yaml');
+var server = new Server();
+server.parse('PetStore.yaml');
+
+// Enable Express' case-sensitive and strict options
+// (so "/pets/Fido", "/pets/fido", and "/pets/fido/" are all different)
+server.enable('case sensitive routing');
+server.enable('strict routing');
 
 // Create a custom data store with some initial mock data
 var myDB = new MemoryDataStore();
@@ -21,11 +27,6 @@ myDB.save(
   new Resource('/pets/Snoopy', {name: 'Snoopy', type: 'dog', tags: ['black', 'white']}),
   new Resource('/pets/Hello%20Kitty', {name: 'Hello Kitty', type: 'cat', tags: ['white']})
 );
-
-// Enable Express' case-sensitive and strict options
-// (so "/pets/Fido", "/pets/fido", and "/pets/fido/" are all different)
-server.enable('case sensitive routing');
-server.enable('strict routing');
 
 // Add custom middleware
 server.patch('/pets/{petName}', function(req, res, next) {
@@ -60,6 +61,7 @@ server.use(function(err, req, res, next) {
   res.send(util.format('<html><body><h1>%d Error!</h1><pre>%s</pre></body></html>', err.status, err.message));
 });
 
-server.start(function() {
+// Start listening on port 8000 (the port number is specified in PetStore.yaml)
+server.listen(function() {
   console.log('The Swagger Pet Store is now running at http://localhost:8000');
 });

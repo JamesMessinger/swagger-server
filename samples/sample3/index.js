@@ -15,6 +15,6 @@ server.use(function(err, req, res, next) {
   res.send(util.format('<html><body><h1>%d Error!</h1><pre>%s</pre></body></html>', err.status, err.message));
 });
 
-server.start(function() {
+server.listen(function() {
   console.log('The Swagger Pet Store is now running at http://localhost:8000');
 });

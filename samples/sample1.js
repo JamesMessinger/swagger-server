@@ -3,11 +3,11 @@
 // Set the DEBUG environment variable to enable debug output
 process.env.DEBUG = 'swagger:*';
 
-// Create a Swagger Server from the PetStore.yaml file
-var swagger = require('swagger-server');
-var server = new swagger.Server('PetStore.yaml');
+// Create a Swagger Server app from the PetStore.yaml file
+var swaggerServer = require('swagger-server');
+var app = swaggerServer('PetStore.yaml');
 
-// Start the server (port 8000 is specified in PetStore.yaml)
-server.start(function() {
+// Start listening on port 8000
+app.listen(8000, function() {
   console.log('The Swagger Pet Store is now running at http://localhost:8000');
 });
