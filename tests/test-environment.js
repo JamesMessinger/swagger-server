@@ -58,7 +58,7 @@ afterEach(function() {
 var env = module.exports = {
     /**
      * Creates an Express application, via Swagger Server.
-     * @param {string} filePath
+     * @param {string} [filePath]
      * @returns {e.application}
      */
     swaggerApp: function(filePath) {
@@ -67,7 +67,7 @@ var env = module.exports = {
 
     /**
      * Creates a Swagger Server instance.
-     * @param   {string} filePath
+     * @param   {string} [filePath]
      * @returns {SwaggerServer}
      */
     swaggerServer: function(filePath) {

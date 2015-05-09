@@ -177,22 +177,4 @@ describe('Exports', function() {
             }
         );
     });
-
-    describe('Server class', function() {
-        it('should work with the "new" operator',
-            function() {
-                var server = new swagger.Server();
-                expect(server).to.be.an.instanceOf(swagger.Server);
-                currentTest.servers.push(server);
-            }
-        );
-
-        it('should not work without the "new" operator',
-            function() {
-                var server = swagger.Server();
-                expect(server).to.be.undefined;
-                currentTest.servers.push(swagger.app);
-            }
-        );
-    });
 });

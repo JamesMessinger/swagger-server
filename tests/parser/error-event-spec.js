@@ -75,6 +75,18 @@ describe('error event', function() {
         }
     );
 
+    it('should bubble-up errors from the Express app',
+        function() {
+            var onError = sinon.spy();
+            var server = env.swaggerServer(env.files.petStore);
+            server.on('error', onError);
+            server.app.emit('error', new Error('test error'));
+
+            sinon.assert.calledOnce(onError);
+            expect(onError.firstCall.args[0]).to.be.an.instanceOf(Error).with.property('message', 'test error');
+        }
+    );
+
     it('should not fire again if an error is resolved',
         function(done) {
             // Create a copy of "blank.yaml", so we can safely modify it
