@@ -1,6 +1,6 @@
 {
   "name": "swagger-server",
-  "version": "1.0.0-alpha-1",
+  "version": "1.0.0-alpha.1",
   "description": "Get your REST API up-and-running FAST with Swagger and Express",
   "keywords": [
     "express",
@@ -26,11 +26,11 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "jshint . --verbose && jscs . --verbose",
-    "start": "node ./samples/petstore/server.js",
+    "start": "cd samples && node sample2.js",
     "test": "istanbul cover _mocha -- --recursive tests",
     "mocha": "mocha --recursive tests",
     "update-deps": "npm-check-updates -u && npm update",
-    "release": "npm run update-deps && npm run build && npm test && bump --prompt --tag --push --all && npm publish"
+    "release": "npm run update-deps && npm run build && npm test && bump --prompt --tag --push --all && npm publish --tag alpha"
   },
   "repository": {
     "type": "git",
@@ -49,10 +49,10 @@
     "jscs": "^1.13.1",
     "jshint": "^2.7.0",
     "mocha": "^2.2.4",
-    "nock": "^1.9.0",
+    "nock": "^2.0.1",
     "npm-check-updates": "^1.5.1",
     "sinon": "^1.14.1",
     "supertest": "^0.15",
-    "version-bump-prompt": "^1.1.0"
+    "version-bump-prompt": "^1.2.1"
   }
 }

@@ -1,4 +1,4 @@
-Swagger-Server
+Swagger Server
 ============================
 #### Get your REST API up-and-running *FAST* with Swagger and Express
 
@@ -7,6 +7,7 @@ Swagger-Server
 [![Code Climate Score](https://img.shields.io/codeclimate/github/BigstickCarpet/swagger-server.svg)](https://codeclimate.com/github/BigstickCarpet/swagger-server)
 [![Codacy Score](http://img.shields.io/codacy/431cc27ab6ec40cca6ea51c91ad8bfd6.svg)](https://www.codacy.com/public/jamesmessinger/swagger-server)
 [![Coverage Status](https://img.shields.io/coveralls/BigstickCarpet/swagger-server.svg)](https://coveralls.io/r/BigstickCarpet/swagger-server)
+[![Inline docs](http://inch-ci.org/github/BigstickCarpet/swagger-server.svg?branch=master&style=shields)](http://inch-ci.org/github/BigstickCarpet/swagger-server)
 
 [![npm](http://img.shields.io/npm/v/swagger-server.svg)](https://www.npmjs.com/package/swagger-server)
 [![License](https://img.shields.io/npm/l/swagger-parser.svg)](LICENSE)
@@ -14,16 +15,19 @@ Swagger-Server
 
 |__ATTENTION !__                  |
 |---------------------------------|
-|The current released (stable) version of Swagger-Server can be found on [the 0.0.X branch](https://github.com/BigstickCarpet/swagger-server/tree/0.0.X).<br> Version 1.0 is coming soon, with tons of improvements, new features, and bug fixes.
+|`npm install swagger-server` installs the latest __stable version__ of Swagger Server, which is the [0.0.X branch](https://github.com/BigstickCarpet/swagger-server/tree/0.0.X). <p>`npm install swagger-server@alpha` installs the latest __alpha version__ of Swagger Server 1.0, which is a complete rewrite and is not backward-compatible with v0.0.x.  Please be aware that v1.0.0 may still undergo some API changes before being released. It's not finished yet, and some of the samples don't work yet.  But feel free to try it out and [provide feedback](https://github.com/BigstickCarpet/swagger-server/issues).
 
 
 Features
 --------------------------
+* __Supports Swagger 2.0 specs in JSON or YAML__ <br>
+Swagger Express Middleware uses [Swagger-Parser](https://github.com/BigstickCarpet/swagger-parser) to parse, validate, and dereference Swagger files.  You can even split your spec into multiple different files using `$ref` pointers. 
+
 * __Build your API in real-time__ <br>
-Swagger-Server automatically watches reloads your files as you work on them.  No need to restart the server.  Test your code changes _in real time_!
+Swagger Server automatically watches reloads your files as you work on them.  No need to restart the server.  Test your code changes _in real time_!
 
 * __Intelligent Mocks__<br>
-Swagger-Server automatically provides mock implementations for every operation in your API definition, complete with data persistence.  So you can have a __fully-functional mock__ API with *zero code*.  You can even extend Swagger-Server's mocks with your own logic.
+Swagger Server automatically provides mock implementations for every operation in your API definition, complete with data persistence.  So you can have a __fully-functional mock__ API with *zero code*.  You can even extend Swagger Server's mocks with your own logic.
 
 * __Powered by Express__<br>
 Implement your API with all the power and simplicity of [Express.js](http://expressjs.com).  Use any [third-party Express middleware](https://www.npmjs.com/search?q=express), or write your own.  It's as easy as `function(req, res, next)`
@@ -32,76 +36,111 @@ Implement your API with all the power and simplicity of [Express.js](http://expr
 Write your Swagger API in JSON or YAML.  Put it all in one big file, or separate it out into as many different files and folders as you want.  You can even use a combination of JSON and YAML files.
 
 * __Write your code however you want__<br>
-Swagger-Server can automatically detect your handlers based on folder structure and naming convention, or you can explicitly specify your handlers in code.  Or, if you're already comfortable with Express.js methods like [use](http://expressjs.com/4x/api.html#app.use), [all](http://expressjs.com/4x/api.html#app.all), [route](http://expressjs.com/4x/api.html#app.route), [get/post/delete/etc.](http://expressjs.com/4x/api.html#app.METHOD), then you can use those directly.
-
-* __Get the whole suite!__<br>
-Swagger-Server is just one part of [Swagger-Suite](https://github.com/BigstickCarpet/swagger-suite), which is an end-to-end solution for defining, testing, running, and documenting your API.
+Swagger Server can automatically detect your handlers based on folder structure and naming convention, or you can explicitly specify your handlers in code.  Or, if you're already comfortable with Express.js methods like [use](http://expressjs.com/4x/api.html#app.use), [all](http://expressjs.com/4x/api.html#app.all), [route](http://expressjs.com/4x/api.html#app.route), [get/post/delete/etc.](http://expressjs.com/4x/api.html#app.METHOD), then you can use those directly.
 
 
-Supported Swagger Versions
+Installation
 --------------------------
-* [2.0](http://github.com/reverb/swagger-spec/blob/master/versions/2.0.md)
+Swagger Server requires [Node.js](http://nodejs.org/), so install that first.  Then install Swagger Server using the following [npm](https://docs.npmjs.com/getting-started/what-is-npm) command:
 
-
-Installation and Use
---------------------------
-Install Swagger-Server using [NPM](https://docs.npmjs.com/getting-started/what-is-npm).
-
-````bash
+```bash
 npm install swagger-server
-````
-Then use it in your [Node.js](http://nodejs.org/) script like this: 
+```
 
-````javascript
+
+Usage
+--------------------------
+#### Express-Compatible API
+Swagger Server is built on top of [Express.js](http://expressjs.com) and can be used as a 100% compatible drop-in replacement for Expess in any app.  Just use `require("swagger-server")` instead of `require("express")` and pass the path to your Swagger file when creating your [`Application`](http://expressjs.com/4x/api.html#app) object.
+
+```javascript
 var swaggerServer = require('swagger-server');
-var server = swaggerServer('path/to/my/swagger.yaml');
+var app = swaggerServer('MyRestApi.yaml');
 
-server.get('/users/{username}', function(req, res, next) {
-    var user = myDataStore.getUser(req.params.username);
-    res.send(user);
+// GET /users
+app.get('/users', function(req, res, next) {
+    res.send(myListOfUsers);
 });
 
-server.post('/users', function(req, res, next) {
-    myDataStore.saveUser(req.body);
-    res.status(204).send('User saved successfully');
+// Start listening on port 8000
+app.listen(8000, function() {
+  console.log('Your REST API is now running at http://localhost:8000');
+});
+```
+
+#### Swagger Server API
+Swagger Server also exposes some additional classes, events, and methods on top of Express's functionality.  You can access these additional APIs by instantiating a [`Swagger.Server`](https://github.com/BigstickCarpet/swagger-server/blob/master/lib/server.js) object, which has an API very similar to Express's [`Application`](http://expressjs.com/4x/api.html#app) object:
+
+```javascript
+var swagger = require('swagger-server');
+var server = new swagger.Server();
+
+// Parse the Swagger file
+server.parse('PetStore.yaml');
+
+// GET /users
+server.get(function(req, res, next) {
+  res.send(myListOfUsers);
 });
 
-server.listen();
-````
+// Start listening on port 8000
+server.listen(8000, function() {
+  console.log('Your REST API is now running at http://localhost:8000');
+});
+```
 
 
 Running the samples
 --------------------------
-Swagger-Server comes with two sample apps.
-#### Pet Store
-The [Petstore sample app](https://github.com/BigstickCarpet/swagger-server/tree/master/samples/petstore) is a simple example, but it shows how powerful Swagger-Server's mocks are.  It consists of almost zero code, yet you can create, edit, delete, and search for pets.
+Swagger Server comes three samples that use the [Swagger Pet Store API](https://github.com/BigstickCarpet/swagger-server/blob/master/samples/PetStore.yaml).
 
-###### Walkthrough
-````javascript
-// TODO
-````
+#### Sample 1
+This sample demonstrates the most simplistic usage of Swagger Server. It simply loads the [PetStore.yaml](https://github.com/BigstickCarpet/swagger-server/blob/master/samples/PetStore.yaml) file and starts the server.  There's no custom code at all.
 
-#### User Manager
-The [User Manager sample app](https://github.com/BigstickCarpet/swagger-server/tree/master/samples/user-manager) is a more complex example that includes some more complex middleware to manage user sessions and security.
+* [Source Code](https://github.com/BigstickCarpet/swagger-server/blob/master/samples/sample1.js)
+* [Walkthrough](https://github.com/BigstickCarpet/swagger-express-middleware/blob/master/docs/samples/running.md)
 
-###### Walkthrough
-````javascript
-// TODO
-````
+
+#### Sample 2
+This sample demonstrates a few more advanced features, such as setting a few options, loading mock data, and adding custom middleware logic.
+
+* [Source Code](https://github.com/BigstickCarpet/swagger-server/blob/master/samples/sample2.js)
+* [Walkthrough](https://github.com/BigstickCarpet/swagger-express-middleware/blob/master/docs/samples/walkthrough2.md)
+
+
+#### Sample 3
+This sample demonstrates Swagger Server's automatic module loading, as well as more advanced custom middleware logic.
+
+```javascript
+// NOTE: This sample is still a work-in-progress
+```
 
 
 Contributing
 --------------------------
-I welcome any contributions, enhancements, and bug-fixes.  [File an issue](https://github.com/BigstickCarpet/swagger-server/issues) on GitHub and [submit a pull request](https://github.com/BigstickCarpet/swagger-server/pulls).  Use JSHint to make sure your code passes muster.  (see [.jshintrc](.jshintrc)).
+I welcome any contributions, enhancements, and bug-fixes.  [File an issue](https://github.com/BigstickCarpet/swagger-server/issues) on GitHub and [submit a pull request](https://github.com/BigstickCarpet/swagger-server/pulls).
 
-Here are some things currently on the to-do list:
+#### Building/Testing
+To build/test the project locally on your computer:
 
-* __Response validation__ - Currently, the mocks always adhere to the response schema defined in the Swagger spec, but if mocks are disabled (or bypassed via custom middleware), then all bets are off.  It would be cool to add logic that intercepts `res.send()` and validates the response against the schema.
+1. __Clone this repo__<br>
+`git clone https://github.com/BigstickCarpet/swagger-server.git`
 
-* __Better XML Support__ - My main focus has been on consuming/producing JSON, but Swagger-Server also supports consuming/producing XML.  The XML functionality isn't as nicely polished as the JSON functionality yet though.
+2. __Install all dependencies__ (including dev dependencies)<br>
+`npm install`
+
+3. __Run the build script__<br>
+`npm run build`
+
+4. __Run the unit tests__<br>
+`npm test` (tests + code coverage)<br>
+`npm run mocha` (just the tests)
+
+5. __Run the sample app__<br>
+`npm start`
 
 
 License
 --------------------------
-Swagger-Server is 100% free and open-source, under the [MIT license](LICENSE). Use it however you want.
+Swagger Server is 100% free and open-source, under the [MIT license](LICENSE). Use it however you want.
 
