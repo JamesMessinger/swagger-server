@@ -9,5 +9,5 @@ var server = new swagger.Server('PetStore.yaml');
 
 // Start the server (port 8000 is specified in PetStore.yaml)
 server.start(function() {
-    console.log('The Swagger Pet Store is now running at http://localhost:8000');
+  console.log('The Swagger Pet Store is now running at http://localhost:8000');
 });

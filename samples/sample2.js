@@ -15,11 +15,11 @@ var server = new Server('PetStore.yaml');
 var myDB = new MemoryDataStore();
 server.set('mock data store', myDB);
 myDB.save(
-    new Resource('/pets/Lassie', {name: 'Lassie', type: 'dog', tags: ['brown', 'white']}),
-    new Resource('/pets/Clifford', {name: 'Clifford', type: 'dog', tags: ['red', 'big']}),
-    new Resource('/pets/Garfield', {name: 'Garfield', type: 'cat', tags: ['orange']}),
-    new Resource('/pets/Snoopy', {name: 'Snoopy', type: 'dog', tags: ['black', 'white']}),
-    new Resource('/pets/Hello%20Kitty', {name: 'Hello Kitty', type: 'cat', tags: ['white']})
+  new Resource('/pets/Lassie', {name: 'Lassie', type: 'dog', tags: ['brown', 'white']}),
+  new Resource('/pets/Clifford', {name: 'Clifford', type: 'dog', tags: ['red', 'big']}),
+  new Resource('/pets/Garfield', {name: 'Garfield', type: 'cat', tags: ['orange']}),
+  new Resource('/pets/Snoopy', {name: 'Snoopy', type: 'dog', tags: ['black', 'white']}),
+  new Resource('/pets/Hello%20Kitty', {name: 'Hello Kitty', type: 'cat', tags: ['white']})
 );
 
 // Enable Express' case-sensitive and strict options
@@ -29,37 +29,37 @@ server.enable('strict routing');
 
 // Add custom middleware
 server.patch('/pets/{petName}', function(req, res, next) {
-    if (req.body.name !== req.params.petName) {
-        // The pet's name has changed, so change its URL.
-        // Start by deleting the old resource
-        myDB.delete(new Resource(req.path), function(err, pet) {
-            if (pet) {
-                // Merge the new data with the old data
-                pet.merge(req.body);
-            }
-            else {
-                pet = req.body;
-            }
+  if (req.body.name !== req.params.petName) {
+    // The pet's name has changed, so change its URL.
+    // Start by deleting the old resource
+    myDB.delete(new Resource(req.path), function(err, pet) {
+      if (pet) {
+        // Merge the new data with the old data
+        pet.merge(req.body);
+      }
+      else {
+        pet = req.body;
+      }
 
-            // Save the pet with the new URL
-            myDB.save(new Resource('/pets', req.body.name, pet), function(err, pet) {
-                // Send the response
-                res.json(pet.data);
-            });
-        });
-    }
-    else {
-        next();
-    }
+      // Save the pet with the new URL
+      myDB.save(new Resource('/pets', req.body.name, pet), function(err, pet) {
+        // Send the response
+        res.json(pet.data);
+      });
+    });
+  }
+  else {
+    next();
+  }
 });
 
 // Add a custom error handler that returns errors as HTML
 server.use(function(err, req, res, next) {
-    res.status(err.status);
-    res.type('html');
-    res.send(util.format('<html><body><h1>%d Error!</h1><pre>%s</pre></body></html>', err.status, err.message));
+  res.status(err.status);
+  res.type('html');
+  res.send(util.format('<html><body><h1>%d Error!</h1><pre>%s</pre></body></html>', err.status, err.message));
 });
 
 server.start(function() {
-    console.log('The Swagger Pet Store is now running at http://localhost:8000');
+  console.log('The Swagger Pet Store is now running at http://localhost:8000');
 });
