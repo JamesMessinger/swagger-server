@@ -79,7 +79,7 @@ var server = new swagger.Server();
 server.parse('PetStore.yaml');
 
 // GET /users
-server.get(function(req, res, next) {
+server.get('/users', function(req, res, next) {
   res.send(myListOfUsers);
 });
 
