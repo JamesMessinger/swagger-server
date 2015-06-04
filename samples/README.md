@@ -30,20 +30,20 @@ All of the samples run on port 8000, so open your web browser and go to [http://
 
 Sample 1
 --------------------------
-Sample 1 runs the [Swagger Pet Store](sample1/PetStore.yaml) REST API, which lets you manage a simple list of pets.  You can add, edit, and delete pets, search for pets using query strings, and even upload photos of pets.
+Sample 1 runs the [Swagger Pet Store](https://github.com/BigstickCarpet/swagger-server/blob/master/samples/sample1/PetStore.yaml) REST API, which lets you manage a simple list of pets.  You can add, edit, and delete pets, search for pets using query strings, and even upload photos of pets.
 
 This sample demonstrates the most simplistic usage of Swagger Server.  All functionality is provided automatically by the Swagger Server mocks.  There's no custom code at all.
 
-* [Source Code](sample1/server.js)
-* [Walkthrough](docs/running.md)
+* [Source Code](https://github.com/BigstickCarpet/swagger-server/blob/master/samples/sample1/server.js)
+* [Walkthrough](https://github.com/BigstickCarpet/swagger-server/blob/master/samples/docs/running.md)
 
 
 Sample 2
 --------------------------
-Sample 2 builds on top of Sample 1.  It uses the same [Swagger Pet Store](sample1/PetStore.yaml) REST API, but demonstrates a few advanced features of Swagger Server, such as setting options, loading mock data, and adding custom middleware logic.
+Sample 2 builds on top of Sample 1.  It uses the same [Swagger Pet Store](https://github.com/BigstickCarpet/swagger-server/blob/master/samples/sample1/PetStore.yaml) REST API, but demonstrates a few advanced features of Swagger Server, such as setting options, loading mock data, and adding custom middleware logic.
 
-* [Source Code](sample2/server.js)
-* [Walkthrough](docs/walkthrough2.md)
+* [Source Code](https://github.com/BigstickCarpet/swagger-server/blob/master/samples/sample2/server.js)
+* [Walkthrough](https://github.com/BigstickCarpet/swagger-server/blob/master/samples/docs/walkthrough2.md)
 
 
 Sample 3
@@ -52,6 +52,6 @@ Sample 3 is a completely different beast than the first two samples.  It uses a 
 
 It also contains much more custom JavaScript logic, including custom authentication, permissions, and business logic.  There are some operations that can only be performed by admin users, and other operations that can be performed by any user, but only on their own data.
 
-* [Source Code](sample3/server.js)
+* [Source Code](https://github.com/BigstickCarpet/swagger-server/blob/master/samples/sample3/server.js)
 * Walkthrough (TODO)
 
