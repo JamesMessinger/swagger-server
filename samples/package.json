@@ -1,0 +1,37 @@
+{
+  "name": "swagger-server-samples",
+  "version": "0.0.1",
+  "description": "Fully-functional mock REST APIs that run in Swagger Server",
+  "keywords": [
+    "express",
+    "swagger",
+    "server",
+    "mock",
+    "fake",
+    "stub",
+    "test",
+    "rest",
+    "api"
+  ],
+  "author": {
+    "name": "James Messinger",
+    "url": "http://bigstickcarpet.com"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/BigstickCarpet/swagger-server/tree/master/samples",
+  "main": "sample1/server.js",
+  "scripts": {
+    "start": "cd sample1 && node server.js",
+    "sample1": "cd sample1 && node server.js",
+    "sample2": "cd sample2 && node server.js",
+    "sample3": "cd sample3 && node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BigstickCarpet/swagger-server.git"
+  },
+  "dependencies": {
+    "swagger-server": "^1.0.0-beta",
+    "@bigstickcarpet/mock-data": "2.x"
+  }
+}

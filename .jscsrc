@@ -2,6 +2,7 @@
   "excludeFiles": [
     "coverage/**",
     "node_modules/**",
+    "samples/node_modules/**",
     "tests/**"
   ],
   "requireCurlyBraces": [

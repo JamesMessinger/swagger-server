@@ -4,6 +4,6 @@
 npm-debug.log
 /node_modules
 /coverage
+/samples
 /tests
-/gulpfile.js
 /.*
