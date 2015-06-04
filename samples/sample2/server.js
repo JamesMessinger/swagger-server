@@ -1,16 +1,19 @@
 'use strict';
+/**************************************************************************************************
+ * This sample builds on top of Sample 1 and demonstrates a few more advanced features
+ * of Swagger Server, such as setting options, loading mock data, and adding custom middleware logic.
+ **************************************************************************************************/
 
 process.env.DEBUG = 'swagger:*';
 
-var util            = require('util'),
-    swagger         = require('swagger-server'),
-    Server          = swagger.Server,
-    Resource        = swagger.Resource,
-    MemoryDataStore = swagger.MemoryDataStore;
+var util     = require('util'),
+    swagger  = require('swagger-server'),
+    Server   = swagger.Server,
+    Resource = swagger.Resource;
 
 // Create a Swagger Server from the PetStore.yaml file
 var server = new Server();
-server.parse('PetStore.yaml');
+server.parse('../sample1/PetStore.yaml');
 
 // Enable Express' case-sensitive and strict options
 // (so "/pets/Fido", "/pets/fido", and "/pets/fido/" are all different)
@@ -18,9 +21,7 @@ server.enable('case sensitive routing');
 server.enable('strict routing');
 
 // Create a custom data store with some initial mock data
-var myDB = new MemoryDataStore();
-server.set('mock data store', myDB);
-myDB.save(
+server.dataStore.save(
   new Resource('/pets/Lassie', {name: 'Lassie', type: 'dog', tags: ['brown', 'white']}),
   new Resource('/pets/Clifford', {name: 'Clifford', type: 'dog', tags: ['red', 'big']}),
   new Resource('/pets/Garfield', {name: 'Garfield', type: 'cat', tags: ['orange']}),
@@ -33,7 +34,7 @@ server.patch('/pets/{petName}', function(req, res, next) {
   if (req.body.name !== req.params.petName) {
     // The pet's name has changed, so change its URL.
     // Start by deleting the old resource
-    myDB.delete(new Resource(req.path), function(err, pet) {
+    server.dataStore.delete(new Resource(req.path), function(err, pet) {
       if (pet) {
         // Merge the new data with the old data
         pet.merge(req.body);
@@ -43,7 +44,7 @@ server.patch('/pets/{petName}', function(req, res, next) {
       }
 
       // Save the pet with the new URL
-      myDB.save(new Resource('/pets', req.body.name, pet), function(err, pet) {
+      server.dataStore.save(new Resource('/pets', req.body.name, pet), function(err, pet) {
         // Send the response
         res.json(pet.data);
       });

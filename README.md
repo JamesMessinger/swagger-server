@@ -51,7 +51,7 @@ npm install swagger-server
 Usage
 --------------------------
 #### Express API
-Swagger Server is built on top of [Express.js](http://expressjs.com) and can be used as a 100% compatible drop-in replacement for Expess in any app.  Just use `require("swagger-server")` instead of `require("express")` and pass the path to your Swagger file when creating your [`Application`](http://expressjs.com/4x/api.html#app) object.
+Swagger Server is built on top of [Express.js](http://expressjs.com) and can be used as a 100% compatible drop-in replacement for Expess in any project.  Just use `require("swagger-server")` instead of `require("express")` and pass the path to your Swagger file when creating your [`Application`](http://expressjs.com/4x/api.html#app) object.
 
 ```javascript
 var swaggerServer = require('swagger-server');
@@ -69,7 +69,7 @@ app.listen(8000, function() {
 ```
 
 #### Swagger Server API
-Swagger Server also exposes some additional classes, events, and methods on top of Express's functionality.  You can access these additional APIs by instantiating a [`Swagger.Server`](https://github.com/BigstickCarpet/swagger-server/blob/master/lib/server.js) object, which has an API very similar to Express's [`Application`](http://expressjs.com/4x/api.html#app) object:
+Swagger Server also exposes some additional classes, events, and methods in addition to Express's API.  You can access these additional APIs by instantiating a [`Swagger.Server`](https://github.com/BigstickCarpet/swagger-server/blob/master/lib/server.js) object, which has an API very similar to Express's [`Application`](http://expressjs.com/4x/api.html#app) object:
 
 ```javascript
 var swagger = require('swagger-server');

@@ -1,11 +1,12 @@
 {
   "name": "swagger-server-samples",
   "version": "0.0.1",
-  "description": "Fully-functional mock REST APIs that run in Swagger Server",
+  "description": "Sample REST APIs for Swagger Server",
   "keywords": [
     "express",
     "swagger",
     "server",
+    "samples",
     "mock",
     "fake",
     "stub",
