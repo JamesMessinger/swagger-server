@@ -13,9 +13,9 @@ Swagger Server
 [![License](https://img.shields.io/npm/l/swagger-parser.svg)](LICENSE)
 
 
-|__ATTENTION !__                  |
-|---------------------------------|
-|`npm install swagger-server` installs the latest __stable version__ of Swagger Server, which is the [0.0.X branch](https://github.com/BigstickCarpet/swagger-server/tree/0.0.X). <p>`npm install swagger-server@alpha` installs the latest __alpha version__ of Swagger Server 1.0, which is a complete rewrite and is not backward-compatible with v0.0.x.  Please be aware that v1.0.0 may still undergo some API changes before being released. It's not finished yet, and some of the samples don't work yet.  But feel free to try it out and [provide feedback](https://github.com/BigstickCarpet/swagger-server/issues).
+|__v1.0.0 Beta Notice !__
+|---------------------------------
+|We are currently working on the `v1.0.0` release, which is a complete rewrite and is not backward-compatible with `v0.0.x`.<p>To continue using the __current stable version__ of Swagger Server, use `npm install swagger-server@0.0.x`<p>To start using the __beta version__ of Swagger Server 1.0, use `npm install swagger-server`.  Please be aware that the beta version may still undergo some API changes before being released. It's not finished yet, and some of the samples don't work yet.  But feel free to try it out and [provide feedback](https://github.com/BigstickCarpet/swagger-server/issues).
 
 
 Features
@@ -50,7 +50,7 @@ npm install swagger-server
 
 Usage
 --------------------------
-#### Express-Compatible API
+#### Express API
 Swagger Server is built on top of [Express.js](http://expressjs.com) and can be used as a 100% compatible drop-in replacement for Expess in any app.  Just use `require("swagger-server")` instead of `require("express")` and pass the path to your Swagger file when creating your [`Application`](http://expressjs.com/4x/api.html#app) object.
 
 ```javascript
@@ -90,29 +90,12 @@ server.listen(8000, function() {
 ```
 
 
-Running the samples
+Samples and Walkthroughs
 --------------------------
-Swagger Server comes three samples that use the [Swagger Pet Store API](https://github.com/BigstickCarpet/swagger-server/blob/master/samples/PetStore.yaml).
+Swagger Server comes with several complete samples, including walkthroughs of each one.  Install them using npm, then see the [ReadMe file](https://github.com/BigstickCarpet/swagger-server/blob/master/samples/README.md) for instructions.
 
-#### Sample 1
-This sample demonstrates the most simplistic usage of Swagger Server. It simply loads the [PetStore.yaml](https://github.com/BigstickCarpet/swagger-server/blob/master/samples/PetStore.yaml) file and starts the server.  There's no custom code at all.
-
-* [Source Code](https://github.com/BigstickCarpet/swagger-server/blob/master/samples/sample1.js)
-* [Walkthrough](https://github.com/BigstickCarpet/swagger-express-middleware/blob/master/docs/samples/running.md)
-
-
-#### Sample 2
-This sample demonstrates a few more advanced features, such as setting a few options, loading mock data, and adding custom middleware logic.
-
-* [Source Code](https://github.com/BigstickCarpet/swagger-server/blob/master/samples/sample2.js)
-* [Walkthrough](https://github.com/BigstickCarpet/swagger-express-middleware/blob/master/docs/samples/walkthrough2.md)
-
-
-#### Sample 3
-This sample demonstrates Swagger Server's automatic module loading, as well as more advanced custom middleware logic.
-
-```javascript
-// NOTE: This sample is still a work-in-progress
+```bash
+npm install swagger-server-samples
 ```
 
 
@@ -135,9 +118,6 @@ To build/test the project locally on your computer:
 4. __Run the unit tests__<br>
 `npm test` (tests + code coverage)<br>
 `npm run mocha` (just the tests)
-
-5. __Run the sample app__<br>
-`npm start`
 
 
 License
