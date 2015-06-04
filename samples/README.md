@@ -2,9 +2,9 @@ Swagger Server Samples
 ============================
 #### Fully-functional mock REST APIs that run in Swagger Server
 
-|__v1.0.0 Beta Notice !__
+|__v1.0.0 Alpha Notice !__
 |---------------------------------
-| Swagger Server v1.0.0 is still in beta, and we're still working on the samples, documentation, and walkthroughs.  The v1.0 API isn't totally solidified yet, so the samples may still change.
+| Swagger Server v1.0.0 is still in alpha, and we're still working on the samples, documentation, and walkthroughs.  The v1.0 API isn't totally solidified yet, so the samples may still change.
 
 
 #### Sample 1
