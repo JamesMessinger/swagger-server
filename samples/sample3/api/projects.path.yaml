@@ -1,0 +1,60 @@
+parameters:
+  - $ref: "#/parameters/sessionCookie"  # Must be logged in access this path
+
+get:
+  tags: [Projects]
+  summary: Retrieve projects
+  description: >
+    By default, all projects are returned. Use the querystring parameters to limit the results.
+  parameters:
+    - name: department
+      in: query
+      description: Filter projects by their department
+      required: false
+      type: string
+      enum:   # // TODO: refactor to use $ref: "#/definitions/department/enum"
+        - Marketing
+        - Sales
+        - Human Resources
+        - Accounting
+    - name: assigned
+      in: query
+      description: Filter projects by the employees assigned to them
+      required: false
+      type: array
+      items:
+        type: string
+  responses:
+    200:
+      description: Returns a list of the matching projects
+      schema:
+        type: array
+        items:
+          $ref: project
+    401:
+      description: Missing session cookie
+
+post:
+  tags: [Projects]
+  summary: Adds a new project
+  description: Only admins can do this.
+  parameters:
+    - name: body
+      in: body
+      required: true
+      description: The data for the new project
+      schema:
+        $ref: project
+  responses:
+    201:
+      description: The project was saved successfully
+      schema:
+        $ref: project
+      headers:
+        Location:
+          type: string
+          description: The Server returns the URL of the new project
+    401:
+      description: Missing session cookie, or not an admin user
+    409:
+      description: There's already a project with that ID or name

@@ -21,7 +21,7 @@ Swagger Server
 Features
 --------------------------
 * __Supports Swagger 2.0 specs in JSON or YAML__ <br>
-Swagger Express Middleware uses [Swagger-Parser](https://github.com/BigstickCarpet/swagger-parser) to parse, validate, and dereference Swagger files.  You can even split your spec into multiple different files using `$ref` pointers.
+Swagger Server uses [Swagger-Parser](https://github.com/BigstickCarpet/swagger-parser) to parse, validate, and dereference Swagger files.  You can even split your spec into multiple different files using `$ref` pointers.
 
 * __Build your API in real-time__ <br>
 Swagger Server automatically watches reloads your files as you work on them.  No need to restart the server.  Test your code changes _in real time_!

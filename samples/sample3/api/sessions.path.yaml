@@ -1,0 +1,51 @@
+get:
+  tags: [Sessions]
+  summary: Lists all active sessions
+  description: Only admins can access this
+  parameters:
+    - $ref: "#/parameters/sessionCookie" # must be logged in to access this operation
+  responses:
+    201:
+      description: Returns all active sessions
+      schema:
+        type: array
+        items:
+          $ref: session
+    401:
+      description: Missing session cookie, or not an admin user
+
+post:
+  tags: [Sessions]
+  summary: Log in (i.e. create a new session)
+  description: >
+    Logging-in consists of creating a new session. Similarly, logging-out consists of deleting that session.
+
+    If a session already exists for the specified login credentials, then it will be re-used rather than creating another new session.
+  parameters:
+    - name: body
+      in: body
+      required: true
+      description: The login credentials
+      schema:
+        required: [username, password]
+        properties:
+          username:
+            type: string
+            minLength: 1
+          password:
+            type: string
+            minLength: 1
+  responses:
+    201:
+      description: Login was successful (i.e. the new session was created)
+      headers:
+        Location:
+          type: string
+          description: The URL of the new session (i.e. "/sessions/{sessionId}")
+        Set-Cookie:
+          type: string
+          description: The session cookie. This will need to be passed on all subsequent requests
+      schema:
+        $ref: session
+    401:
+      description: Invalid login credentials

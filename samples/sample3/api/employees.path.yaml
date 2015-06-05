@@ -1,0 +1,60 @@
+parameters:
+  - $ref: "#/parameters/sessionCookie"  # Must be logged in access this path
+
+get:
+  tags: [Employees]
+  summary: Retrieve employees
+  description: >
+    By default, all employees are returned. Use the querystring parameters to limit the results.
+  parameters:
+    - name: department
+      in: query
+      description: Filter employees by their department
+      required: false
+      type: string
+      enum:   # // TODO: refactor to use $ref: "#/definitions/department/enum"
+        - Marketing
+        - Sales
+        - Human Resources
+        - Accounting
+    - name: roles
+      in: query
+      description: Filter employees by their roles
+      required: false
+      type: array
+      items:
+        type: string
+  responses:
+    200:
+      description: Returns a list of the matching employees
+      schema:
+        type: array
+        items:
+          $ref: employee
+    401:
+      description: Missing session cookie
+
+post:
+  tags: [Employees]
+  summary: Adds a new employee
+  description: Only admins can do this.
+  parameters:
+    - name: body
+      in: body
+      required: true
+      description: The data for the new employee
+      schema:
+        $ref: employee
+  responses:
+    201:
+      description: The employee was saved successfully
+      schema:
+        $ref: employee
+      headers:
+        Location:
+          type: string
+          description: The Server returns the URL of the new employee
+    401:
+      description: Missing session cookie, or not an admin user
+    409:
+      description: There's already a employee with that username
