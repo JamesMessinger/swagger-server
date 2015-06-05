@@ -42,6 +42,14 @@ parameters:
     type: number
     description: This is the {projectId} path parameter
 
+  photoType:
+    name: photoType
+    in: path
+    required: true
+    type: string
+    enum: [portrait, thumbnail]
+    description: This is the {photoType} path parameter
+
 paths:
   /sessions:
     $ref: api/sessions.path.yaml
@@ -51,6 +59,8 @@ paths:
     $ref: api/employees.path.yaml
   /employees/{username}:
     $ref: api/employee.path.yaml
+  /employees/{username}/photos/{photoType}:
+    $ref: api/employee-photo.path.yaml
   /projects:
     $ref: api/projects.path.yaml
   /projects/{projectId}:

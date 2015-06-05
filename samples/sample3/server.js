@@ -13,6 +13,7 @@ var swagger   = require('swagger-server'),
     session   = require('./handlers/sessions/{sessionId}'),
     employees = require('./handlers/employees'),
     employee  = require('./handlers/employees/{username}'),
+    photo     = require('./handlers/employees/{username}/photos/{photoType}'),
     projects  = require('./handlers/projects'),
     project   = require('./handlers/projects/{projectId}'),
     member    = require('./handlers/projects/{projectId}/members/{username}');
@@ -23,7 +24,9 @@ server.parse(path.join(__dirname, 'swagger.yaml'));
 
 // Initialize data
 employees.init(server, function() {
-  projects.init(server, function() {});
+  photo.init(server, function() {
+    projects.init(server, function() {});
+  });
 });
 
 // Register path handlers
@@ -36,6 +39,9 @@ server.post('/employees', employees.post);
 server.get('/employees/{username}', employee.get);
 server.patch('/employees/{username}', employee.patch);
 server.delete('/employees/{username}', employee.delete);
+server.get('/employees/{username}/photos/{photoType}', photo.get);
+server.put('/employees/{username}/photos/{photoType}', photo.put);
+server.delete('/employees/{username}/photos/{photoType}', photo.delete);
 server.get('/projects', projects.get);
 server.post('/projects', projects.post);
 server.get('/projects/{projectId}', project.get);
