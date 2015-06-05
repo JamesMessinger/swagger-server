@@ -48,7 +48,7 @@ Sample 2 builds on top of Sample 1.  It uses the same [Swagger Pet Store](https:
 
 Sample 3
 --------------------------
-Sample 3 is a completely different beast than the first two samples.  It uses a completely different [REST API](https://github.com/BigstickCarpet/swagger-server/blob/master/samples/sample2/swagger.yaml) that is spread out over several different YAML files.  The API is a company directory with employees and project assignments.  You can add, edit, and delete employees and projects.  You can also assign or remove employees to/from projects.
+Sample 3 is a completely different beast than the first two samples.  It uses a completely different [REST API](https://github.com/BigstickCarpet/swagger-server/blob/master/samples/sample3/swagger.yaml) that is spread out over several different YAML files.  The API is a company directory with employees and project assignments.  You can add, edit, and delete employees and projects.  You can also assign or remove employees to/from projects.
 
 This sample contains much more custom JavaScript logic than the previous samples, including custom authentication, permissions, and business logic.  There are some operations that can only be performed by admin users, and other operations that can be performed by any user, but only on their own data.
 
