@@ -90,9 +90,9 @@ server.listen(8000, function() {
 ```
 
 
-Samples and Walkthroughs
+Samples &amp; Walkthroughs
 --------------------------
-Swagger Server comes with several complete samples, including walkthroughs of each one.  Install them using npm, then see the [ReadMe file](https://github.com/BigstickCarpet/swagger-server/tree/master/samples) for instructions.
+There are several complete, well-documented samples available for Swagger Server.  Install them using npm, then see the [Walkthrough](https://github.com/BigstickCarpet/swagger-server/tree/master/samples) for instructions.
 
 ```bash
 npm install swagger-server-samples

@@ -20,7 +20,7 @@ server.parse('../sample1/PetStore.yaml');
 server.enable('case sensitive routing');
 server.enable('strict routing');
 
-// Create a custom data store with some initial mock data
+// Initialize the data store with some mock data (REST resources)
 server.dataStore.save(
   new Resource('/pets/Lassie', {name: 'Lassie', type: 'dog', tags: ['brown', 'white']}),
   new Resource('/pets/Clifford', {name: 'Clifford', type: 'dog', tags: ['red', 'big']}),
@@ -40,6 +40,7 @@ server.patch('/pets/{petName}', function(req, res, next) {
         pet.merge(req.body);
       }
       else {
+        // The old data had already been deleted, so just use the new data
         pet = req.body;
       }
 

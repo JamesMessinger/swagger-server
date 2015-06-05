@@ -29,59 +29,46 @@ Swagger Server API
 --------------------------
 In Sample 1, we mentioned that Swagger Server exposes the same API as [Express.js](http://expressjs.com), which means it can be used as a drop-in replacement for Express in any project.  However, Swagger Server also exposes some additional classes, events, and methods in addition to Express's API. You can access these additional APIs by instantiating a `Swagger.Server` object, which is what Sample 2 demonstrates:
 
-````javascript
+```javascript
 var swagger = require('swagger-server');
 
 // Create a Swagger Server from the PetStore.yaml file
 var server = new swagger.Server();
 server.parse('../sample1/PetStore.yaml');
-````
-
+```
 
 Case-Sensitive and Strict Routing
 --------------------------
 By default Express is case-insensitive and is not strict about whether paths have a trailing slash, but in this sample, we've changed both of those settings using the [`app.enable()`](http://expressjs.com/4x/api.html#app.enable) and [`app.disable()`](http://expressjs.com/4x/api.html#app.disable) methods.
 
-````javascript
-app.enable('case sensitive routing');
-app.enable('strict routing');
-````
+```javascript
+server.enable('case sensitive routing');
+server.enable('strict routing');
+```
 
 In Sample 1, [/pets/Fido](http://localhost:8000/pets/Fido), [/pets/fido](http://localhost:8000/pets/fido), and [/pets/Fido/](http://localhost:8000/pets/Fido/) all pointed to the same pet.  Now, those are treated as three different resources, and you could create a different pet at each one.  If you only create a pet named "_Fido_", then [/pets/fido](http://localhost:8000/pets/fido) and [/pets/Fido/](http://localhost:8000/pets/Fido/) will return HTTP 404 errors.
 
 
 Loading Mock Data
 --------------------------
-Sample 1 started out with an empty pet store, so you had to add a pet before [/pets](http://localhost:8000/pets) would return any data.  Now in Sample 2, we're using the [MemoryDataStore](../exports/MemoryDataStore.md) class to pre-populate the [Mock middleware](https://github.com/BigstickCarpet/swagger-express-middleware/tree/master/docs/middleware/mock.md#default-behavior) with data.
+Sample 1 started out with an empty pet store, so you had to add a pet before [/pets](http://localhost:8000/pets) would return any data.  Now in Sample 2, we're pre-loading some mock data.  This is done using the `server.dataStore` property, which is a [`DataStore`](https://github.com/BigstickCarpet/swagger-express-middleware/blob/master/docs/exports/DataStore.md) object.  The data store holds [`Resource`](https://github.com/BigstickCarpet/swagger-express-middleware/blob/master/docs/exports/Resource.md) objects, which each represent a single [REST resource](https://restful-api-design.readthedocs.org/en/latest/resources.html).
 
-````javascript
-// Create a custom data store with some initial mock data
-var myDB = new MemoryDataStore();
-myDB.save(
-    new Resource('/pets/Lassie', {name: 'Lassie', type: 'dog', ...}),
-    new Resource('/pets/Clifford', {name: 'Clifford', type: 'dog', ...}),
-    new Resource('/pets/Garfield', {name: 'Garfield', type: 'cat', ...}),
-    new Resource('/pets/Snoopy', {name: 'Snoopy', type: 'dog', ...}),
-    new Resource('/pets/Hello%20Kitty', {name: 'Hello Kitty', type: 'cat', ...})
-);
-
-...
-
-// The mock middleware will use our custom data store,
-// which we already pre-populated with mock data
-app.use(middleware.mock(myDB));
-````
+__TIP:__ If you are unfamiliar with RESTful API design and resource modeling, [here is a good article on the topic](http://www.thoughtworks.com/insights/blog/rest-api-design-resource-modeling).
 
 ```javascript
-server.dataStore = new swagger.FileDataStore();
-server.dataStore.save(...);
+server.dataStore.save(
+  new Resource('/pets/Lassie', {name: 'Lassie', type: 'dog', ...}),
+  new Resource('/pets/Clifford', {name: 'Clifford', type: 'dog', ...}),
+  new Resource('/pets/Garfield', {name: 'Garfield', type: 'cat', ...}),
+  new Resource('/pets/Snoopy', {name: 'Snoopy', type: 'dog', ...}),
+  new Resource('/pets/Hello%20Kitty', {name: 'Hello Kitty', type: 'cat', ...})
+);
 ```
 
+You could also load data using the [Resource.parse()](https://github.com/BigstickCarpet/swagger-express-middleware/blob/master/docs/exports/Resource.md#parsejson) method, which accepts plain JSON data and converts it to `Resource` objects.  Here's an example:
 
-Each of the five sample pets is a [Resource](../exports/Resource.md) object, which is what the [DataStore](../exports/DataStore.md) class uses to store data.  You could also load data using the [Resource.parse()](../exports/Resource.md#parsejson) method, which accepts plain JSON data and converts it to `Resource` objects.  Here's an example:
-
-````javascript
-var data = [
+```javascript
+var myData = [
     {collection: '/pets', name: '/Lassie', data: {name: 'Lassie', type: 'dog'}},
     {collection: '/pets', name: '/Clifford', data: {name: 'Clifford', type: 'dog'}},
     {collection: '/pets', name: '/Garfield', data: {name: 'Garfield', type: 'cat'}},
@@ -89,113 +76,68 @@ var data = [
     {collection: '/pets', name: '/Hello%20Kitty', data: {name: 'Hello Kitty', type: 'cat'}}
 ];
 
-var myDB = new MemoryDataStore();
-myDB.save(Resource.parse(data));
-````
+server.dataStore.save(Resource.parse(myData));
+```
 
+By default, the `server.dataStore` property is an instance of the [`MemoryDataStore`](https://github.com/BigstickCarpet/swagger-express-middleware/blob/master/docs/exports/MemoryDataStore.md) class, so all data is stored in memory.  This means that any changes to the data will only last as long as the app is running.  If you want to persist data changes across app restarts, then you should use the [`FileDataStore`](https://github.com/BigstickCarpet/swagger-express-middleware/blob/master/docs/exports/FileDataStore.md) instead.
 
-Customized Middleware Options
---------------------------
-In Sample 1, we didn't set any middleware options.  We just accepted the defaults.
+```javascript
+server.dataStore = new swagger.FileDataStore('/my/folder/path');
 
-````javascript
-app.use(
-    middleware.metadata(),
-    middleware.files(),
-    middleware.CORS(),
-    middleware.parseRequest(),
-    middleware.validateRequest(),
-    middleware.mock()
+server.dataStore.save(
+  new Resource('/pets/Lassie', {name: 'Lassie', type: 'dog'}),
+  new Resource('/pets/Clifford', {name: 'Clifford', type: 'dog'}),
+  ...
 );
-````
-
-In Sample 2, we've customized the [Files middleware](https://github.com/BigstickCarpet/swagger-express-middleware/tree/master/docs/middleware/files.md#behavior) and [Parse Request middleware](https://github.com/BigstickCarpet/swagger-express-middleware/tree/master/docs/middleware/parseRequest.md#behavior) a bit.
-
-````javascript
-app.use(middleware.files(
-    {
-        caseSensitive: false,
-        strict: false
-    },
-    {
-        // Serve the Swagger API from "/swagger/api" instead of "/api-docs"
-        apiPath: '/swagger/api',
-
-        // Disable serving the "PetStore.yaml" file
-        rawFilesPath: false
-    }
-));
-
-app.use(middleware.parseRequest(
-    {
-        // Configure the cookie parser to use secure cookies
-        cookie: {
-            secret: 'MySuperSecureSecretKey'
-        },
-
-        // Don't allow JSON content over 100kb (default is 1mb)
-        json: {
-            limit: '100kb'
-        },
-
-        // Change the location for uploaded pet photos (default is the system's temp directory)
-        multipart: {
-            dest: path.join(__dirname, 'photos')
-        }
-    }
-));
-````
-
-We've already discussed the first parameter to the [Files middleware](https://github.com/BigstickCarpet/swagger-express-middleware/tree/master/docs/middleware/files.md#behavior), which overrides the default case-sensitivity and strict-routing settings.  In addition, we've also specified the second parameter, which customizes the file paths.  We've changed the URL of the Swagger API from the default ([/api-docs/](http://localhost:8000/api-docs/)) to [/swagger/api](http://localhost:8000/swagger/api).  And we've completely disabled serving the raw Swagger file ([/PetStore.yaml](http://localhost:8000/PetStore.yaml)).  This means that if you click either of the links at the top of the page ("_Swagger API (YAML)_" and "_Swagger API (JSON)_"), you'll get an [HTTP 404 (Not Found)](http://httpstatusdogs.com/404-not-found) error.
-
-As for the [Parse Request middleware](https://github.com/BigstickCarpet/swagger-express-middleware/tree/master/docs/middleware/parseRequest.md#behavior), we've set a few parsing options, just for illustration purposes.  By default, the [cookie-parser](https://github.com/expressjs/cookie-parser) uses unsigned cookies, but we've added a "secret" key, so cookies will now be digitally signed with this secret.  Of course, in a real app, you'd use a much more secure secret.  We've also set a limit on the size of JSON payloads.  If you try to create a pet with more than 100kb of data, you'll get an [HTTP 413 (Request Entity Too Large)](http://httpstatusdogs.com/413-request-entity-too-large) error.  Finally, we've changed the default directory where uploaded files are saved.  Instead of the operating system's temp directory, pet photos will now be saved to a "photos" folder in the "samples" directory.
+```
 
 
 Custom Middleware
 --------------------------
-In addition to all the Swagger Server modules, Sample 2 also includes a couple custom middleware functions.
+In Sample 1, we didn't have any custom code at all.  We just let the [Swagger Server mocks](https://github.com/BigstickCarpet/swagger-express-middleware/blob/master/docs/middleware/mock.md#default-behavior) figure out how our API should behave.  In this sample, we're still using the mocks for most behavior, but we're also adding a bit of custom logic.  This logic is added via Express.js middleware, so if you're not familiar with how middleware works, then [read this first](http://expressjs.com/guide/using-middleware.html).
 
 ### Changing a Pet's Name
-In Sample 1, we pointed out that when you change a pet's name, it's [URL stays the same](../samples/yaml.md#changing-a-pets-name), since the URL for each resource is assigned when the resource is _first created_.  Well, in Sample 2, we've fixed that issue:
+In Sample 1, we pointed out that when you change a pet's name, [it's URL stays the same](yaml.md#changing-a-pets-name), since the URL for each resource is assigned when the resource is _first created_.  Well, in Sample 2, we've fixed that issue:
 
-````javascript
-app.patch('/pets/:petName', function(req, res, next) {
-    if (req.body.name !== req.path.petName) {
-        // The pet's name has changed, so change its URL.
-        // Start by deleting the old resource
-        myDB.delete(new Resource(req.path), function(err, pet) {
-            if (pet) {
-                // Merge the new data with the old data
-                pet.merge(req.body);
-            }
-            else {
-                pet = req.body;
-            }
+```javascript
+server.patch('/pets/{petName}', function(req, res, next) {
+  if (req.body.name !== req.params.petName) {
+    // The pet's name has changed, so change its URL.
+    // Start by deleting the old resource
+    server.dataStore.delete(new Resource(req.path), function(err, pet) {
+      if (pet) {
+        // Merge the new data with the old data
+        pet.merge(req.body);
+      }
+      else {
+        // The old data had already been deleted, so just use the new data
+        pet = req.body;
+      }
 
-            // Save the pet with the new URL
-            myDB.save(new Resource('/pets', req.body.name, pet), function(err, pet) {
-                // Send the response
-                res.json(pet.data);
-            });
-        });
-    }
-    else {
-        next();
-    }
+      // Save the pet with the new URL
+      server.dataStore.save(new Resource('/pets', req.body.name, pet), function(err, pet) {
+        // Send the response
+        res.json(pet.data);
+      });
+    });
+  }
+  else {
+    next();
+  }
 });
-````
+```
 
 This middleware listens for `PATCH` operations on the `/pets/{petName}` path.  This is the operation that edits a pet.  As an example, let's say that you send the data `{name: 'Fluffy', type: 'dog'}` to `/pets/Fido`.  In this case, you are renaming Fido to Fluffy, and you want the new resource URL to be `/pets/Fluffy`.
 
-The middleware function first checks to see if the pet's name has changed, by comparing the `name` property of the new pet data ("_Fluffy_") to the `petName` path parameter ("_Fido_").  If the names are the same, then it does nothing and proceeds on to the next middleware in the pipeline.  But if the names are different, then it deletes the old pet resource (at "_/pets/Fido_").  Notice that it's using the same `myDB` object that we [created earlier](#pre-populated-data).
+The middleware function first checks to see if the pet's name has changed, by comparing the `name` property of the new pet data ("_Fluffy_") to the `petName` path parameter ("_Fido_").  If the names are the same, then it does nothing and proceeds on to the next middleware in the pipeline.  But if the names are different, then it deletes the old pet resource (at "_/pets/Fido_").  Notice that it's using the same `server.dataStore` property that we [used earlier](#loading-mock-data).
 
-The [`DataStore.delete()`](../exports/DataStore.md#deleteresource1-resource2--callback) method is asynchronous.  The callback function receives the [Resource](../exports/Resource.md) that was deleted, or `undefined` if the resource didn't exist (maybe it was already deleted).  Either way, we know the old resource URL is no more.  Now we need to save the new pet data under the new resource URL.
+The [`DataStore.delete()`](https://github.com/BigstickCarpet/swagger-express-middleware/blob/master/docs/exports/DataStore.md#deleteresource1-resource2--callback) method is asynchronous.  The callback function receives the [`Resource`](https://github.com/BigstickCarpet/swagger-express-middleware/blob/master/docs/exports/Resource.md) that was deleted, or `undefined` if the resource didn't exist (maybe it was already deleted).  Either way, we know the old resource URL is no more.  Now we need to save the new pet data under the new resource URL.
 
-But first... the `PATCH` operation is supposed to _merge_ the new data with the old data.  That way, you don't have re-send the _entire_ pet data every time you update a pet.  So, if the `delete()` method returned a pet resource, then we call the [`Resource.merge()`](../exports/Resource.md#mergeother) method to merge-in the new data.
+But first... the `PATCH` operation is supposed to _merge_ the new data with the old data.  That way, you don't have re-send the _entire_ pet data every time you update a pet.  So, if the `delete()` method returned a pet resource, then we call the [`Resource.merge()`](https://github.com/BigstickCarpet/swagger-express-middleware/blob/master/docs/exports/Resource.md#mergeother) method to merge-in the new data.
 
-Now that the old pet URL is deleted, and the new data is merged with the old data, we're ready to save the data as a new pet (with a new URL).  We create a new [Resource](../exports/Resource.md) object, using the three-parameter constructor that allows us to specify the collection path ("_/pets_"), the resource name ("_Fluffy_"), and the resource data.
+Now that the old pet URL is deleted, and the new data is merged with the old data, we're ready to save the data as a new pet (with a new URL).  We create a new [`Resource`](https://github.com/BigstickCarpet/swagger-express-middleware/blob/master/docs/exports/Resource.md) object, using the three-parameter constructor that allows us to specify the collection path ("_/pets_"), the resource name ("_Fluffy_"), and the resource data.
 
-Finally, we pass this new `Resource` object to the [`DataStore.save()`](../exports/DataStore.md#saveresource1-resource2--callback) method, which is another asynchronous method. In the callback function, we send the newly-saved pet data back to the client as JSON.  Note that we don't call the `next()` function here, since sending a response terminates the request.
+Finally, we pass this new `Resource` object to the [`DataStore.save()`](https://github.com/BigstickCarpet/swagger-express-middleware/blob/master/docs/exports/DataStore.md#saveresource1-resource2--callback) method, which is another asynchronous method. In the callback function, we send the newly-saved pet data back to the client as JSON.  Note that we don't call the `next()` function here, since sending a response terminates the request.
 
 
 ### Formatting Error Messages
