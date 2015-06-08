@@ -1,7 +1,6 @@
 'use strict';
 
-var swagger = require('swagger-server'),
-    session = require('../sessions');
+var session = require('../sessions');
 
 module.exports = {
   /**
