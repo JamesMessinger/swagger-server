@@ -5,21 +5,7 @@ var swagger = require('swagger-server'),
     data    = require('@bigstickcarpet/mock-data');
 
 module.exports = {
-  /**
-   * Initializes mock project data
-   *
-   * @param {SwaggerServer} server
-   * @param {function} next
-   */
-  init: function(server, next) {
-    // Create REST resources for each project
-    var resources = data.projects.map(function(project) {
-      return new swagger.Resource('/projects', project.id, project);
-    });
-
-    // Save the resources to the mock data store
-    server.dataStore.save(resources, next);
-  },
+  init: loadMockData,
 
   /**
    * GET /projects
@@ -39,6 +25,22 @@ module.exports = {
     verifyProjectNameDoesNotExist
   ]
 };
+
+/**
+ * Loads mock project data
+ *
+ * @param {SwaggerServer} server
+ * @param {function} next
+ */
+function loadMockData(server, next) {
+  // Create REST resources for each project
+  var resources = data.projects.map(function(project) {
+    return new swagger.Resource('/projects', project.id, project);
+  });
+
+  // Save the resources to the mock data store
+  server.dataStore.save(resources, next);
+}
 
 /**
  * Verifies that the new project's ID isn't the same as any existing ID.

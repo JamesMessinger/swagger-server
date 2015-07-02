@@ -5,21 +5,7 @@ var swagger = require('swagger-server'),
     data    = require('@bigstickcarpet/mock-data');
 
 module.exports = {
-  /**
-   * Initializes mock employee data
-   *
-   * @param {SwaggerServer} server
-   * @param {function} next
-   */
-  init: function(server, next) {
-    // Create REST resources for each employee
-    var resources = data.employees.map(function(employee) {
-      return new swagger.Resource('/employees', employee.username, employee);
-    });
-
-    // Save the resources to the mock data store
-    server.dataStore.save(resources, next);
-  },
+  init: loadMockData,
 
   /**
    * GET /employees
@@ -38,6 +24,22 @@ module.exports = {
     verifyUsernameDoesNotExist
   ]
 };
+
+/**
+ * Loads mock employee data
+ *
+ * @param {SwaggerServer} server
+ * @param {function} next
+ */
+function loadMockData(server, next) {
+  // Create REST resources for each employee
+  var resources = data.employees.map(function(employee) {
+    return new swagger.Resource('/employees', employee.username, employee);
+  });
+
+  // Save the resources to the mock data store
+  server.dataStore.save(resources, next);
+}
 
 /**
  * Verifies that the new employee's username isn't the same as any existing username.
