@@ -1,8 +1,8 @@
 {
   "required": [
-    "code", 
+    "code",
     "message"
-  ], 
+  ],
   "properties": {
     "pet": {
       "required": [
@@ -37,9 +37,9 @@
     },
     "message": {
       "type": "string"
-    }, 
+    },
     "code": {
-      "type": "integer", 
+      "type": "integer",
       "format": "int32"
     }
   }

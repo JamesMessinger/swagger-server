@@ -1,33 +1,33 @@
 {
   "info": {
-    "termsOfService": "http://helloreverb.com/terms/", 
+    "termsOfService": "http://helloreverb.com/terms/",
     "contact": {
-      "url": "http://madskristensen.net", 
-      "name": "Wordnik API Team", 
+      "url": "http://madskristensen.net",
+      "name": "Wordnik API Team",
       "email": "foo@example.com"
-    }, 
-    "description": "A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification", 
+    },
+    "description": "A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification",
     "license": {
-      "url": "http://github.com/gruntjs/grunt/blob/master/LICENSE-MIT", 
+      "url": "http://github.com/gruntjs/grunt/blob/master/LICENSE-MIT",
       "name": "MIT"
-    }, 
-    "title": "Swagger Petstore", 
+    },
+    "title": "Swagger Petstore",
     "version": "1.0.0"
-  }, 
+  },
   "paths": {
     "/pets": {
       "post": {
-        "description": "Creates a new pet in the store.", 
-        "operationId": "addPet", 
+        "description": "Creates a new pet in the store.",
+        "operationId": "addPet",
         "responses": {
           "200": {
             "headers": {
               "Location": {
-                "type": "string", 
+                "type": "string",
                 "description": "Swagger-Server will automatically set this header appropriately"
               }
-            }, 
-            "description": "pet response", 
+            },
+            "description": "pet response",
             "schema": {
               "required": [
                 "name",
@@ -59,12 +59,12 @@
                 }
               }
             }
-          }, 
+          },
           "409": {
             "description": "new pet conflicts with an existing pet (i.e. they have the same name)"
-          }, 
+          },
           "default": {
-            "description": "unexpected error", 
+            "description": "unexpected error",
             "schema": {
               "required": [
                 "code",
@@ -112,13 +112,13 @@
               }
             }
           }
-        }, 
+        },
         "parameters": [
           {
-            "required": true, 
-            "in": "body", 
-            "description": "Pet to add to the store", 
-            "name": "body", 
+            "required": true,
+            "in": "body",
+            "description": "Pet to add to the store",
+            "name": "body",
             "schema": {
               "required": [
                 "name",
@@ -151,17 +151,17 @@
               }
             }
           }
-        ], 
+        ],
         "produces": [
           "application/json"
         ]
-      }, 
+      },
       "get": {
-        "description": "Returns all pets from the system that the user has access to", 
-        "operationId": "findPets", 
+        "description": "Returns all pets from the system that the user has access to",
+        "operationId": "findPets",
         "responses": {
           "200": {
-            "description": "pet response", 
+            "description": "pet response",
             "schema": {
               "items": {
                 "required": [
@@ -193,12 +193,12 @@
                     "type": "array"
                   }
                 }
-              }, 
+              },
               "type": "array"
             }
-          }, 
+          },
           "default": {
-            "description": "unexpected error", 
+            "description": "unexpected error",
             "schema": {
               "required": [
                 "code",
@@ -246,49 +246,49 @@
               }
             }
           }
-        }, 
+        },
         "parameters": [
           {
-            "description": "tags to filter by", 
-            "name": "tags", 
-            "in": "query", 
+            "description": "tags to filter by",
+            "name": "tags",
+            "in": "query",
             "items": {
               "type": "string"
-            }, 
-            "required": false, 
-            "type": "array", 
+            },
+            "required": false,
+            "type": "array",
             "collectionFormat": "csv"
-          }, 
+          },
           {
-            "required": false, 
-            "type": "string", 
-            "description": "type of pet to filter by (dog, cat, or bird)", 
-            "in": "query", 
+            "required": false,
+            "type": "string",
+            "description": "type of pet to filter by (dog, cat, or bird)",
+            "in": "query",
             "name": "type"
-          }, 
+          },
           {
-            "required": false, 
-            "type": "integer", 
-            "description": "age of pet to filter by", 
-            "in": "query", 
+            "required": false,
+            "type": "integer",
+            "description": "age of pet to filter by",
+            "in": "query",
             "name": "age"
           }
-        ], 
+        ],
         "produces": [
-          "application/json", 
-          "application/xml", 
-          "text/xml", 
+          "application/json",
+          "application/xml",
+          "text/xml",
           "text/html"
         ]
       }
-    }, 
+    },
     "/pets/{name}": {
       "get": {
-        "description": "Returns a pet by name", 
-        "operationId": "findPetByName", 
+        "description": "Returns a pet by name",
+        "operationId": "findPetByName",
         "responses": {
           "200": {
-            "description": "pet response", 
+            "description": "pet response",
             "schema": {
               "required": [
                 "name",
@@ -320,9 +320,9 @@
                 }
               }
             }
-          }, 
+          },
           "default": {
-            "description": "unexpected error", 
+            "description": "unexpected error",
             "schema": {
               "required": [
                 "code",
@@ -370,33 +370,33 @@
               }
             }
           }
-        }, 
+        },
         "parameters": [
           {
-            "required": true, 
-            "type": "string", 
-            "description": "name of pet to fetch", 
-            "in": "path", 
+            "required": true,
+            "type": "string",
+            "description": "name of pet to fetch",
+            "in": "path",
             "name": "name"
           }
-        ], 
+        ],
         "produces": [
-          "application/json", 
-          "application/xml", 
-          "text/xml", 
+          "application/json",
+          "application/xml",
+          "text/xml",
           "text/html"
         ]
-      }, 
+      },
       "patch": {
         "produces": [
-          "application/json", 
-          "application/xml", 
-          "text/xml", 
+          "application/json",
+          "application/xml",
+          "text/xml",
           "text/html"
-        ], 
+        ],
         "responses": {
           "200": {
-            "description": "pet response", 
+            "description": "pet response",
             "schema": {
               "required": [
                 "name",
@@ -428,9 +428,9 @@
                 }
               }
             }
-          }, 
+          },
           "default": {
-            "description": "unexpected error", 
+            "description": "unexpected error",
             "schema": {
               "required": [
                 "code",
@@ -478,20 +478,20 @@
               }
             }
           }
-        }, 
+        },
         "parameters": [
           {
-            "required": true, 
-            "type": "string", 
-            "description": "name of pet to update", 
-            "in": "path", 
+            "required": true,
+            "type": "string",
+            "description": "name of pet to update",
+            "in": "path",
             "name": "name"
-          }, 
+          },
           {
-            "required": true, 
-            "in": "body", 
-            "description": "The updated pet info", 
-            "name": "body", 
+            "required": true,
+            "in": "body",
+            "description": "The updated pet info",
+            "name": "body",
             "schema": {
               "required": [
                 "name",
@@ -524,14 +524,14 @@
               }
             }
           }
-        ], 
+        ],
         "description": "Updates a pet by name"
-      }, 
+      },
       "delete": {
-        "operationId": "deletePet", 
+        "operationId": "deletePet",
         "responses": {
           "default": {
-            "description": "unexpected error", 
+            "description": "unexpected error",
             "schema": {
               "required": [
                 "code",
@@ -578,70 +578,70 @@
                 }
               }
             }
-          }, 
+          },
           "204": {
             "description": "pet deleted"
           }
-        }, 
+        },
         "parameters": [
           {
-            "required": true, 
-            "type": "string", 
-            "description": "Name of pet to delete", 
-            "in": "path", 
+            "required": true,
+            "type": "string",
+            "description": "Name of pet to delete",
+            "in": "path",
             "name": "name"
           }
-        ], 
+        ],
         "description": "deletes a single pet based on the name supplied"
       }
     }
-  }, 
+  },
   "schemes": [
-    "http", 
+    "http",
     "https"
-  ], 
+  ],
   "produces": [
     "application/json"
-  ], 
-  "basePath": "/api", 
-  "host": "company.com", 
+  ],
+  "basePath": "/api",
+  "host": "company.com",
   "definitions": {
     "pet": {
       "required": [
-        "name", 
+        "name",
         "type"
-      ], 
+      ],
       "properties": {
         "age": {
           "type": "integer"
-        }, 
+        },
         "type": {
           "enum": [
-            "cat", 
-            "dog", 
+            "cat",
+            "dog",
             "bird"
-          ], 
+          ],
           "type": "string"
-        }, 
+        },
         "name": {
-          "minLength": 2, 
-          "type": "string", 
+          "minLength": 2,
+          "type": "string",
           "pattern": "^[a-zA-Z0-9- ]+$"
-        }, 
+        },
         "tags": {
           "items": {
-            "minLength": 1, 
+            "minLength": 1,
             "type": "string"
-          }, 
+          },
           "type": "array"
         }
       }
-    }, 
+    },
     "error": {
       "required": [
-        "code", 
+        "code",
         "message"
-      ], 
+      ],
       "properties": {
         "pet": {
           "required": [
@@ -673,18 +673,18 @@
               "type": "array"
             }
           }
-        }, 
+        },
         "message": {
           "type": "string"
-        }, 
+        },
         "code": {
-          "type": "integer", 
+          "type": "integer",
           "format": "int32"
         }
       }
     }
-  }, 
-  "swagger": "2.0", 
+  },
+  "swagger": "2.0",
   "consumes": [
     "application/json"
   ]

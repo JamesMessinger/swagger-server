@@ -1,30 +1,30 @@
 {
   "required": [
-    "name", 
+    "name",
     "type"
-  ], 
+  ],
   "properties": {
     "age": {
       "type": "integer"
-    }, 
+    },
     "type": {
       "enum": [
-        "cat", 
-        "dog", 
+        "cat",
+        "dog",
         "bird"
-      ], 
+      ],
       "type": "string"
-    }, 
+    },
     "name": {
-      "minLength": 2, 
-      "type": "string", 
+      "minLength": 2,
+      "type": "string",
       "pattern": "^[a-zA-Z0-9- ]+$"
-    }, 
+    },
     "tags": {
       "items": {
-        "minLength": 1, 
+        "minLength": 1,
         "type": "string"
-      }, 
+      },
       "type": "array"
     }
   }
