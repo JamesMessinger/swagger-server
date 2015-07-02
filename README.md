@@ -15,7 +15,7 @@ Swagger Server
 
 |__v1.0.0 Alpha Notice !__
 |---------------------------------
-|We are currently working on the `v1.0.0` release, which is a complete rewrite and is not backward-compatible with `v0.0.x`. To continue using the __current stable version__ of Swagger Server, use `npm install swagger-server@0.0.x`<br><br>To start using the __alpha version__ of Swagger Server 1.0, use `npm install swagger-server`.  Please be aware that the beta version may still undergo some API changes before being released. It's not finished yet, and some of the samples don't work yet.  But feel free to try it out and [provide feedback](https://github.com/BigstickCarpet/swagger-server/issues).
+|We are currently working on the `v1.0.0` release, which is a complete rewrite and is not backward-compatible with `v0.0.x`. To continue using the __current stable version__ of Swagger Server, use `npm install swagger-server@0.0.x`<br><br>To start using the __alpha version__ of Swagger Server 1.0, use `npm install swagger-server@latest`.  Please be aware that the alpha version may still undergo some API changes before being released. It's not finished yet, and some of the samples don't work yet.  But feel free to try it out and [provide feedback](https://github.com/BigstickCarpet/swagger-server/issues).
 
 
 Features
@@ -44,7 +44,7 @@ Installation
 Swagger Server requires [Node.js](http://nodejs.org/), so install that first.  Then install Swagger Server using the following [npm](https://docs.npmjs.com/getting-started/what-is-npm) command:
 
 ```bash
-npm install swagger-server
+npm install swagger-server@latest
 ```
 
 
