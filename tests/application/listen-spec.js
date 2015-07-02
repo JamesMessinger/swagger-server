@@ -17,7 +17,8 @@ describe('App.listen', function() {
     function(done) {
       var app = env.swaggerApp(env.files.petStore);
       var httpServer = app.listen();
-      httpServer.on('listening', function() {
+      sinon.stub(httpServer, 'listen', function() {
+        expect(arguments).to.have.lengthOf(0);
         done();
       });
     }
@@ -27,8 +28,21 @@ describe('App.listen', function() {
     function(done) {
       var app = env.swaggerApp(env.files.petStore);
       var httpServer = app.listen(3456);
-      httpServer.on('listening', function() {
-        expect(httpServer.address().port).to.equal(3456);
+      sinon.stub(httpServer, 'listen', function() {
+        expect(arguments).to.have.lengthOf(1);
+        expect(arguments[0]).to.equal(3456);
+        done();
+      });
+    }
+  );
+
+  it('can be called with just a socket name',
+    function(done) {
+      var app = env.swaggerApp(env.files.petStore);
+      var httpServer = app.listen('some-socket-name');
+      sinon.stub(httpServer, 'listen', function() {
+        expect(arguments).to.have.lengthOf(1);
+        expect(arguments[0]).to.equal('some-socket-name');
         done();
       });
     }
@@ -36,9 +50,27 @@ describe('App.listen', function() {
 
   it('can be called with just a port number and a callback',
     function(done) {
+      var spy = sinon.spy();
       var app = env.swaggerApp(env.files.petStore);
-      var httpServer = app.listen(5678, function() {
-        expect(httpServer.address().port).to.equal(5678);
+      var httpServer = app.listen(5678, spy);
+      sinon.stub(httpServer, 'listen', function() {
+        expect(arguments).to.have.lengthOf(2);
+        expect(arguments[0]).to.equal(5678);
+        expect(arguments[1]).to.equal(spy);
+        done();
+      });
+    }
+  );
+
+  it('can be called with just a socket name and a callback',
+    function(done) {
+      var spy = sinon.spy();
+      var app = env.swaggerApp(env.files.petStore);
+      var httpServer = app.listen('some-socket-name', spy);
+      sinon.stub(httpServer, 'listen', function() {
+        expect(arguments).to.have.lengthOf(2);
+        expect(arguments[0]).to.equal('some-socket-name');
+        expect(arguments[1]).to.equal(spy);
         done();
       });
     }
@@ -46,25 +78,95 @@ describe('App.listen', function() {
 
   it('can be called with all parameters of net.Server.listen',
     function(done) {
+      var spy = sinon.spy();
       var app = env.swaggerApp(env.files.petStore);
-      var httpServer = app.listen(6789, 'localhost', 100, function() {
-        expect(httpServer.address().port).to.equal(6789);
+      var httpServer = app.listen(6789, 'localhost', 100, spy);
+      sinon.stub(httpServer, 'listen', function() {
+        expect(arguments).to.have.lengthOf(4);
+        expect(arguments[0]).to.equal(6789);
+        expect(arguments[1]).to.equal('localhost');
+        expect(arguments[2]).to.equal(100);
+        expect(arguments[3]).to.equal(spy);
         done();
       });
     }
   );
 
-  it('uses the port number in the Swagger spec if no port number is given',
+  it('should use the port number in the Swagger spec if called without any arguments',
     function(done) {
       var app = env.swaggerApp(env.files.petStoreWithPort);
-      var httpServer = app.listen(function() {
-        expect(httpServer.address().port).to.equal(3000);
+      var httpServer = app.listen();
+      sinon.stub(httpServer, 'listen', function() {
+        expect(arguments).to.have.lengthOf(1);
+        expect(arguments[0]).to.equal(3000);
         done();
       });
     }
   );
 
-  it('uses a random port number if no port number is given or in the Swagger spec',
+  it('should use the port number in the Swagger spec if only a callback is given',
+    function(done) {
+      var spy = sinon.spy();
+      var app = env.swaggerApp(env.files.petStoreWithPort);
+      var httpServer = app.listen(spy);
+      sinon.stub(httpServer, 'listen', function() {
+        expect(arguments).to.have.lengthOf(2);
+        expect(arguments[0]).to.equal(3000);
+        expect(arguments[1]).to.equal(spy);
+        done();
+      });
+    }
+  );
+
+  it('should use the port number in the Swagger spec if the given port is null',
+    function(done) {
+      var app = env.swaggerApp(env.files.petStoreWithPort);
+      var httpServer = app.listen(null);
+      sinon.stub(httpServer, 'listen', function() {
+        expect(arguments).to.have.lengthOf(1);
+        expect(arguments[0]).to.equal(3000);
+        done();
+      });
+    }
+  );
+
+  it('should use the port number in the Swagger spec if the given port is undefined',
+    function(done) {
+      var app = env.swaggerApp(env.files.petStoreWithPort);
+      var httpServer = app.listen(undefined);
+      sinon.stub(httpServer, 'listen', function() {
+        expect(arguments).to.have.lengthOf(1);
+        expect(arguments[0]).to.equal(3000);
+        done();
+      });
+    }
+  );
+
+  it('should use the port number in the Swagger spec if the given port is zero',
+    function(done) {
+      var app = env.swaggerApp(env.files.petStoreWithPort);
+      var httpServer = app.listen(0);
+      sinon.stub(httpServer, 'listen', function() {
+        expect(arguments).to.have.lengthOf(1);
+        expect(arguments[0]).to.equal(3000);
+        done();
+      });
+    }
+  );
+
+  it('should use the port number in the Swagger spec if the given socket name is blank',
+    function(done) {
+      var app = env.swaggerApp(env.files.petStoreWithPort);
+      var httpServer = app.listen('');
+      sinon.stub(httpServer, 'listen', function() {
+        expect(arguments).to.have.lengthOf(1);
+        expect(arguments[0]).to.equal(3000);
+        done();
+      });
+    }
+  );
+
+  it('should use a random port number if no port number is given or in the Swagger spec',
     function(done) {
       var api = _.cloneDeep(env.files.parsed.petStore);
       delete api.host;
@@ -77,11 +179,25 @@ describe('App.listen', function() {
     }
   );
 
-  it('uses the given port number instead of the port number in the Swagger spec',
+  it('should use the given port number instead of the port number in the Swagger spec',
     function(done) {
       var app = env.swaggerApp(env.files.petStoreWithPort);
-      var httpServer = app.listen(1111, function() {
-        expect(httpServer.address().port).to.equal(1111);
+      var httpServer = app.listen(1111);
+      sinon.stub(httpServer, 'listen', function() {
+        expect(arguments).to.have.lengthOf(1);
+        expect(arguments[0]).to.equal(1111);
+        done();
+      });
+    }
+  );
+
+  it('should use the given socket name instead of the port number in the Swagger spec',
+    function(done) {
+      var app = env.swaggerApp(env.files.petStoreWithPort);
+      var httpServer = app.listen('some-socket-name');
+      sinon.stub(httpServer, 'listen', function() {
+        expect(arguments).to.have.lengthOf(1);
+        expect(arguments[0]).to.equal('some-socket-name');
         done();
       });
     }
