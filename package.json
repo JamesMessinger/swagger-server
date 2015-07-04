@@ -45,6 +45,7 @@
     "lodash": "^2.4.1",
     "multer": "^0.1.6",
     "swagger-parser": "1.0.1",
+    "swagger-schema-official": "2.0.0-96305d9",
     "tv4": "^1.1.0",
     "type-is": "^1.5.2",
     "xml2js": "^0.4.4"
