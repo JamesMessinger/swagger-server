@@ -11,13 +11,13 @@ produces:
 
 definitions:
   session:
-    $ref: api/session.definition.yaml
+    $ref: api/schemas/session.yaml
   employee:
-    $ref: api/employee.definition.yaml
+    $ref: api/schemas/employee.yaml
   department:
-    $ref: api/department.definition.yaml
+    $ref: api/schemas/department.yaml
   project:
-    $ref: api/project.definition.yaml
+    $ref: api/schemas/project.yaml
 
 parameters:
   sessionCookie:
@@ -52,18 +52,18 @@ parameters:
 
 paths:
   /sessions:
-    $ref: api/sessions.path.yaml
+    $ref: api/sessions.yaml
   /sessions/{sessionId}:
-    $ref: api/session.path.yaml
+    $ref: api/session.yaml
   /employees:
-    $ref: api/employees.path.yaml
+    $ref: api/employees.yaml
   /employees/{username}:
-    $ref: api/employee.path.yaml
+    $ref: api/employee.yaml
   /employees/{username}/photos/{photoType}:
-    $ref: api/employee-photo.path.yaml
+    $ref: api/employee-photo.yaml
   /projects:
-    $ref: api/projects.path.yaml
+    $ref: api/projects.yaml
   /projects/{projectId}:
-    $ref: api/project.path.yaml
+    $ref: api/project.yaml
   /projects/{projectId}/members/{username}:
-    $ref: api/project-member.path.yaml
+    $ref: api/project-member.yaml

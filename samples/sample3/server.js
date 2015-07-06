@@ -29,11 +29,11 @@ employees.init(server, function() {
   });
 });
 
-// Register path handlers
+// Register path handler
 server.get('/sessions', sessions.get);
 server.post('/sessions', sessions.post);
 server.get('/sessions/{sessionId}', session.get);
-server.post('/sessions/{sessionId}', session.delete);
+server.delete('/sessions/{sessionId}', session.delete);
 server.get('/employees', employees.get);
 server.post('/employees', employees.post);
 server.get('/employees/{username}', employee.get);
