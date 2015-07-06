@@ -1,0 +1,49 @@
+parameters:
+  - $ref: "#/parameters/sessionCookie"  # Must be logged in access this path
+  - $ref: "#/parameters/projectId"
+
+get:
+  tags: [Project]
+  summary: Retrieves a project by ID
+  responses:
+    200:
+      description: Returns the project info
+      schema:
+        $ref: project
+    401:
+      description: Missing session cookie
+    404:
+      description: The {projectId} was not found
+
+patch:
+  tags: [Project]
+  summary: Edits a project's data
+  description: Only admins can do this
+  parameters:
+    - name: body
+      in: body
+      required: true
+      description: The project's new data
+      schema:
+        $ref: project
+  responses:
+    200:
+      description: The project was updated successfully.
+      schema:
+        $ref: project
+    401:
+      description: Missing session cookie, or not an admin user
+    404:
+      description: The {projectId} was not found
+
+delete:
+  tags: [Project]
+  summary: Deletes a project
+  description: Only admins can do this
+  responses:
+    204:
+      description: The project was deleted successfully
+    401:
+      description: Missing session cookie, or not an admin user
+    404:
+      description: The {projectId} was not found

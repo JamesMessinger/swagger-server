@@ -1,0 +1,28 @@
+parameters:
+  - $ref: "#/parameters/sessionCookie"  # Must be logged in access this path
+  - $ref: "#/parameters/projectId"
+  - $ref: "#/parameters/username"
+
+put:
+  tags: [Project]
+  summary: Assigns an employee to the project
+  description: Only admins can do this
+  responses:
+    201:
+      description: The employee was added to the project
+    401:
+      description: Missing session cookie, or not an admin user
+    404:
+      description: The {projectId} or {username} was not found
+
+delete:
+  tags: [Project]
+  summary: Removes an employee from the project
+  description: Only admins can do this
+  responses:
+    204:
+      description: The employee was removed from the project
+    401:
+      description: Missing session cookie, or not an admin user
+    404:
+      description: The {projectId} or {username} was not found

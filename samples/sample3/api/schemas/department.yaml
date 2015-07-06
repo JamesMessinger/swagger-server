@@ -1,0 +1,6 @@
+type: string
+enum:
+  - Marketing
+  - Sales
+  - Human Resources
+  - Accounting
