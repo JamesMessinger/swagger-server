@@ -4,6 +4,7 @@ var mockery = require('mockery');
 var path    = require('path');
 var Handlers = null;
 var handlerInstance = null;
+var dirSearchResultsMock = null;
 
 var server = null,
     serverStub = null,
@@ -30,7 +31,7 @@ describe('handler module', function() {
       }
     };
 
-    var dirSearchResultsMock = [
+    dirSearchResultsMock = [
       path.join(process.cwd(), 'tests', 'handler/handlers/employees.js'),
       path.join(process.cwd(), 'tests', 'handler/handlers/projects.js'),
       path.join(process.cwd(), 'tests', 'handler/handlers/sessions.js'),
@@ -40,17 +41,6 @@ describe('handler module', function() {
       path.join(process.cwd(), 'tests', 'handler/handlers/projects/{projectId}.js'),
       path.join(process.cwd(), 'tests', 'handler/handlers/projects/{projectId}/members/{username}.js')
     ];
-
-    //var dirSearchResultsMock = [
-    //  '/Users/randall/gitHubRepositories/swagger-server/samples/sample3/handlers/employees.js',
-    //  '/Users/randall/gitHubRepositories/swagger-server/samples/sample3/handlers/projects.js',
-    //  '/Users/randall/gitHubRepositories/swagger-server/samples/sample3/handlers/sessions.js',
-    //  '/Users/randall/gitHubRepositories/swagger-server/samples/sample3/handlers/sessions/{sessionId}.js',
-    //  '/Users/randall/gitHubRepositories/swagger-server/samples/sample3/handlers/employees/{username}.js',
-    //  '/Users/randall/gitHubRepositories/swagger-server/samples/sample3/handlers/employees/{username}/photos/{photoType}.js',
-    //  '/Users/randall/gitHubRepositories/swagger-server/samples/sample3/handlers/projects/{projectId}.js',
-    //  '/Users/randall/gitHubRepositories/swagger-server/samples/sample3/handlers/projects/{projectId}/members/{username}.js'
-    //];
 
     dirSearch = function(path, extension, cb) {
       cb(null, dirSearchResultsMock);
@@ -115,29 +105,45 @@ describe('handler module', function() {
     sinon.assert.calledWith(server.emit, 'handled');
   });
 
-  it('should emit an error when the handler directory specified does not exist', function() {
-    expect(true).to.equal(false);
-  });
-
-  it('should emit the \'handled\' event upon a successful call', function() {
-    expect(true).to.equal(false);
-  });
-
-  it('should not emit the \'handled\' even upon an error in the call', function() {
-    expect(true).to.equal(false);
-  });
-
   it('should not add a file to the server that is not defined in the swagger metadata', function() {
-    expect(true).to.equal(false);
+    handlerInstance.currentApi = {baseDir: './'};
+    handlerInstance.currentMetaData = {
+      paths: {
+        '/employees': {},
+        '/employees/{username}': {},
+        '/employees/{username}/photos/{photoType}': {},
+        '/projects': {},
+        '/projects/{projectId}': {},
+        '/projects/{projectId}/members/{username}': {},
+        '/sessions': {},
+        '/sessions/{sessionId}': {}
+      }
+    };
+
+    dirSearchResultsMock.push(path.join(process.cwd(), 'tests',
+      'handler/handlers/bad/handler/path'));
+
+    handlerInstance.setupHandlers();
+
+    sinon.assert.neverCalledWith(server.get, 'bad/handler/path');
+    sinon.assert.neverCalledWith(server.post, 'bad/handler/path');
+    sinon.assert.neverCalledWith(server.put, 'bad/handler/path');
+    sinon.assert.neverCalledWith(server.delete, 'bad/handler/path');
+    sinon.assert.neverCalledWith(server.delete, 'bad/handler/path');
+    sinon.assert.calledWith(server.emit, 'error');
+    sinon.assert.calledWith(server.get, '/employees');
   });
 
-  it('should not add a handler to the server that attempts to use an http verb that isn\'t supported',function(){
-    expect(true).to.equal(false);
-  });
-
-  it('should call the setupHandlers function when a parsed event is detected', function() {
-
-    expect(true).to.equal(false);
-  });
+  //it('should call the setupHandlers function when a parsed event is detected', function() {
+  //  expect(true).to.equal(false);
+  //});
+  //
+  //it('should not add a handler to the server that attempts to use an http verb that isn\'t supported',function(){
+  //  expect(true).to.equal(false);
+  //});
+  //
+  //it('should emit an error when the handler verb function specified is not a function', function() {
+  //  expect(true).to.equal(false);
+  //});
 
 });
