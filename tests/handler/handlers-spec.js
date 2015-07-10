@@ -21,8 +21,15 @@ describe('handler module', function() {
       post: function() {},
       put: function() {},
       delete: function() {},
+      options: function() {},
+      head: function() {},
       patch: function() {},
-      emit: function() {}
+      emit: function() {},
+      app: {
+        get: function() {
+          return './handlers'
+        }
+      }
     };
 
     fs = {
@@ -79,7 +86,7 @@ describe('handler module', function() {
 
   it('should correctly add the custom Handler paths to the server instance', function() {
 
-    handlerInstance.currentApi = {baseDir: './'};
+    handlerInstance.currentApi = {baseDir: process.cwd() + '/tests/handler/'};
     handlerInstance.currentMetaData = {
       paths: {
         '/employees': {},
@@ -106,7 +113,7 @@ describe('handler module', function() {
   });
 
   it('should not add a file to the server that is not defined in the swagger metadata', function() {
-    handlerInstance.currentApi = {baseDir: './'};
+    handlerInstance.currentApi = {baseDir: process.cwd() + '/tests/handler/'};
     handlerInstance.currentMetaData = {
       paths: {
         '/employees': {},
@@ -120,6 +127,7 @@ describe('handler module', function() {
       }
     };
 
+    //Handler path that is not defined in the MetaData.path array
     dirSearchResultsMock.push(path.join(process.cwd(), 'tests',
       'handler/handlers/bad/handler/path'));
 
@@ -130,20 +138,71 @@ describe('handler module', function() {
     sinon.assert.neverCalledWith(server.put, 'bad/handler/path');
     sinon.assert.neverCalledWith(server.delete, 'bad/handler/path');
     sinon.assert.neverCalledWith(server.delete, 'bad/handler/path');
-    sinon.assert.calledWith(server.emit, 'error');
     sinon.assert.calledWith(server.get, '/employees');
+  });
+
+  it('Swaggerize Handler with only functions as it\'s HTTP Verb exports should be successfully added to the Swagger Express Server', function() {
+    handlerInstance.currentApi = {baseDir: process.cwd() + '/tests/handler/'};
+    handlerInstance.currentMetaData = {
+      paths: {
+        'onlyFunctions': {}
+      }
+    };
+
+    dirSearchResultsMock.push(path.join(process.cwd(), 'tests', 'handler/handlers/onlyFunctions.js'));
+
+    handlerInstance.setupHandlers();
+
+    sinon.assert.calledWith(server.get, sinon.match('/onlyFunctions', function() {}));
+    sinon.assert.calledWith(server.post, sinon.match('/onlyFunctions', function() {}));
+    sinon.assert.calledWith(server.put, sinon.match('/onlyFunctions', function()  {}));
+    sinon.assert.calledWith(server.delete, sinon.match('/onlyFunctions', function() {}));
+    sinon.assert.calledWith(server.options, sinon.match('/onlyFunctions', function(){}));
+    sinon.assert.calledWith(server.head, sinon.match('/onlyFunctions', function() {}));
+    sinon.assert.calledWith(server.patch, sinon.match('/onlyFunctions', function() {}));
+  });
+
+  it('Swaggerize Handler with arrays as it\'s HTTP Verb exports should be successfully added to the Swagger Express Server', function() {
+    handlerInstance.currentApi = {baseDir: process.cwd() + '/tests/handler/'};
+    handlerInstance.currentMetaData = {
+      paths: {
+        '/arraysOnly': {}
+      }
+    };
+
+    dirSearchResultsMock.push(path.join(process.cwd(), 'tests', 'handler/handlers/arraysOnly.js'));
+
+    handlerInstance.setupHandlers();
+
+    var expectedCb = [ function(){}, function() {}];
+
+    sinon.assert.calledWith(server.get, sinon.match('/arraysOnly', expectedCb));
+    sinon.assert.calledWith(server.post, sinon.match('/arraysOnly', expectedCb));
+    sinon.assert.calledWith(server.put, sinon.match('/arraysOnly', expectedCb));
+    sinon.assert.calledWith(server.delete, sinon.match('/arraysOnly', expectedCb));
+    sinon.assert.calledWith(server.options, sinon.match('/arraysOnly', expectedCb));
+    sinon.assert.calledWith(server.head, sinon.match('/arraysOnly', expectedCb));
+    sinon.assert.calledWith(server.patch, sinon.match('/arraysOnly', expectedCb));
+  });
+
+  it('Invalid swaggerize handlers module should cause an error to be emitted ', function() {
+    handlerInstance.currentApi = {baseDir: process.cwd() + '/tests/handler/'};
+    handlerInstance.currentMetaData = {
+      paths: {
+        '/invalidSwaggerize': {}
+      }
+    };
+
+    dirSearchResultsMock.push(path.join(process.cwd(), 'tests', 'handler/handlers/invalidSwaggerize.js'));
+
+    handlerInstance.setupHandlers();
+
+    sinon.assert.calledWith(server.emit, 'error');
   });
 
   //it('should call the setupHandlers function when a parsed event is detected', function() {
   //  expect(true).to.equal(false);
   //});
   //
-  //it('should not add a handler to the server that attempts to use an http verb that isn\'t supported',function(){
-  //  expect(true).to.equal(false);
-  //});
-  //
-  //it('should emit an error when the handler verb function specified is not a function', function() {
-  //  expect(true).to.equal(false);
-  //});
 
 });
