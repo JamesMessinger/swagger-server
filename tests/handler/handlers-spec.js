@@ -200,6 +200,46 @@ describe('handler module', function() {
     sinon.assert.calledWith(server.emit, 'error');
   });
 
+  it('Setting a different setting in \'handlers path\' correctly gets the new directory', function() {
+    server.app.get = function() { return './altHandlersBaseDir' };
+
+    handlerInstance.currentApi = {baseDir: process.cwd() + '/tests/handler/'};
+    handlerInstance.currentMetaData = {
+      paths: {
+        '/employees': {},
+        '/employees/{username}': {},
+        '/employees/{username}/photos/{photoType}': {},
+        '/projects': {},
+        '/projects/{projectId}': {},
+        '/projects/{projectId}/members/{username}': {},
+        '/sessions': {},
+        '/sessions/{sessionId}': {}
+      }
+    };
+
+    dirSearchResultsMock = [
+      path.join(process.cwd(), 'tests', 'handler/altHandlersBaseDir/employees.js'),
+      path.join(process.cwd(), 'tests', 'handler/altHandlersBaseDir/projects.js'),
+      path.join(process.cwd(), 'tests', 'handler/altHandlersBaseDir/sessions.js'),
+      path.join(process.cwd(), 'tests', 'handler/altHandlersBaseDir/sessions/{sessionId}.js'),
+      path.join(process.cwd(), 'tests', 'handler/altHandlersBaseDir/employees/{username}.js'),
+      path.join(process.cwd(), 'tests', 'handler/altHandlersBaseDir/employees/{username}/photos/{photoType}.js'),
+      path.join(process.cwd(), 'tests', 'handler/altHandlersBaseDir/projects/{projectId}.js'),
+      path.join(process.cwd(), 'tests', 'handler/altHandlersBaseDir/projects/{projectId}/members/{username}.js')
+    ];
+
+    handlerInstance.setupHandlers();
+
+    sinon.assert.callCount(server.get, 7);
+    sinon.assert.calledThrice(server.post, 3);
+    sinon.assert.callCount(server.delete, 5);
+    sinon.assert.calledTwice(server.put, 2);
+    sinon.assert.calledTwice(server.patch, 2);
+    sinon.assert.calledOnce(server.emit, 1);
+    sinon.assert.calledWith(server.emit, 'handled');
+
+  });
+
   //it('should call the setupHandlers function when a parsed event is detected', function() {
   //  expect(true).to.equal(false);
   //});
