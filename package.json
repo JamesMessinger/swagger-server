@@ -29,15 +29,16 @@
     "test": "istanbul cover _mocha -- --bail --recursive tests",
     "mocha": "mocha --bail --recursive tests",
     "upgrade": "npm-check-updates -u && npm update",
-    "release": "npm run upgrade && npm run build && npm test && bump --prerelease --tag --push --all && npm publish"
+    "bump": "bump --prerelease --tag --push --all",
+    "release": "npm run upgrade && npm run build && npm test && npm run bump && npm publish"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/BigstickCarpet/swagger-server.git"
   },
   "devDependencies": {
-    "chai": "^3.0.0",
-    "coveralls": "^2.11.2",
+    "chai": "^3.2.0",
+    "coveralls": "^2.11.3",
     "istanbul": "^0.3.17",
     "jscs": "^1.13.1",
     "jshint": "^2.8.0",
@@ -47,12 +48,12 @@
     "npm-check-updates": "^1.5.1",
     "sinon": "^1.15.4",
     "supertest": "^1.0",
-    "version-bump-prompt": "^1.4.0"
+    "version-bump-prompt": "^1.4.1"
   },
   "dependencies": {
     "debug": "^2.2.0",
     "directory-search": "0.0.32",
-    "express": "^4.13.0",
+    "express": "^4.13.1",
     "lodash": "^3.10.0",
     "swagger-express-middleware": "^0.4"
   }

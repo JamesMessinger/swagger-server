@@ -8,15 +8,15 @@
 process.env.DEBUG = 'swagger:*';
 
 var swagger   = require('swagger-server'),
-    path      = require('path'),
-    sessions  = require('./handlers/sessions'),
-    session   = require('./handlers/sessions/{sessionId}'),
-    employees = require('./handlers/employees'),
-    employee  = require('./handlers/employees/{username}'),
-    photo     = require('./handlers/employees/{username}/photos/{photoType}'),
-    projects  = require('./handlers/projects'),
-    project   = require('./handlers/projects/{projectId}'),
-    member    = require('./handlers/projects/{projectId}/members/{username}');
+    path      = require('path');
+    //sessions  = require('./handlers/sessions'),
+    //session   = require('./handlers/sessions/{sessionId}'),
+    //employees = require('./handlers/employees'),
+    //employee  = require('./handlers/employees/{username}'),
+    //photo     = require('./handlers/employees/{username}/photos/{photoType}'),
+    //projects  = require('./handlers/projects'),
+    //project   = require('./handlers/projects/{projectId}'),
+    //member    = require('./handlers/projects/{projectId}/members/{username}');
 
 // Parse the Swagger file
 var server = new swagger.Server();
