@@ -1,6 +1,5 @@
 'use strict';
 
-
 module.exports = {
   /**
    * GET /projects/{projectId}

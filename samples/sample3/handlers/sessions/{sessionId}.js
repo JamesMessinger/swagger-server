@@ -4,7 +4,6 @@ var session = require('../sessions');
 
 module.exports = {
 
-
   /**
    * GET /sessions/{sessionId}
    */

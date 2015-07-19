@@ -2,7 +2,6 @@
 
 module.exports = {
 
-
   /**
    * GET /sessions/{sessionId}
    */
