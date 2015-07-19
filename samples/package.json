@@ -1,6 +1,6 @@
 {
   "name": "swagger-server-samples",
-  "version": "0.0.7",
+  "version": "1.0.0-alpha.1",
   "description": "Sample REST APIs for Swagger Server",
   "keywords": [
     "express",
@@ -25,7 +25,11 @@
     "start": "cd sample1 && node server.js",
     "sample1": "cd sample1 && node server.js",
     "sample2": "cd sample2 && node server.js",
-    "sample3": "cd sample3 && node server.js"
+    "sample3": "cd sample3 && node server.js",
+    "build": "jshint . --verbose && jscs . --verbose",
+    "upgrade": "npm-check-updates -u && npm update",
+    "bump": "bump --prerelease --tag --push --all",
+    "release": "npm run upgrade && npm run build && npm run bump && npm publish"
   },
   "repository": {
     "type": "git",
@@ -34,5 +38,11 @@
   "dependencies": {
     "@bigstickcarpet/mock-data": "^3.0.1",
     "swagger-server": "^1.0.0-alpha"
+  },
+  "devDependencies": {
+    "npm-check-updates": "^1.5.1",
+    "jscs": "^1.13.1",
+    "jshint": "^2.8.0",
+    "version-bump-prompt": "^1.4.1"
   }
 }
