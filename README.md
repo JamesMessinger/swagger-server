@@ -2,11 +2,11 @@ Swagger Server
 ============================
 #### Get your REST API up-and-running *FAST* with Swagger and Express
 
-[![Build Status](https://img.shields.io/travis/BigstickCarpet/swagger-server.svg)](https://travis-ci.org/BigstickCarpet/swagger-server)
-[![Dependencies](https://img.shields.io/david/bigstickcarpet/swagger-server.svg)](https://david-dm.org/bigstickcarpet/swagger-server)
-[![Code Climate Score](https://img.shields.io/codeclimate/github/BigstickCarpet/swagger-server.svg)](https://codeclimate.com/github/BigstickCarpet/swagger-server)
-[![Codacy Score](http://img.shields.io/codacy/431cc27ab6ec40cca6ea51c91ad8bfd6.svg)](https://www.codacy.com/public/jamesmessinger/swagger-server)
-[![Coverage Status](https://img.shields.io/coveralls/BigstickCarpet/swagger-server.svg)](https://coveralls.io/r/BigstickCarpet/swagger-server)
+[![Build Status](https://api.travis-ci.org/BigstickCarpet/swagger-server.svg)](https://travis-ci.org/BigstickCarpet/swagger-server)
+[![Dependencies](https://david-dm.org/BigstickCarpet/swagger-server.svg)](https://david-dm.org/bigstickcarpet/swagger-server)
+[![Coverage Status](https://coveralls.io/repos/BigstickCarpet/swagger-server/badge.svg?branch=master&service=github)](https://coveralls.io/r/BigstickCarpet/swagger-server)
+[![Code Climate Score](https://codeclimate.com/github/BigstickCarpet/swagger-server/badges/gpa.svg)](https://codeclimate.com/github/BigstickCarpet/swagger-server)
+[![Codacy Score](https://www.codacy.com/project/badge/431cc27ab6ec40cca6ea51c91ad8bfd6)](https://www.codacy.com/public/jamesmessinger/swagger-server)
 [![Inline docs](http://inch-ci.org/github/BigstickCarpet/swagger-server.svg?branch=master&style=shields)](http://inch-ci.org/github/BigstickCarpet/swagger-server)
 
 [![npm](http://img.shields.io/npm/v/swagger-server.svg)](https://www.npmjs.com/package/swagger-server)
