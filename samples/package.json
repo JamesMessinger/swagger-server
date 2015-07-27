@@ -1,6 +1,6 @@
 {
   "name": "swagger-server-samples",
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0-alpha.3",
   "description": "Sample REST APIs for Swagger Server",
   "keywords": [
     "express",
@@ -28,7 +28,7 @@
     "sample3": "cd sample3 && node server.js",
     "build": "jshint . --verbose && jscs . --verbose",
     "upgrade": "npm-check-updates -u && npm update",
-    "bump": "bump --prerelease --tag --push --all",
+    "bump": "bump --prerelease --push --all",
     "release": "npm run upgrade && npm run build && npm run bump && npm publish"
   },
   "repository": {
