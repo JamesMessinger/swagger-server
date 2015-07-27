@@ -28,7 +28,7 @@
     "sample3": "cd sample3 && node server.js",
     "build": "jshint . --verbose && jscs . --verbose",
     "upgrade": "npm-check-updates -u && npm update",
-    "bump": "bump --prerelease --push --all",
+    "bump": "bump --prerelease",
     "release": "npm run upgrade && npm run build && npm run bump && npm publish"
   },
   "repository": {
