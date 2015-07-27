@@ -12,8 +12,16 @@ var swagger   = require('swagger-server'),
 
 // Parse the Swagger file
 var server = new swagger.Server();
-
 server.parse(path.join(__dirname, 'swagger.yaml'));
+
+// Initialize each handler
+// TODO: This will be done automatically by Swagger Server
+require('./handlers/employees').init(server, function() {
+  require('./handlers/projects').init(server, function() {
+    require('./handlers/employees/{username}/photos/{photoType}').init(server, function() {
+    });
+  });
+});
 
 // Start listening on port 8000
 server.listen(8000, function() {
