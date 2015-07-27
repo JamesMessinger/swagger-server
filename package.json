@@ -1,6 +1,6 @@
 {
   "name": "swagger-server",
-  "version": "1.0.0-alpha.13",
+  "version": "1.0.0-alpha.14",
   "description": "Get your REST API up-and-running FAST with Swagger and Express",
   "keywords": [
     "express",
@@ -44,11 +44,11 @@
     "jshint": "^2.8.0",
     "mocha": "^2.2.5",
     "mockery": "^1.4.0",
-    "nock": "^2.7.0",
+    "nock": "^2.9.1",
     "npm-check-updates": "^1.5.1",
     "sinon": "^1.15.4",
     "supertest": "^1.0",
-    "version-bump-prompt": "^1.4.1"
+    "version-bump-prompt": "^1.4.2"
   },
   "dependencies": {
     "debug": "^2.2.0",
