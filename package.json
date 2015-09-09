@@ -28,7 +28,7 @@
     "build": "jshint . --verbose && jscs . --verbose",
     "test": "istanbul cover _mocha -- --bail --recursive tests",
     "mocha": "mocha --bail --recursive tests",
-    "upgrade": "npm-check-updates -u && npm update",
+    "upgrade": "ncu --upgradeAll && npm update",
     "bump": "bump --prerelease --tag --push --all",
     "release": "npm run upgrade && npm run build && npm test && npm run bump && npm publish"
   },
@@ -38,23 +38,24 @@
   },
   "devDependencies": {
     "chai": "^3.2.0",
-    "coveralls": "^2.11.3",
-    "istanbul": "^0.3.17",
-    "jscs": "^1.13.1",
+    "coveralls": "^2.11.4",
+    "istanbul": "^0.3.19",
+    "jscs": "^2.1.1",
     "jshint": "^2.8.0",
-    "mocha": "^2.2.5",
+    "mocha": "^2.3.2",
     "mockery": "^1.4.0",
-    "nock": "^2.9.1",
-    "npm-check-updates": "^1.5.1",
-    "sinon": "^1.15.4",
-    "supertest": "^1.0",
-    "version-bump-prompt": "^1.4.2"
+    "nock": "^2.10.0",
+    "npm-check-updates": "^2.2.0",
+    "sinon": "^1.16.1",
+    "supertest": "^1.1",
+    "version-bump-prompt": "^1.5.1"
   },
   "dependencies": {
     "debug": "^2.2.0",
     "directory-search": "0.0.32",
-    "express": "^4.13.1",
-    "lodash": "^3.10.0",
-    "swagger-express-middleware": "^0.4"
+    "express": "^4.13.3",
+    "lodash": "^3.10.1",
+    "swagger-express-middleware": ">=1.0.0-alpha.10",
+    "swagger-methods": "^1.0.0"
   }
 }
