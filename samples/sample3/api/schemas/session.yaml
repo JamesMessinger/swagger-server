@@ -12,4 +12,4 @@ properties:
     description: The date/time that the session was created
   user:
     description: The user account that is associated with the session (i.e. the user who just logged in)
-    $ref: employee
+    $ref: "#/definitions/employee"

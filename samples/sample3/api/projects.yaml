@@ -30,7 +30,7 @@ get:
       schema:
         type: array
         items:
-          $ref: project
+          $ref: "#/definitions/project"
     401:
       description: Missing session cookie
 
@@ -44,12 +44,12 @@ post:
       required: true
       description: The data for the new project
       schema:
-        $ref: project
+        $ref: "#/definitions/project"
   responses:
     201:
       description: The project was saved successfully
       schema:
-        $ref: project
+        $ref: "#/definitions/project"
       headers:
         Location:
           type: string

@@ -57,11 +57,11 @@
             schema:
               type: array
               items:
-                $ref: pet
+                $ref: "#/definitions/pet"
           default:
             description: unexpected error
             schema:
-              $ref: error
+              $ref: "#/definitions/error"
 
       post:
         description: Creates a new pet in the store.
@@ -74,7 +74,7 @@
             description: Pet to add to the store
             required: true
             schema:
-              $ref: pet
+              $ref: "#/definitions/pet"
         responses:
           200:
             description: pet response
@@ -83,13 +83,13 @@
                 type: string
                 description: Swagger-Server will automatically set this header appropriately
             schema:
-              $ref: pet
+              $ref: "#/definitions/pet"
           409:
             description: new pet conflicts with an existing pet (i.e. they have the same name)
           default:
             description: unexpected error
             schema:
-              $ref: error
+              $ref: "#/definitions/error"
 
     /pets/{name}:
       get:
@@ -110,11 +110,11 @@
           200:
             description: pet response
             schema:
-              $ref: pet
+              $ref: "#/definitions/pet"
           default:
             description: unexpected error
             schema:
-              $ref: error
+              $ref: "#/definitions/error"
 
       patch:
         description: Updates a pet by name
@@ -134,16 +134,16 @@
             description: The updated pet info
             required: true
             schema:
-              $ref: pet
+              $ref: "#/definitions/pet"
         responses:
           200:
             description: pet response
             schema:
-              $ref: pet
+              $ref: "#/definitions/pet"
           default:
             description: unexpected error
             schema:
-              $ref: error
+              $ref: "#/definitions/error"
 
       delete:
         description: deletes a single pet based on the name supplied
@@ -160,7 +160,7 @@
           default:
             description: unexpected error
             schema:
-              $ref: error
+              $ref: "#/definitions/error"
 
   definitions:
     pet:
@@ -194,4 +194,4 @@
         message:
           type: string
         pet:
-          $ref: pet
+          $ref: "#/definitions/pet"

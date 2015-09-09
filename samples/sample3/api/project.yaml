@@ -9,7 +9,7 @@ get:
     200:
       description: Returns the project info
       schema:
-        $ref: project
+        $ref: "#/definitions/project"
     401:
       description: Missing session cookie
     404:
@@ -25,12 +25,12 @@ patch:
       required: true
       description: The project's new data
       schema:
-        $ref: project
+        $ref: "#/definitions/project"
   responses:
     200:
       description: The project was updated successfully.
       schema:
-        $ref: project
+        $ref: "#/definitions/project"
     401:
       description: Missing session cookie, or not an admin user
     404:

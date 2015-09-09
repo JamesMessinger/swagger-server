@@ -27,7 +27,7 @@
     "sample2": "cd sample2 && node server.js",
     "sample3": "cd sample3 && node server.js",
     "build": "jshint . --verbose && jscs . --verbose",
-    "upgrade": "npm-check-updates -u && npm update",
+    "upgrade": "ncu --upgradeAll && npm update",
     "bump": "bump --prerelease",
     "release": "npm run upgrade && npm run build && npm run bump && npm publish"
   },
@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@bigstickcarpet/mock-data": "^3.0.5",
-    "swagger-server": "^1.0.0-alpha"
+    "swagger-server": ">-1.0.0-alpha.4"
   },
   "devDependencies": {
     "npm-check-updates": "^1.5.1",

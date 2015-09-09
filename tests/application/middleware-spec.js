@@ -25,8 +25,6 @@ describe('App middleware', function() {
         // Should get called
         app.use(function(err, req, res, next) {
           expect(err).to.be.an.instanceOf(SyntaxError);
-          expect(err.message).to.contain('Error parsing file');
-
           res.sendStatus(test_passed);
         });
       });

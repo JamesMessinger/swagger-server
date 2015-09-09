@@ -52,7 +52,6 @@ describe('error event', function() {
       server.app.listen(function() {
         sinon.assert.calledOnce(onError);
         expect(onError.firstCall.args[0]).to.be.an.instanceOf(SyntaxError);
-        expect(onError.firstCall.args[0].message).to.match(/Error parsing file/);
         done();
       });
     }
@@ -69,7 +68,7 @@ describe('error event', function() {
       server.app.listen(function() {
         sinon.assert.calledOnce(onError);
         expect(onError.firstCall.args[0]).to.be.an.instanceOf(Error);
-        expect(onError.firstCall.args[0].message).to.match(/Error downloading file/);
+        expect(onError.firstCall.args[0].message).to.match(/404/);
         done();
       });
     }
@@ -99,7 +98,6 @@ describe('error event', function() {
       server.app.listen(function() {
         sinon.assert.calledOnce(onError);
         expect(onError.firstCall.args[0]).to.be.an.instanceOf(SyntaxError);
-        expect(onError.firstCall.args[0].message).to.match(/Error parsing file/);
 
         // The parse failed, but the server is still running and watching the file for changes.
         // So change it to be valid, and the parse should succeed.

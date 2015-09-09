@@ -15,7 +15,7 @@ get:
     201:
       description: Returns the session
       schema:
-        $ref: session
+        $ref: "#/definitions/session"
 
 delete:
   tags: [Session]

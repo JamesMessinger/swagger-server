@@ -1,15 +1,16 @@
 'use strict';
 
-var env = require('../test-environment');
+var env           = require('../test-environment'),
+    SwaggerParser = require('../../node_modules/swagger-express-middleware/node_modules/swagger-parser/');
 
 describe('parsed event', function() {
   it('should fire when created with a local file',
     function(done) {
       var server = env.swaggerServer(env.files.petStoreExternalRefs);
-      server.on('parsed', function(err, api, metadata) {
+      server.on('parsed', function(err, api, parser) {
         expect(err).to.be.null;
         expect(api).to.deep.equal(env.files.parsed.petStoreExternalRefs);
-        expect(metadata).to.deep.equal(env.files.metadata.petStoreExternalRefs);
+        expect(parser).to.be.an.instanceOf(SwaggerParser);
         done();
       });
     }
@@ -23,10 +24,10 @@ describe('parsed event', function() {
         .get('/error.yaml').replyWithFile(200, env.files.error);
 
       var server = env.swaggerServer(env.urls.petStoreExternalRefs);
-      server.on('parsed', function(err, api, metadata) {
+      server.on('parsed', function(err, api, parser) {
         expect(err).to.be.null;
         expect(api).to.deep.equal(env.files.parsed.petStoreExternalRefs);
-        expect(metadata).to.deep.equal(env.urls.metadata.petStoreExternalRefs);
+        expect(parser).to.be.an.instanceOf(SwaggerParser);
         done();
       });
     }
@@ -141,8 +142,7 @@ describe('parsed event', function() {
           sinon.assert.calledTwice(onParsed);
           expect(onParsed.secondCall.args[0]).to.be.null;
           expect(onParsed.secondCall.args[1]).to.deep.equal(env.files.parsed.petStore);
-          expect(onParsed.secondCall.args[2]).to.deep.equal(env.files.metadata.petStore);
-          sinon.assert.alwaysCalledWith(onParsed, null, env.files.parsed.petStore, env.files.metadata.petStore);
+          expect(onParsed.secondCall.args[2]).to.be.an.instanceOf(SwaggerParser);
           done();
         });
       });
@@ -177,8 +177,7 @@ describe('parsed event', function() {
             sinon.assert.calledThrice(onParsed);
             expect(onParsed.thirdCall.args[0]).to.be.null;
             expect(onParsed.thirdCall.args[1]).to.deep.equal(env.files.parsed.petStoreExternalRefs);
-            expect(onParsed.thirdCall.args[2]).to.deep.equal(env.files.metadata.petStoreExternalRefs);
-            sinon.assert.alwaysCalledWith(onParsed, null, env.files.parsed.petStoreExternalRefs, env.files.metadata.petStoreExternalRefs);
+            expect(onParsed.thirdCall.args[2]).to.be.an.instanceOf(SwaggerParser);
             done();
           })
         });
@@ -203,8 +202,7 @@ describe('parsed event', function() {
             sinon.assert.calledOnce(onParsed);
             expect(onParsed.firstCall.args[0]).to.be.null;
             expect(onParsed.firstCall.args[1]).to.deep.equal(env.files.parsed.petStoreExternalRefs);
-            expect(onParsed.firstCall.args[2]).to.deep.equal(env.files.metadata.petStoreExternalRefs);
-            sinon.assert.alwaysCalledWith(onParsed, null, env.files.parsed.petStoreExternalRefs, env.files.metadata.petStoreExternalRefs);
+            expect(onParsed.firstCall.args[2]).to.be.an.instanceOf(SwaggerParser);
             done();
           }, 1500);
         }, 500);
@@ -220,9 +218,9 @@ describe('parsed event', function() {
         var server = env.swaggerServer(env.files.blank);
         server.app.listen();
 
-        server.on('parsed', function(err, api, metadata) {
+        server.on('parsed', function(err, api, parser) {
           expect(api).to.be.null;
-          expect(metadata).to.be.an('object');
+          expect(parser).to.be.an.instanceOf(SwaggerParser);
           done();
         });
       }
@@ -235,9 +233,9 @@ describe('parsed event', function() {
         var server = env.swaggerServer(env.urls.error404);
         server.app.listen();
 
-        server.on('parsed', function(err, api, metadata) {
+        server.on('parsed', function(err, api, parser) {
           expect(api).to.be.null;
-          expect(metadata).to.be.an('object');
+          expect(parser).to.be.an.instanceOf(SwaggerParser);
           done();
         });
       }
@@ -251,18 +249,18 @@ describe('parsed event', function() {
         var server = env.swaggerServer(env.files.temp);
         server.app.listen();
 
-        server.once('parsed', function(err, api, metadata) {
+        server.once('parsed', function(err, api, parser) {
           expect(api).to.be.null;
-          expect(metadata).to.be.an('object');
+          expect(parser).to.be.an.instanceOf(SwaggerParser);
 
           // The parse failed, but the server is still running and watching the file for changes.
           // So change it to be valid, and the parse should succeed.
           env.copyFile(env.files.petStore, env.files.temp);
           env.touchFile(env.files.temp);
 
-          server.once('parsed', function(err, api, metadata) {
+          server.once('parsed', function(err, api, parser) {
             expect(api).to.deep.equal(env.files.parsed.petStore);
-            expect(metadata).to.be.an('object');
+            expect(parser).to.be.an.instanceOf(SwaggerParser);
             done();
           })
         });

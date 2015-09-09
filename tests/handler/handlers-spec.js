@@ -12,7 +12,7 @@ var server = null,
     fsSpy = null,
     dirSearch = null;
 
-describe('handler module', function() {
+describe.skip('handler module', function() {
 
   beforeEach(function() {
     server = {

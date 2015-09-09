@@ -11,7 +11,7 @@ get:
     200:
       description: Returns the employee's data
       schema:
-        $ref: employee
+        $ref: "#/definitions/employee"
     401:
       description: You tried to retrieve someone else's account. Only admins can do that.
     404:
@@ -28,12 +28,12 @@ patch:
       required: true
       description: The employee's new data
       schema:
-        $ref: employee
+        $ref: "#/definitions/employee"
   responses:
     200:
       description: The employee was updated successfully.
       schema:
-        $ref: employee
+        $ref: "#/definitions/employee"
     401:
       description: You tried to edit someone else's account. Only admins can do that.
     404:

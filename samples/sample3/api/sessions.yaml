@@ -10,7 +10,7 @@ get:
       schema:
         type: array
         items:
-          $ref: session
+          $ref: "#/definitions/session"
     401:
       description: Missing session cookie, or not an admin user
 
@@ -46,6 +46,6 @@ post:
           type: string
           description: The session cookie. This will need to be passed on all subsequent requests
       schema:
-        $ref: session
+        $ref: "#/definitions/session"
     401:
       description: Invalid login credentials
