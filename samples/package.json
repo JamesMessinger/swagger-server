@@ -36,13 +36,13 @@
     "url": "https://github.com/BigstickCarpet/swagger-server.git"
   },
   "dependencies": {
-    "@bigstickcarpet/mock-data": "^3.0.5",
-    "swagger-server": ">-1.0.0-alpha.4"
+    "@bigstickcarpet/mock-data": "^3.0.11",
+    "swagger-server": ">=1.0.0-alpha.16"
   },
   "devDependencies": {
-    "npm-check-updates": "^1.5.1",
-    "jscs": "^1.13.1",
+    "jscs": "^2.1.1",
     "jshint": "^2.8.0",
-    "version-bump-prompt": "^1.4.2"
+    "npm-check-updates": "^2.2.0",
+    "version-bump-prompt": "^1.5.1"
   }
 }
