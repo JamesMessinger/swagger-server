@@ -1,6 +1,6 @@
 {
   "name": "swagger-server-samples",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.4",
   "description": "Sample REST APIs for Swagger Server",
   "keywords": [
     "express",
