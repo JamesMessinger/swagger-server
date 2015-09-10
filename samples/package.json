@@ -28,7 +28,7 @@
     "sample3": "cd sample3 && node server.js",
     "build": "jshint . --verbose && jscs . --verbose",
     "upgrade": "ncu --upgradeAll && npm update",
-    "bump": "bump --prerelease",
+    "bump": "bump --prompt",
     "release": "npm run upgrade && npm run build && npm run bump && npm publish"
   },
   "repository": {
@@ -42,7 +42,7 @@
   "devDependencies": {
     "jscs": "^2.1.1",
     "jshint": "^2.8.0",
-    "npm-check-updates": "^2.2.0",
+    "npm-check-updates": "^2.2.2",
     "version-bump-prompt": "^1.5.1"
   }
 }
