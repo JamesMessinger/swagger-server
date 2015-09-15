@@ -6,6 +6,7 @@
  **************************************************************************************************/
 
 process.env.DEBUG = 'swagger:*';
+process.chdir(__dirname);
 
 var swagger   = require('swagger-server'),
     path      = require('path');

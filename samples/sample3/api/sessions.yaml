@@ -3,14 +3,14 @@ get:
   summary: Lists all active sessions
   description: Only admins can access this
   parameters:
-    - $ref: "#/parameters/sessionCookie" # must be logged in to access this operation
+    - $ref: "../swagger.yaml#/parameters/sessionCookie" # must be logged in to access this operation
   responses:
     201:
       description: Returns all active sessions
       schema:
         type: array
         items:
-          $ref: "#/definitions/session"
+          $ref: "../swagger.yaml#/definitions/session"
     401:
       description: Missing session cookie, or not an admin user
 
@@ -46,6 +46,6 @@ post:
           type: string
           description: The session cookie. This will need to be passed on all subsequent requests
       schema:
-        $ref: "#/definitions/session"
+        $ref: "../swagger.yaml#/definitions/session"
     401:
       description: Invalid login credentials

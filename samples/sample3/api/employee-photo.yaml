@@ -1,7 +1,7 @@
 parameters:
-  - $ref: "#/parameters/sessionCookie"  # Must be logged in access this path
-  - $ref: "#/parameters/username"
-  - $ref: "#/parameters/photoType"
+  - $ref: "../swagger.yaml#/parameters/sessionCookie"  # Must be logged in access this path
+  - $ref: "../swagger.yaml#/parameters/username"
+  - $ref: "../swagger.yaml#/parameters/photoType"
 
 get:
   tags: [Employee]

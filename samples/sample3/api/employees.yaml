@@ -1,5 +1,5 @@
 parameters:
-  - $ref: "#/parameters/sessionCookie"  # Must be logged in access this path
+  - $ref: "../swagger.yaml#/parameters/sessionCookie"  # Must be logged in access this path
 
 get:
   tags: [Employees]
@@ -30,7 +30,7 @@ get:
       schema:
         type: array
         items:
-          $ref: "#/definitions/employee"
+          $ref: "../swagger.yaml#/definitions/employee"
     401:
       description: Missing session cookie
 
@@ -44,12 +44,12 @@ post:
       required: true
       description: The data for the new employee
       schema:
-        $ref: "#/definitions/employee"
+        $ref: "../swagger.yaml#/definitions/employee"
   responses:
     201:
       description: The employee was saved successfully
       schema:
-        $ref: "#/definitions/employee"
+        $ref: "../swagger.yaml#/definitions/employee"
       headers:
         Location:
           type: string

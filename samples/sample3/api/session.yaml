@@ -10,12 +10,12 @@ get:
   summary: Retrieve an active session
   description: Users can only access their own session, except for admins, whoc can access anybody's session
   parameters:
-    - $ref: "#/parameters/sessionCookie"  # must be logged in to access this operation
+    - $ref: "../swagger.yaml#/parameters/sessionCookie"  # must be logged in to access this operation
   responses:
     201:
       description: Returns the session
       schema:
-        $ref: "#/definitions/session"
+        $ref: "../swagger.yaml#/definitions/session"
 
 delete:
   tags: [Session]

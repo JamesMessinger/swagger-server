@@ -12,7 +12,7 @@ var server = null,
     fsSpy = null,
     dirSearch = null;
 
-describe.skip('handler module', function() {
+describe('handler module', function() {
 
   beforeEach(function() {
     server = {
@@ -78,7 +78,7 @@ describe.skip('handler module', function() {
 
     expect(handlerInstance).to.be.defined;
     expect(handlerInstance.server).to.be.defined;
-    expect(handlerInstance.currentMetaData).to.be.defined;
+    expect(handlerInstance.api).to.be.defined;
     expect(handlerInstance.currentApi).to.be.defined;
     expect(handlerInstance.setupHandlers).to.be.defined;
     sinon.assert.calledOnce(server.on);
@@ -86,8 +86,8 @@ describe.skip('handler module', function() {
 
   it('should correctly add the custom Handler paths to the server instance', function() {
 
-    handlerInstance.currentApi = {baseDir: process.cwd() + '/tests/handler/'};
-    handlerInstance.currentMetaData = {
+    handlerInstance.basePath =  process.cwd() + '/tests/handler/';
+    handlerInstance.api = {
       paths: {
         '/employees': {},
         '/employees/{username}': {},
@@ -113,8 +113,8 @@ describe.skip('handler module', function() {
   });
 
   it('should not add a file to the server that is not defined in the swagger metadata', function() {
-    handlerInstance.currentApi = {baseDir: process.cwd() + '/tests/handler/'};
-    handlerInstance.currentMetaData = {
+    handlerInstance.basePath =  process.cwd() + '/tests/handler/';
+    handlerInstance.api = {
       paths: {
         '/employees': {},
         '/employees/{username}': {},
@@ -142,8 +142,8 @@ describe.skip('handler module', function() {
   });
 
   it('Swaggerize Handler with only functions as it\'s HTTP Verb exports should be successfully added to the Swagger Express Server', function() {
-    handlerInstance.currentApi = {baseDir: process.cwd() + '/tests/handler/'};
-    handlerInstance.currentMetaData = {
+    handlerInstance.basePath =  process.cwd() + '/tests/handler/';
+    handlerInstance.api = {
       paths: {
         'onlyFunctions': {}
       }
@@ -163,8 +163,8 @@ describe.skip('handler module', function() {
   });
 
   it('Swaggerize Handler with arrays as it\'s HTTP Verb exports should be successfully added to the Swagger Express Server', function() {
-    handlerInstance.currentApi = {baseDir: process.cwd() + '/tests/handler/'};
-    handlerInstance.currentMetaData = {
+    handlerInstance.basePath =  process.cwd() + '/tests/handler/';
+    handlerInstance.api = {
       paths: {
         '/arraysOnly': {}
       }
@@ -186,8 +186,8 @@ describe.skip('handler module', function() {
   });
 
   it('Invalid swaggerize handlers module should cause an error to be emitted ', function() {
-    handlerInstance.currentApi = {baseDir: process.cwd() + '/tests/handler/'};
-    handlerInstance.currentMetaData = {
+    handlerInstance.basePath =  process.cwd() + '/tests/handler/';
+    handlerInstance.api = {
       paths: {
         '/invalidSwaggerize': {}
       }
@@ -203,8 +203,8 @@ describe.skip('handler module', function() {
   it('Setting a different setting in \'handlers path\' correctly gets the new directory', function() {
     server.app.get = function() { return './altHandlersBaseDir' };
 
-    handlerInstance.currentApi = {baseDir: process.cwd() + '/tests/handler/'};
-    handlerInstance.currentMetaData = {
+    handlerInstance.basePath =  process.cwd() + '/tests/handler/';
+    handlerInstance.api = {
       paths: {
         '/employees': {},
         '/employees/{username}': {},
