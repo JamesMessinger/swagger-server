@@ -9,7 +9,6 @@
 process.env.DEBUG = 'swagger:*';
 process.chdir(__dirname);
 
-
 // Create a Swagger Server app from the PetStore.yaml file
 var swaggerServer = require('swagger-server');
 var app = swaggerServer('PetStore.yaml');

@@ -1,6 +1,6 @@
 {
   "name": "swagger-server",
-  "version": "1.0.0-alpha.16",
+  "version": "1.0.0-alpha.17",
   "description": "Get your REST API up-and-running FAST with Swagger and Express",
   "keywords": [
     "express",
@@ -39,13 +39,13 @@
   "devDependencies": {
     "chai": "^3.2.0",
     "coveralls": "^2.11.4",
-    "istanbul": "^0.3.19",
+    "istanbul": "^0.3.20",
     "jscs": "^2.1.1",
     "jshint": "^2.8.0",
     "mocha": "^2.3.2",
     "mockery": "^1.4.0",
-    "nock": "^2.10.0",
-    "npm-check-updates": "^2.2.0",
+    "nock": "^2.11.0",
+    "npm-check-updates": "^2.2.3",
     "sinon": "^1.16.1",
     "supertest": "^1.1",
     "version-bump-prompt": "^1.5.1"
@@ -55,7 +55,7 @@
     "directory-search": "0.0.32",
     "express": "^4.13.3",
     "lodash": "^3.10.1",
-    "swagger-express-middleware": ">=1.0.0-alpha.10",
+    "swagger-express-middleware": ">=1.0.0-alpha.12",
     "swagger-methods": "^1.0.0"
   }
 }
