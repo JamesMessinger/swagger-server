@@ -2,7 +2,7 @@ Swagger Server
 ============================
 #### Get your REST API up-and-running *FAST* with Swagger and Express
 
-[![Build Status](https://api.travis-ci.org/BigstickCarpet/swagger-server.svg)](https://travis-ci.org/BigstickCarpet/swagger-server)
+[![Build Status](https://api.travis-ci.org/BigstickCarpet/swagger-server.svg?branch=master)](https://travis-ci.org/BigstickCarpet/swagger-server)
 [![Dependencies](https://david-dm.org/BigstickCarpet/swagger-server.svg)](https://david-dm.org/bigstickcarpet/swagger-server)
 [![Coverage Status](https://coveralls.io/repos/BigstickCarpet/swagger-server/badge.svg?branch=master&service=github)](https://coveralls.io/r/BigstickCarpet/swagger-server)
 [![Code Climate Score](https://codeclimate.com/github/BigstickCarpet/swagger-server/badges/gpa.svg)](https://codeclimate.com/github/BigstickCarpet/swagger-server)
@@ -115,7 +115,7 @@ To build/test the project locally on your computer:
 3. __Run the build script__<br>
 `npm run build`
 
-4. __Run the unit tests__<br>
+4. __Run the tests__<br>
 `npm test` (tests + code coverage)<br>
 `npm run mocha` (just the tests)
 
