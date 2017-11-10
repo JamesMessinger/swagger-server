@@ -12,7 +12,7 @@ properties:
   description:
     type: string
   department:
-    $ref: "#/definitions/department"
+    $ref: "../../swagger.yaml#/definitions/department"
   startedOn:
     type: string
     format: date

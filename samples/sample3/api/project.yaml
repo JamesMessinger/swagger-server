@@ -1,6 +1,6 @@
 parameters:
-  - $ref: "#/parameters/sessionCookie"  # Must be logged in access this path
-  - $ref: "#/parameters/projectId"
+  - $ref: "../swagger.yaml#/parameters/sessionCookie"  # Must be logged in access this path
+  - $ref: "../swagger.yaml#/parameters/projectId"
 
 get:
   tags: [Project]
@@ -9,7 +9,7 @@ get:
     200:
       description: Returns the project info
       schema:
-        $ref: "#/definitions/project"
+        $ref: "../swagger.yaml#/definitions/project"
     401:
       description: Missing session cookie
     404:
@@ -25,12 +25,12 @@ patch:
       required: true
       description: The project's new data
       schema:
-        $ref: "#/definitions/project"
+        $ref: "../swagger.yaml#/definitions/project"
   responses:
     200:
       description: The project was updated successfully.
       schema:
-        $ref: "#/definitions/project"
+        $ref: "../swagger.yaml#/definitions/project"
     401:
       description: Missing session cookie, or not an admin user
     404:

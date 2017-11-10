@@ -31,7 +31,7 @@ properties:
     type: string
     format: date
   department:
-    $ref: "#/definitions/department"
+    $ref: "../../swagger.yaml#/definitions/department"
   hiredOn:
     type: string
     format: date

@@ -1,7 +1,7 @@
 parameters:
-  - $ref: "#/parameters/sessionCookie"  # Must be logged in access this path
-  - $ref: "#/parameters/projectId"
-  - $ref: "#/parameters/username"
+  - $ref: "../swagger.yaml#/parameters/sessionCookie"  # Must be logged in access this path
+  - $ref: "../swagger.yaml#/parameters/projectId"
+  - $ref: "../swagger.yaml#/parameters/username"
 
 put:
   tags: [Project]

@@ -1,6 +1,6 @@
 parameters:
-  - $ref: "#/parameters/sessionCookie"  # Must be logged in access this path
-  - $ref: "#/parameters/username"
+  - $ref: "../swagger.yaml#/parameters/sessionCookie"  # Must be logged in access this path
+  - $ref: "../swagger.yaml#/parameters/username"
 
 get:
   tags: [Employee]
@@ -11,7 +11,7 @@ get:
     200:
       description: Returns the employee's data
       schema:
-        $ref: "#/definitions/employee"
+        $ref: "../swagger.yaml#/definitions/employee"
     401:
       description: You tried to retrieve someone else's account. Only admins can do that.
     404:
@@ -28,12 +28,12 @@ patch:
       required: true
       description: The employee's new data
       schema:
-        $ref: "#/definitions/employee"
+        $ref: "../swagger.yaml#/definitions/employee"
   responses:
     200:
       description: The employee was updated successfully.
       schema:
-        $ref: "#/definitions/employee"
+        $ref: "../swagger.yaml#/definitions/employee"
     401:
       description: You tried to edit someone else's account. Only admins can do that.
     404:
