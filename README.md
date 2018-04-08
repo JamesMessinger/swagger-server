@@ -5,8 +5,7 @@ Swagger Server
 [![Build Status](https://api.travis-ci.org/BigstickCarpet/swagger-server.svg?branch=master)](https://travis-ci.org/BigstickCarpet/swagger-server)
 [![Dependencies](https://david-dm.org/BigstickCarpet/swagger-server.svg)](https://david-dm.org/bigstickcarpet/swagger-server)
 [![Coverage Status](https://coveralls.io/repos/BigstickCarpet/swagger-server/badge.svg?branch=master&service=github)](https://coveralls.io/r/BigstickCarpet/swagger-server)
-[![Code Climate Score](https://codeclimate.com/github/BigstickCarpet/swagger-server/badges/gpa.svg)](https://codeclimate.com/github/BigstickCarpet/swagger-server)
-[![Codacy Score](https://www.codacy.com/project/badge/431cc27ab6ec40cca6ea51c91ad8bfd6)](https://www.codacy.com/public/jamesmessinger/swagger-server)
+[![Codacy Score](https://api.codacy.com/project/badge/Grade/431cc27ab6ec40cca6ea51c91ad8bfd6)](https://www.codacy.com/public/jamesmessinger/swagger-server)
 [![Inline docs](http://inch-ci.org/github/BigstickCarpet/swagger-server.svg?branch=master&style=shields)](http://inch-ci.org/github/BigstickCarpet/swagger-server)
 
 [![npm](http://img.shields.io/npm/v/swagger-server.svg)](https://www.npmjs.com/package/swagger-server)
