@@ -21,6 +21,9 @@
     "name": "James Messinger",
     "url": "http://bigstickcarpet.com"
   },
+  "bin": {
+    "swagger-server-mock": "bin/swagger-server-mock.js"
+  },
   "license": "MIT",
   "homepage": "https://github.com/BigstickCarpet/swagger-server",
   "main": "lib/index.js",
@@ -30,7 +33,8 @@
     "mocha": "mocha --bail --recursive tests",
     "upgrade": "ncu --upgradeAll && npm update",
     "bump": "bump --prerelease --tag --push --all",
-    "release": "npm run upgrade && npm run build && npm test && npm run bump && npm publish"
+    "release": "npm run upgrade && npm run build && npm test && npm run bump && npm publish",
+    "start": "node bin/swagger-server-mock.js"
   },
   "repository": {
     "type": "git",
@@ -56,6 +60,7 @@
     "express": "^4.13.3",
     "lodash": "^3.10.1",
     "swagger-express-middleware": ">=1.0.0-alpha.12",
-    "swagger-methods": "^1.0.0"
+    "swagger-methods": "^1.0.0",
+    "yargs": "^4.7.1"
   }
 }
